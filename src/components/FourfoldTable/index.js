@@ -327,9 +327,9 @@ const App = ({
         .attr("x2", d => xr(d.x2))
         .attr("y2", d => yr(d.y2))
         
-     myTexts
-     .attr('x', d => xr(+d.x) + NODE_RADIUS - getTextWidth(d.title) / 2)
-     .attr('y', d => yr(+d.y) + NODE_RADIUS * 3)
+      visibleText && myTexts
+        .attr('x', d => xr(+d.x) + NODE_RADIUS - getTextWidth(d.title) / 2)
+        .attr('y', d => yr(+d.y) + NODE_RADIUS * 3)
 
       myCircle1
         .attr('cx', d => xr(+d.x))
@@ -341,7 +341,6 @@ const App = ({
         .attr('r', 7)
         
     });
-
     d3.selectAll('circle').on('click', d => onClickNode(d.id))
     scatterSvg.call(zoom)
       .call(zoom.transform, d3.zoomIdentity.scale(1))
@@ -349,7 +348,7 @@ const App = ({
     return () => {
       scatterSvg.selectAll("*").remove()
     }
-  }, [phenomena, nodeListAsAverage, nodeListAsMedian, scatterSvg, isAverage, isMedian])
+  }, [phenomena, nodeListAsAverage, nodeListAsMedian, scatterSvg, isAverage, isMedian, visibleText])
 
   const onClickNode = (id) => {
     setVisibleDialog(true)
@@ -365,13 +364,17 @@ const App = ({
   }
 
   const onToggleIsAverage= (event) => {
-    const isChecked = event.target.checked
-    setIsAverage(isChecked)
+    setIsMedian(false)
+    setIsAverage(true)
+    setVisibleText(visibleText => visibleText)
+    
   }
 
   const onToggleIsMedian= (event) => {
-    const isChecked = event.target.checked
-    setIsMedian(isChecked)
+    setIsAverage(false)
+    setIsMedian(true)
+    setVisibleText(visibleText => visibleText)
+
   }
 
   const customStyles = {
@@ -405,11 +408,11 @@ const App = ({
       <AxisY originalHeight={containerHeight} axisHeight={containerHeight + 170} axisLabel2={axisLabel2} axisLabel2a={axisLabel2a} axisLabel2b={axisLabel2b} />
       <div style={{ width: containerWidth, height: containerHeight + 70, padding: '40px 60px 60px 0', boxSizing: 'content-box', background: '#e0dede' }}>
       <div style={{paddingBottom:"24px", paddingTop: "24px", display: 'flex', alignItems: 'center'}}>
-          <input style={{width:"20px", height: "20px", cursor: 'pointer', margin: 0}} type="checkbox" label='Hide labels'  id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" disabled={!isMedian && !isAverage} checked={!visibleText} onChange={onToggleTitle}></input>
+          <input style={{width:"20px", height: "20px", cursor: 'pointer', margin: 0}} type="checkbox" label='Hide labels'  id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={!visibleText} onChange={onToggleTitle}></input>
           <label style={{fontSize:"18px", fontWeight:'bold', paddingLeft: '12px'}} for="rating-view-tab-cb-name"> Hide Titles</label><br></br>
-          <input style={{width:"20px", height: "20px", cursor: 'pointer', margin: 0, marginLeft: '20px'}} type="checkbox" label='Show as average'  id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={isAverage} onChange={onToggleIsAverage}></input>
+          <input style={{width:"20px", height: "20px", cursor: 'pointer', margin: 0, marginLeft: '20px'}} type="radio" label='Show as average'  id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={isAverage} onChange={onToggleIsAverage}></input>
           <label style={{fontSize:"18px", fontWeight:'bold', paddingLeft: '12px'}} for="rating-view-tab-cb-name"> Show as Average</label><br></br>
-          <input style={{width:"20px", height: "20px", cursor: 'pointer', margin: 0, marginLeft: '20px'}} type="checkbox" label='Show as median'  id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={isMedian} onChange={onToggleIsMedian}></input>
+          <input style={{width:"20px", height: "20px", cursor: 'pointer', margin: 0, marginLeft: '20px'}} type="radio" label='Show as median'  id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={!isAverage} onChange={onToggleIsMedian}></input>
           <label style={{fontSize:"18px", fontWeight:'bold', paddingLeft: '12px'}} for="rating-view-tab-cb-name"> Show as Median</label><br></br>
         </div>
         <div style={{ position: 'relative', width: containerWidth, height: containerHeight, background: 'white' }}>
