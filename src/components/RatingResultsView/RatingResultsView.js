@@ -1,0 +1,104 @@
+import React, {useContext, useState} from "react";
+import {DataContext} from '../../store/GlobalState'
+import RatingResults from "../RatingResults/RatingResults";
+import HiddenResults from "../HiddenResults/HiddenResults";
+import ConfirmationModal from '../ConfirmationModal/ConfirmationModal'
+import { ratingApi } from '../../helpers/fetcher';
+import { ACTIONS } from '../../store/Actions'
+import FourfoldTable from '../FourfoldTable'
+import {
+  RateTabWrapper,
+  RateTabFooter,
+  ClearRatingsBtn,
+  CloseIcon,
+  IconName
+} from "./styles";
+const RatingResultsView = ({axisLabel3, axisLabel4, axisLabel5, axisLabel6, axisLabel1, axisLabel1a, axisLabel1b, axisLabel2, axisLabel2a, axisLabel2b}) => {
+  const { state: {phenomenaData, radar, hiddenPhenomena }, dispatch } = useContext(DataContext)
+  const [openConfirmModal, setOpenConfirmModal]= useState(false)
+  let visiblePhenonmena = []
+  let inVisiblePhenonmena = []
+
+  inVisiblePhenonmena = phenomenaData?.filter(phenomenon => hiddenPhenomena?.includes(phenomenon?.id))
+  visiblePhenonmena = phenomenaData?.filter(phenomenon => !hiddenPhenomena?.includes(phenomenon?.id))
+  const openConfirmModalHandler = () => {
+    setOpenConfirmModal(true)
+  } 
+
+  const closeConfirmModalHandler = () => {
+    setOpenConfirmModal(false)
+  } 
+
+  const onClearRatesHandler = async () => {
+    setOpenConfirmModal(false)    
+    radar && await ratingApi.deleteAllRatings(radar.group.id, radar.id).then(async (data) => {
+      dispatch({
+        type: ACTIONS.PHENOMENONDATA,
+        payload: []
+      })
+      dispatch({
+        type: ACTIONS.HIDDENPHENOMENA,
+        payload: []
+      })
+      const payload = {
+        [`rating/${radar.group.id}/radar/${radar.id}`]: {
+          hidden: [],
+        },
+      };
+      radar && await ratingApi.addHiddenPhenomenaRatings(radar.group.id, radar.id, payload)
+    }) 
+  }
+
+  const stageCanvasRef = React.useRef(null);
+  const [height, setHeight] = useState(0)
+  const [width, setWidth] = useState(0)
+
+  const calcSizeRateTabWrapper = React.useCallback(() => {
+    setHeight(Number(2* stageCanvasRef?.current?.offsetWidth/3))
+    setWidth(Number(stageCanvasRef?.current?.offsetWidth))
+  }, [setHeight, setWidth])
+
+  React.useEffect(() => {
+    setHeight(Number(2* stageCanvasRef?.current?.offsetWidth/3))
+    setWidth(Number(stageCanvasRef?.current?.offsetWidth))
+    return () => {
+      window.removeEventListener('resize', calcSizeRateTabWrapper)
+    }
+  }, [calcSizeRateTabWrapper, height, width])
+
+  window.addEventListener('resize', calcSizeRateTabWrapper, false)
+
+  return (
+    <RateTabWrapper ref={stageCanvasRef}>
+      {
+        width > 0 && height > 0 && 
+        <FourfoldTable 
+          phenomena={visiblePhenonmena || []} 
+          containerWidth={width -120} 
+          containerHeight={height - 120}
+          axisLabel3={axisLabel3} 
+          axisLabel4={axisLabel4} 
+          axisLabel5={axisLabel5} 
+          axisLabel6={axisLabel6} 
+          axisLabel1={axisLabel1}
+          axisLabel1a={axisLabel1a}
+          axisLabel1b={axisLabel1b}
+          axisLabel2={axisLabel2}
+          axisLabel2a={axisLabel2a}
+          axisLabel2b={axisLabel2b}
+        />
+      }
+      <RatingResults phenomena={visiblePhenonmena || []} radar={radar}/>
+      <HiddenResults phenomena={inVisiblePhenonmena || []}/>
+      <RateTabFooter>
+        <ClearRatingsBtn onClick={openConfirmModalHandler}>
+          <CloseIcon></CloseIcon>
+          <IconName>CLEAR RATINGS</IconName>
+        </ClearRatingsBtn>
+      </RateTabFooter>
+      <ConfirmationModal confirmationModal={openConfirmModal} confirmationModalClose={closeConfirmModalHandler} clearRatings={onClearRatesHandler}/>
+    </RateTabWrapper>
+  );
+};
+
+export default RatingResultsView;

@@ -1,0 +1,45 @@
+import  axios from 'axios'
+import { getSessionToken , getCsrfToken} from "./session"
+
+const baseUrl = process.env.REACT_APP_BASE_URL
+async function httpRequest(baseUrl, method, path, payload = null) {
+  return axios({
+      method,
+      url: `${baseUrl}/${path}`,
+      headers: {
+          'X-CSRF-Token': getCsrfToken(),
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${getSessionToken()}`
+      },
+      withCredentials: true,
+      data: payload || null
+  })
+}
+
+export const ratingApi = {
+    //get all votes from all phenomenon by radarId
+    getAllRatings: async (gid, radarId) => {
+        return await httpRequest(baseUrl, 'GET', `rating/${gid}/radar/${radarId}`)
+
+    },
+
+    //get rating by phenomenon id 
+    getRatingByPhenomenonId: async (gid, radarId, pid) => {
+        return await httpRequest(baseUrl, 'GET', `rating/${gid}/radar/${radarId}/phenomenon/${pid}/`)
+
+    },
+
+    //delete all votes from all phenomenon by radarId
+    deleteAllRatings: async (gid, radarId) => {
+        return await httpRequest(baseUrl, 'DELETE', `rating/${gid}/radar/${radarId}/phenomenon`)
+    },
+
+    //delete all votes from all phenomenon by radarId
+    getAllHiddenRatings : async (gid, radarId) => {
+        return await httpRequest(baseUrl, 'GET', `meta/rating/${gid}/radar/${radarId}/phenomenon/`)
+    },
+    //add hidden phenomennon of radar
+    addHiddenPhenomenaRatings: async (gid, radarId, payload) => {
+        return await httpRequest(baseUrl, 'POST', `meta/rating/${gid}/radar/${radarId}/phenomenon/`, payload)
+    },
+}
