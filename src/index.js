@@ -1,50 +1,52 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { DataProvider } from "./store/GlobalState";
+import {DataProvider} from "./store/GlobalState";
 import RatingResultsView from './components/RatingResultsView/RatingResultsView';
 
 //http://localhost:3010/?node=194688
-const renderApp = (nid, axisLabel3, axisLabel4, axisLabel5, axisLabel6, axisLabel1, axisLabel1a, axisLabel1b, axisLabel2, axisLabel2a, axisLabel2b  ) => {
-  return (
-    <React.StrictMode>
-      <DataProvider node={nid}>
-        <RatingResultsView 
-          axisLabel3={axisLabel3} 
-          axisLabel4={axisLabel4} 
-          axisLabel5={axisLabel5} 
-          axisLabel6={axisLabel6} 
-          axisLabel1={axisLabel1}
-          axisLabel1a={axisLabel1a}
-          axisLabel1b={axisLabel1b}
-          axisLabel2={axisLabel2}
-          axisLabel12a={axisLabel2a}
-          axisLabel2b={axisLabel2b}
-        />
-      </DataProvider>
-    </React.StrictMode>
-  )
+const renderApp = (nid, axisLabel3, axisLabel4, axisLabel5, axisLabel6, axisLabel1, axisLabel1a, axisLabel1b, axisLabel2, axisLabel2a, axisLabel2b) => {
+    return (
+        <React.StrictMode>
+            <DataProvider node={nid}>
+                <RatingResultsView
+                    axisLabel3={axisLabel3}
+                    axisLabel4={axisLabel4}
+                    axisLabel5={axisLabel5}
+                    axisLabel6={axisLabel6}
+                    axisLabel1={axisLabel1}
+                    axisLabel1a={axisLabel1a}
+                    axisLabel1b={axisLabel1b}
+                    axisLabel2={axisLabel2}
+                    axisLabel12a={axisLabel2a}
+                    axisLabel2b={axisLabel2b}
+                />
+            </DataProvider>
+        </React.StrictMode>
+    )
 }
 
-const appElements = document.getElementsByClassName('rating-result-tab')
+const appElements = document.getElementsByClassName('rating-result-app')
+
+const defaultRadarId = (/node=\d+/.test(document.location.href) && document.location.href.replace(/^.*node=(\d+).*$/, '$1')) || null
 
 for (let el of appElements) {
-  ReactDOM.render(
-      renderApp(
-          el.getAttribute('data-radarid'),
-          el.getAttribute('data-AxisLabel3'),
-          el.getAttribute('data-AxisLabel4'),
-          el.getAttribute('data-AxisLabel5'),
-          el.getAttribute('data-AxisLabel6'),
-          el.getAttribute('data-AxisLabel1'),
-          el.getAttribute('data-AxisLabel1a'),
-          el.getAttribute('data-AxisLabel1b'),
-          el.getAttribute('data-AxisLabel2'),
-          el.getAttribute('data-AxisLabel2a'),
-          el.getAttribute('data-AxisLabel2b')
-      ),
-      el
-  )
+    ReactDOM.render(
+        renderApp(
+            el.hasAttribute('data-radarid') ? el.getAttribute('data-radarid') : defaultRadarId,
+            el.getAttribute('data-AxisLabel3'),
+            el.getAttribute('data-AxisLabel4'),
+            el.getAttribute('data-AxisLabel5'),
+            el.getAttribute('data-AxisLabel6'),
+            el.getAttribute('data-AxisLabel1'),
+            el.getAttribute('data-AxisLabel1a'),
+            el.getAttribute('data-AxisLabel1b'),
+            el.getAttribute('data-AxisLabel2'),
+            el.getAttribute('data-AxisLabel2a'),
+            el.getAttribute('data-AxisLabel2b')
+        ),
+        el
+    )
 }
 
 // If you want to start measuring performance in your app, pass a function
