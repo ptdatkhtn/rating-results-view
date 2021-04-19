@@ -1,3 +1,19 @@
+# Rating Results App
+Contains four-fold table and different axis detailed results
+
+##How develop:
+
+Login to https://fp-dev.sangre.fi
+
+```shell
+yarn start
+```
+After starting use url in form: http://localhost:3010/?node=194690
+
+## How to deploy
+
+The app supports `data-radarid="194690"` attribute to define the radar. It defaults to `?node=194690` in the url. 
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
