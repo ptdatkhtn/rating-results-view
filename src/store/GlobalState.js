@@ -23,13 +23,25 @@ export const DataProvider = ({children, node}) => {
                 let phenomenaIds = []
             let groups = [0]
             // node=194690
-            await getRadar(node).then ((data) => {
+            await getRadar(node).then ((radar) => {
                 dispatch({
                     type: ACTIONS.RADAR,
-                    payload: data
+                    payload: radar
                 })
-                groups = groups.concat(data?.group?.id)
-                Object.keys(data?.phenomena).map(async (pid) => {
+
+/*                radar.axisXMax
+                radar.axisXMin
+                radar.axisXTitle
+                radar.axisYMax
+                radar.axisYMin
+                radar.axisYTitle
+                radar.fourFieldsBottomLeft
+                radar.fourFieldsBottomRight
+                radar.fourFieldsTopLeft
+                radar.fourFieldsTopRight*/
+
+                groups = groups.concat(radar?.group?.id)
+                Object.keys(radar?.phenomena).map(async (pid) => {
                     phenomenaIds.push(pid)
                 })
             })
