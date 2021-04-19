@@ -15,17 +15,14 @@ const initialState = {
 
 export const DataContext = createContext(initialState) 
 
-export const DataProvider = ({children}) => {
+export const DataProvider = ({children, node}) => {
     const [state, dispatch] = useReducer(reducers, initialState)
-
     const fetchPhenomenaDataInitTime = useCallback(
         async () => {
             try {
                 let phenomenaIds = []
             let groups = [0]
-            // node=194688
-            const params = new URLSearchParams(window.location.search)
-            let node = params.get('node')
+            // node=194690
             await getRadar(node).then ((data) => {
                 dispatch({
                     type: ACTIONS.RADAR,

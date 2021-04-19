@@ -5,10 +5,10 @@ import { DataProvider } from "./store/GlobalState";
 import RatingResultsView from './components/RatingResultsView/RatingResultsView';
 
 //http://localhost:3010/?node=194688
-const renderApp = (axisLabel3, axisLabel4, axisLabel5, axisLabel6, axisLabel1, axisLabel1a, axisLabel1b, axisLabel2, axisLabel2a, axisLabel2b  ) => {
+const renderApp = (nid, axisLabel3, axisLabel4, axisLabel5, axisLabel6, axisLabel1, axisLabel1a, axisLabel1b, axisLabel2, axisLabel2a, axisLabel2b  ) => {
   return (
     <React.StrictMode>
-      <DataProvider>
+      <DataProvider node={nid}>
         <RatingResultsView 
           axisLabel3={axisLabel3} 
           axisLabel4={axisLabel4} 
@@ -31,6 +31,7 @@ const appElements = document.getElementsByClassName('rating-result-tab')
 for (let el of appElements) {
   ReactDOM.render(
       renderApp(
+          el.getAttribute('data-radarid'),
           el.getAttribute('data-AxisLabel3'),
           el.getAttribute('data-AxisLabel4'),
           el.getAttribute('data-AxisLabel5'),
