@@ -5,22 +5,11 @@ import {DataProvider} from "./store/GlobalState";
 import RatingResultsView from './components/RatingResultsView/RatingResultsView';
 
 //http://localhost:3010/?node=194688
-const renderApp = (nid, axisLabel3, axisLabel4, axisLabel5, axisLabel6, axisLabel1, axisLabel1a, axisLabel1b, axisLabel2, axisLabel2a, axisLabel2b) => {
+const renderApp = (nid) => {
     return (
         <React.StrictMode>
             <DataProvider node={nid}>
-                <RatingResultsView
-                    axisLabel3={axisLabel3}
-                    axisLabel4={axisLabel4}
-                    axisLabel5={axisLabel5}
-                    axisLabel6={axisLabel6}
-                    axisLabel1={axisLabel1}
-                    axisLabel1a={axisLabel1a}
-                    axisLabel1b={axisLabel1b}
-                    axisLabel2={axisLabel2}
-                    axisLabel12a={axisLabel2a}
-                    axisLabel2b={axisLabel2b}
-                />
+                <RatingResultsView />
             </DataProvider>
         </React.StrictMode>
     )
@@ -34,16 +23,6 @@ for (let el of appElements) {
     ReactDOM.render(
         renderApp(
             el.hasAttribute('data-radarid') ? el.getAttribute('data-radarid') : defaultRadarId,
-            el.getAttribute('data-AxisLabel3'),
-            el.getAttribute('data-AxisLabel4'),
-            el.getAttribute('data-AxisLabel5'),
-            el.getAttribute('data-AxisLabel6'),
-            el.getAttribute('data-AxisLabel1'),
-            el.getAttribute('data-AxisLabel1a'),
-            el.getAttribute('data-AxisLabel1b'),
-            el.getAttribute('data-AxisLabel2'),
-            el.getAttribute('data-AxisLabel2a'),
-            el.getAttribute('data-AxisLabel2b')
         ),
         el
     )

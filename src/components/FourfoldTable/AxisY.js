@@ -2,9 +2,9 @@ import React from 'react'
 
 const AxisY = ({
   axisHeight = 600,
-  axisLabel2 = '2222',
-  axisLabel2a = '2aaaaaaa',
-  axisLabel2b = '2bbbbbbbb',
+  axisLabel2 = 'Vertical Axis Default',
+  axisLabel2a = 'Low End Default',
+  axisLabel2b = 'High End Default',
   originalHeight
 }) => {
   const cellStyle = {
@@ -30,13 +30,13 @@ const AxisY = ({
         <tbody>
           <tr style={{ ...cellStyle }}>
             <td>
-              <div style={{ width: 30, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: originalHeight / 2 - 10, textAlign: 'right' }}>{axisLabel2a}</div>
+              <div style={{ width: 30, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: originalHeight / 2 - 10, textAlign: 'right' }}>{axisLabel2b}</div>
             </td>
           </tr>
 
           <tr style={{ ...cellStyle }}>
             <td>
-              <div style={{ width: 30, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: originalHeight / 2 - 10, textAlign: 'left' }}>{axisLabel2b}</div>
+              <div style={{ width: 30, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: originalHeight / 2 - 10, textAlign: 'left' }}>{axisLabel2a}</div>
             </td>
           </tr>
           

@@ -2,9 +2,9 @@ import React from 'react'
 
 const AxisX = ({
   axisWidth = 600,
-  axisLabel1 = '11111',
-  axisLabel1a = '1aaaaaaa',
-  axisLabel1b = '1bbbbbbbb',
+  axisLabel1 = 'Horizontal Axis Default',
+  axisLabel1a = 'Left End Default',
+  axisLabel1b = 'Right End Default',
   originalWidth
 }) => {
   const cellStyle = { fontSize: 14, color: 'grey', fontWeight: 500, height: 30, whiteSpace: 'nowrap' }
