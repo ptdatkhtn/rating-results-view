@@ -8,7 +8,7 @@ const RatingResults = ({phenomena, radar}) => {
   return (
     <Container>
       <div>
-        <AxisName>Horizontal</AxisName>
+        <AxisName>{radar.axisXTitle}</AxisName>
         {
           SortedPhenomenaX
           .sort((a, b) => Number(b['rating_x'].avg) - Number(a['rating_x'].avg) )
@@ -18,7 +18,7 @@ const RatingResults = ({phenomena, radar}) => {
         }
       </div>
       <div>
-        <AxisName>Vertical</AxisName>
+        <AxisName>{radar.axisYTitle}</AxisName>
         {
          SortedPhenomenaY
          .sort((a, b) => Number(b['rating_y'].avg) - Number(a['rating_y'].avg) )
