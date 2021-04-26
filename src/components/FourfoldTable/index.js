@@ -258,7 +258,7 @@ const App = ({
       .text(d => d.title)
       .style('fill', 'black')
       .attr('id', 'myTexts')
-      .attr('font-size', 16)
+      .attr('font-size', 12)
      }
 
     const myCircle1 = scatterSvg.append('g')
@@ -282,8 +282,8 @@ const App = ({
     let z = d3.zoomIdentity;
 
     // set up the ancillary zooms and an accessor for their transforms
-    const zoomX = d3.zoom().scaleExtent([1, 30]);
-    const zoomY = d3.zoom().scaleExtent([1, 30]);
+    const zoomX = d3.zoom().scaleExtent([1, 80]);
+    const zoomY = d3.zoom().scaleExtent([1, 80]);
     const tx = () => d3.zoomTransform(gx.node());
     const ty = () => d3.zoomTransform(gy.node());
     gx.call(zoomX).attr("pointer-events", "none");
@@ -292,6 +292,7 @@ const App = ({
 
     // active zooming
     const zoom = d3.zoom().on("zoom", function(e) {
+      e.transform.k = Math.min(Math.max(e.transform.k, 1), 80)
       const trans = d3.transition().duration(150).ease(d3.easeLinear)
       const t = e.transform;
  
@@ -334,18 +335,22 @@ const App = ({
         .attr("y2", d => yr(d.y2))
         
       visibleText && myTexts
-        .on('end', () => {
-          if (k === 1) return
-          const scale = Math.min(t.k, 8)
-          const minScale = Math.max(scale, 1)
-          const fonts = Math.max(16, Math.round(16 + minScale / 2))
-          const tran2 = d3.transition().duration(250).ease(d3.easeLinear)
-          myTexts.transition(tran2)
-            .attr('font-size', fonts)
-        })
-        .transition(trans)
-        .attr('x', d => xr(+d.x) + NODE_RADIUS - getTextWidth(d.title) / 2)
-        .attr('y', d => yr(+d.y) + NODE_RADIUS * 3)
+      .transition(trans)
+      .on('end', () => {
+        const scale = Math.min(t.k, 9)
+        const minScale = Math.max(scale, 1)
+        const fonts = Math.max(12, Math.floor(11 + minScale))
+        const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
+        myTexts.transition(tran2)
+          .attr('font-size', fonts)
+          .attr('x', d => xr(d.x) - getTextWidth(d.title, fonts) / 2)
+          .attr('y', d => yr(d.y) + NODE_RADIUS * 3)
+      })
+      .attr('x', d => {
+        const fontS = myTexts.attr('font-size')
+        return xr(d.x) - getTextWidth(d.title, fontS) / 2
+      })
+      .attr('y', d => yr(d.y) + NODE_RADIUS * 3)
 
       myCircle1
         .transition(trans)
