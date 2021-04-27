@@ -292,7 +292,16 @@ const App = ({
 
     // active zooming
     const zoom = d3.zoom().on("zoom", function(e) {
+      if (e.transform.k < 1) {
+        e.transform.k = 1
+        return
+      }
+      if (e.transform.k > 80) {
+        e.transform.k = 80
+        return
+      }
       e.transform.k = Math.min(Math.max(e.transform.k, 1), 80)
+      
       const trans = d3.transition().duration(150).ease(d3.easeLinear)
       const t = e.transform;
  
