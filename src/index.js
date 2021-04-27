@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import {DataProvider} from "./store/GlobalState";
 import RatingResultsView from './components/RatingResultsView/RatingResultsView';
 

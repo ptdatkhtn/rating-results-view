@@ -3,7 +3,7 @@ import {DataContext} from '../../store/GlobalState'
 import RatingResults from "../RatingResults/RatingResults";
 import HiddenResults from "../HiddenResults/HiddenResults";
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal'
-import { ratingApi } from '../../helpers/fetcher';
+import { ratingApi } from '../../helpers/ratingFetcher';
 import { ACTIONS } from '../../store/Actions'
 import FourfoldTable from '../FourfoldTable'
 import {

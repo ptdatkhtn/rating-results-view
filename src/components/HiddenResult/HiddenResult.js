@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { DataContext } from "../../store/GlobalState";
-import { ratingApi } from "../../helpers/fetcher";
+import { ratingApi } from "../../helpers/ratingFetcher";
 import { ACTIONS } from "../../store/Actions";
 import {
   Container,

@@ -1,8 +1,10 @@
 {
-  "name": "rating-ontabs",
+  "name": "rating-results",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@sangre-fp/connectors": "^1.5.5",
+    "@sangre-fp/ui": "^2.0.23",
     "@styled-icons/bootstrap": "^10.29.0",
     "@styled-icons/fa-solid": "^10.26.0",
     "@testing-library/jest-dom": "^5.11.4",
@@ -14,9 +16,7 @@
     "react-dom": "^17.0.1",
     "react-iframe": "^1.8.0",
     "react-scripts": "4.0.3",
-    "web-vitals": "^1.0.1",
-    "@sangre-fp/ui": "^2.0.23",
-    "@sangre-fp/connectors": "^1.5.5"
+    "web-vitals": "^1.0.1"
   },
   "scripts": {
     "start": "sh -ac '. ./.env.dev; PORT=3010 react-scripts start'",

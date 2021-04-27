@@ -4,7 +4,7 @@ import { startSession } from '../helpers/session';
 import { ACTIONS } from './Actions'
 import { getRadar, getPhenomenaTypes } from '@sangre-fp/connectors/drupal-api';
 import {getPhenomena} from '../helpers/phenomenonFetcher'
-import { ratingApi } from '../helpers/fetcher';
+import { ratingApi } from '../helpers/ratingFetcher';
 
 const initialState = {
     phenomenaData: [],

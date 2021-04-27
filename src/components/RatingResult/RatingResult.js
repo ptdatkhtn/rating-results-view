@@ -12,7 +12,7 @@ import {
   SliderScaleMin,
   SliderScaleMax
 } from "./styles";
-import { ratingApi } from "../../helpers/fetcher";
+import { ratingApi } from "../../helpers/ratingFetcher";
 import { ACTIONS } from "../../store/Actions";
 
 const Rating = ({ phenomenon, radar, isRatingX }) => { 
