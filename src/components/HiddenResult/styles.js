@@ -5,6 +5,7 @@ export const Container = styled.div`
   width: 100%;
   justify-content: space-between;
   position: relative;
+  align-items: center;
 
 `
 export const WildCardWrapper = styled.div`
@@ -25,7 +26,6 @@ export const IconToggleVisibilityWrapper= styled.div `
   height: 15px;
   position: absolute;
   right: 0;
-  top: 21px;
 `
 export const WildCard = styled.h4`
   display: block;

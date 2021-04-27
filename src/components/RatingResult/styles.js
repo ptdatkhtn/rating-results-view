@@ -8,6 +8,7 @@ export const RatingWidget = styled.div`
 export const RatingHeader = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `
 
 export const RatingSliderScale = styled.div`
@@ -132,6 +133,4 @@ export const IconToggleVisibilityWrapper= styled.div `
   width: 21px;
   height: 15px;
   position: relative;
-  top: 22px;
-
 `
