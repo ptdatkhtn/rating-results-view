@@ -14,14 +14,14 @@ const renderApp = (nid) => {
     )
 }
 
-const appElements = document.getElementsByClassName('rating-result-app')
+const appElements = document.getElementsByClassName('rating-results-container')
 
 const defaultRadarId = (/node=\d+/.test(document.location.href) && document.location.href.replace(/^.*node=(\d+).*$/, '$1')) || null
 
 for (let el of appElements) {
     ReactDOM.render(
         renderApp(
-            el.hasAttribute('data-radarid') ? el.getAttribute('data-radarid') : defaultRadarId,
+            el.hasAttribute('data-radar-id') ? el.getAttribute('data-radar-id') : defaultRadarId,
         ),
         el
     )
