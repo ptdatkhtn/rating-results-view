@@ -346,7 +346,8 @@ const App = ({
       visibleText && myTexts
       .transition(trans)
       .on('end', () => {
-        const scale = Math.min(t.k, 9)
+        try {
+          const scale = Math.min(t.k, 9)
         const minScale = Math.max(scale, 1)
         const fonts = Math.max(12, Math.floor(11 + minScale))
         const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
@@ -354,6 +355,9 @@ const App = ({
           .attr('font-size', fonts)
           .attr('x', d => xr(d.x) - getTextWidth(d.title, fonts) / 2)
           .attr('y', d => yr(d.y) + NODE_RADIUS * 3)
+        } catch (error) {
+          console.error(error)
+        }
       })
       .attr('x', d => {
         const fontS = myTexts.attr('font-size')

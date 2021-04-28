@@ -67,7 +67,7 @@ const RatingResultsView = () => {
   }, [calcSizeRateTabWrapper, height, width, stageCanvasRef])
 
   window.addEventListener('resize', calcSizeRateTabWrapper, false)
-console.log('aaaa', width)
+// console.log('aaaa', width)
   return (
     <RateTabWrapper ref={stageCanvasRef}>
       {
