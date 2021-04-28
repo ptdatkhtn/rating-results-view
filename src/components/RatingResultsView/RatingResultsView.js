@@ -56,7 +56,7 @@ const RatingResultsView = () => {
   const calcSizeRateTabWrapper = React.useCallback(() => {
     setHeight(Number(2* stageCanvasRef?.current?.offsetWidth/3))
     setWidth(Number(stageCanvasRef?.current?.offsetWidth))
-  }, [setHeight, setWidth])
+  }, [setHeight, setWidth, stageCanvasRef])
 
   React.useEffect(() => {
     calcSizeRateTabWrapper()
