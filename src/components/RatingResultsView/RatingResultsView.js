@@ -67,11 +67,11 @@ const RatingResultsView = () => {
   }, [calcSizeRateTabWrapper, height, width, stageCanvasRef])
 
   window.addEventListener('resize', calcSizeRateTabWrapper, false)
-
+// console.log('aaaa', width)
   return (
     <RateTabWrapper ref={stageCanvasRef}>
       {
-        width > 0 && height > 0 && 
+        stageCanvasRef?.current?.offsetWidth > 0 &&
         <FourfoldTable 
           phenomena={visiblePhenonmena || []} 
           containerWidth={width -120} 

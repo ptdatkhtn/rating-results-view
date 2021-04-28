@@ -156,23 +156,23 @@ const App = ({
     // axisContext.stroke()
   }
 
-  const drawNormalAxis = () => {
-    axis.width = containerWidth
-    axis.height = containerHeight
+  // const drawNormalAxis = () => {
+  //   axis.width = containerWidth
+  //   axis.height = containerHeight
 
-    drawLine({ begin: [0, axis.clientHeight / 2], end: [axis.clientWidth, axis.clientHeight / 2] })
-    drawLine({ begin: [axis.clientWidth / 2, 0], end: [axis.clientWidth / 2, axis.clientHeight] })
-  }
+  //   drawLine({ begin: [0, axis.clientHeight / 2], end: [axis.clientWidth, axis.clientHeight / 2] })
+  //   drawLine({ begin: [axis.clientWidth / 2, 0], end: [axis.clientWidth / 2, axis.clientHeight] })
+  // }
 
   const drawNodes = useCallback(() => {
     d3.selectAll('#myTexts').style('opacity', visibleText ? 1 : 0)
   }, [scatterSvg, visibleText, transformInfo])
 
-  useEffect(() => {
-    if (appContext.axis) {
-      drawNormalAxis()
-    }
-  }, [appContext.axis])
+  // useEffect(() => {
+  //   if (appContext.axis) {
+  //     drawNormalAxis()
+  //   }
+  // }, [appContext.axis])
 
   useEffect(() => {
     if (!scatterSvg) return
@@ -187,6 +187,9 @@ const App = ({
     return [containerWidth / 2, containerHeight / 2];
   }
 
+  useEffect(() => {
+    d3.select('#svg-app').attr("viewBox", [0, 0, containerWidth, containerHeight])
+  }, [containerWidth, containerHeight])
 
   useEffect(() => {
     const svg = d3.select('#svg-app').attr("viewBox", [0, 0, containerWidth, containerHeight])
@@ -346,7 +349,8 @@ const App = ({
       visibleText && myTexts
       .transition(trans)
       .on('end', () => {
-        const scale = Math.min(t.k, 9)
+        try {
+          const scale = Math.min(t.k, 9)
         const minScale = Math.max(scale, 1)
         const fonts = Math.max(12, Math.floor(11 + minScale))
         const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
@@ -354,6 +358,9 @@ const App = ({
           .attr('font-size', fonts)
           .attr('x', d => xr(d.x) - getTextWidth(d.title, fonts) / 2)
           .attr('y', d => yr(d.y) + NODE_RADIUS * 3)
+        } catch (error) {
+          console.error(error)
+        }
       })
       .attr('x', d => {
         const fontS = myTexts.attr('font-size')

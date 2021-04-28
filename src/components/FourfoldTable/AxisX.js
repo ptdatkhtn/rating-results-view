@@ -15,7 +15,7 @@ const AxisX = ({
         margin: 0, 
         // background: 'rgb(224 222 222)' 
         }}>
-        <tbody>
+        <tbody style={{borderTop: 'none'}}>
           <tr>
             <td style={{ ...cellStyle, textAlign: 'left' }}>
               <div style={{ width: originalWidth / 2, overflow: 'hidden', textOverflow: 'ellipsis' }}>{axisLabel1a}</div>
@@ -32,7 +32,7 @@ const AxisX = ({
         margin: 0, 
         // background: 'rgb(224 222 222)'
          }}>
-        <tbody>
+        <tbody style={{borderTop: 'none'}}>
           <tr>
             <td style={{ ...cellStyle, textAlign: 'center' }}>
               <div style={{ width: originalWidth, overflow: 'hidden', textOverflow: 'ellipsis' }}>{axisLabel1}</div>

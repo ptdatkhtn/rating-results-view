@@ -20,7 +20,7 @@ const AxisY = ({
         margin: 0, 
         // background: 'rgb(224 222 222)', 
         padding: '77px 0px 93px 0' }}>
-        <tbody>
+        <tbody style={{borderTop: 'none'}}>
           <tr style={{ ...cellStyle }}>
             <td>
               <div style={{ width: 30, writingMode: 'vertical-lr', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: originalHeight, textAlign: 'center' }}>{axisLabel2}</div>
@@ -35,7 +35,7 @@ const AxisY = ({
         margin: 0, 
         // background: 'rgb(224 222 222)', 
         padding: '77px 0px 93px 0' }}>
-        <tbody>
+        <tbody style={{borderTop: 'none'}}>
           <tr style={{ ...cellStyle }}>
             <td>
               <div style={{ width: 30, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: originalHeight / 2 - 10, textAlign: 'right' }}>{axisLabel2b}</div>
