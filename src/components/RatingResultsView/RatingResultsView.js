@@ -49,7 +49,7 @@ const RatingResultsView = () => {
     }) 
   }
 
-  const stageCanvasRef = React.useRef(null);
+  const stageCanvasRef = React.useRef({});
   const [height, setHeight] = useState(0)
   const [width, setWidth] = useState(0)
 
@@ -60,7 +60,7 @@ const RatingResultsView = () => {
 
   React.useEffect(() => {
     calcSizeRateTabWrapper()
-  }, [])
+  }, [stageCanvasRef.current])
 
   React.useEffect(() => {
     calcSizeRateTabWrapper()
