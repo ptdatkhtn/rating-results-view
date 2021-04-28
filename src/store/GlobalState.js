@@ -1,4 +1,4 @@
-import { createContext, useReducer, useEffect, useCallback } from 'react'
+import React, { createContext, useReducer, useEffect, useCallback } from 'react'
 import reducers from './Reducers.js'
 import { startSession } from '../helpers/session';
 import { ACTIONS } from './Actions'
