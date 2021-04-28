@@ -59,15 +59,18 @@ const RatingResultsView = () => {
   }, [setHeight, setWidth])
 
   React.useEffect(() => {
-    setHeight(Number(2* stageCanvasRef?.current?.offsetWidth/3))
-    setWidth(Number(stageCanvasRef?.current?.offsetWidth))
+    calcSizeRateTabWrapper()
+  }, [])
+
+  React.useEffect(() => {
+    calcSizeRateTabWrapper()
     return () => {
       window.removeEventListener('resize', calcSizeRateTabWrapper)
     }
   }, [calcSizeRateTabWrapper, height, width, stageCanvasRef])
 
   window.addEventListener('resize', calcSizeRateTabWrapper, false)
-// console.log('aaaa', width)
+
   return (
     <RateTabWrapper ref={stageCanvasRef}>
       {
