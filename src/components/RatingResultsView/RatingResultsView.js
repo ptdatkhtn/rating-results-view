@@ -62,13 +62,13 @@ const RatingResultsView = () => {
       Number(2* stageCanvasRef?.current?.offsetWidth/3) > 0 
       ? Number(2* stageCanvasRef?.current?.offsetWidth/3)
       : (getTabContentElement?.offsetWidth > 0)
-          ? getTabContentElement?.offsetWidth *2/3
+          ? getTabContentElement?.offsetWidth *6/10
           : 0)
 
     setWidth(Number(stageCanvasRef?.current?.offsetWidth *9/10) > 0 
     ? Number(9* stageCanvasRef?.current?.offsetWidth/10)
     : (getTabContentElement?.offsetWidth > 0)
-        ? getTabContentElement?.offsetWidth *9/10
+        ? getTabContentElement?.offsetWidth *8/10
         : 0)
 
     setWidthTabContentElement(getTabContentElement?.offsetWidth)
