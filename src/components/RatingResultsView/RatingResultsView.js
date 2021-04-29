@@ -49,30 +49,31 @@ const RatingResultsView = () => {
     }) 
   }
 
-  const getElFromVoteTab = document.getElementsByClassName('voting-results-container')[0]
+  const getTabContentElement = document.getElementsByClassName('tab-content')[0]
  
+  const eventTimeoutRef = React.useRef(null)
   const stageCanvasRef = React.useRef(null);
   const [height, setHeight] = useState(0)
   const [width, setWidth] = useState(0)
+  const [widthTabContentElement, setWidthTabContentElement] = useState(0)
 
   const calcSizeRateTabWrapper = React.useCallback(() => {
     setHeight(
       Number(2* stageCanvasRef?.current?.offsetWidth/3) > 0 
       ? Number(2* stageCanvasRef?.current?.offsetWidth/3)
-      : (getElFromVoteTab?.hasAttribute('data-radar-id') 
-          && getElFromVoteTab?.getAttribute('data-radar-id') === radar?.id 
-          && getElFromVoteTab?.offsetWidth > 0)
-          ? getElFromVoteTab?.offsetWidth *2/3
+      : (getTabContentElement?.offsetWidth > 0)
+          ? getTabContentElement?.offsetWidth *2/3
           : 0)
 
     setWidth(Number(stageCanvasRef?.current?.offsetWidth *9/10) > 0 
     ? Number(9* stageCanvasRef?.current?.offsetWidth/10)
-    : (getElFromVoteTab?.hasAttribute('data-radar-id') 
-        && getElFromVoteTab?.getAttribute('data-radar-id') === radar?.id 
-        && getElFromVoteTab?.offsetWidth > 0)
-        ? getElFromVoteTab?.offsetWidth *9/10
+    : (getTabContentElement?.offsetWidth > 0)
+        ? getTabContentElement?.offsetWidth *9/10
         : 0)
-  }, [setHeight, setWidth, stageCanvasRef])
+
+    setWidthTabContentElement(getTabContentElement?.offsetWidth)
+    console.log('widthTabContentElement.offsetWidth')
+  }, [setHeight, setWidth, stageCanvasRef, widthTabContentElement, setWidthTabContentElement])
 
   React.useEffect(() => {
     calcSizeRateTabWrapper()
@@ -81,7 +82,16 @@ const RatingResultsView = () => {
     }
   }, [calcSizeRateTabWrapper, height, width, stageCanvasRef])
 
-  window.addEventListener('resize', calcSizeRateTabWrapper, false)
+  window.addEventListener('resize', function () {
+    // clearTimeOut() resets the setTimeOut() timer
+    // due to this the function in setTimeout() is 
+    // fired after we are done resizing
+    clearTimeout(eventTimeoutRef.current)
+
+    // setTimeout returns the numeric ID which is used by
+    // clearTimeOut to reset the timer
+    eventTimeoutRef.current = setTimeout(calcSizeRateTabWrapper, 500);
+  }, false)
 
   return (
     <RateTabWrapper ref={stageCanvasRef}>
