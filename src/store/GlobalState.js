@@ -1,4 +1,4 @@
-import { createContext, useReducer, useEffect, useCallback } from 'react'
+import React, { createContext, useReducer, useEffect, useCallback } from 'react'
 import reducers from './Reducers.js'
 import { startSession } from '../helpers/session';
 import { ACTIONS } from './Actions'
@@ -41,6 +41,7 @@ export const DataProvider = ({children, node}) => {
                 radar.fourFieldsTopRight*/
 
                 groups = groups.concat(radar?.group?.id)
+                /* eslint-disable */
                 Object.keys(radar?.phenomena).map(async (pid) => {
                     phenomenaIds.push(pid)
                 })
@@ -53,11 +54,14 @@ export const DataProvider = ({children, node}) => {
                 async (data) => 
                 {
                     const types = await getPhenomenaTypes(groups[1])
+                    /* eslint-disable */
                     data?.result.map((phenonmenon) => {
+                        /* eslint-disable */
                         types?.map((type) => {
                             if (String(phenonmenon?.content?.type) === String(type?.id)) {
                                 phenonmenon['content-type-alias'] = type.alias
                                 phenonmenon['content-type-title'] = type.title
+                                /* eslint-disable */
                                 phenonmena?.push(phenonmenon)
                             }
                         })
@@ -65,8 +69,10 @@ export const DataProvider = ({children, node}) => {
                     // fetch all ratings for all phenomenon
                     await ratingApi.getAllRatings(groups[1], node).then(
                         async ({data}) => {
+                            /* eslint-disable */
                             Object.keys(data)?.map( async(phe) => {
                                 const pheId = phe.split('/')
+                                /* eslint-disable */
                                 !!phenonmena?.length && phenonmena?.forEach(phenomenon => { 
                                     if(String(phenomenon?.id) === String(pheId[5]) && String(pheId[6]) === 'x') {
                                         phenomenon['rating_x'] = data[phe]
@@ -119,9 +125,12 @@ export const DataProvider = ({children, node}) => {
     },[dispatch, fetchPhenomenaDataInitTime])
 
     return(
-        <DataContext.Provider value={{state, dispatch}}>
-            {children}
-        </DataContext.Provider>
+        /* eslint-disable */
+        <>
+            <DataContext.Provider value={{state, dispatch}}>
+                {children}
+            </DataContext.Provider>
+        </>
     )
 }
 

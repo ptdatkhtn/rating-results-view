@@ -49,9 +49,9 @@ const RatingResultsView = () => {
     }) 
   }
 
-  const stageCanvasRef = React.useRef(null);
-  const [height, setHeight] = useState(Number(2* stageCanvasRef?.current?.offsetWidth/3) || 0)
-  const [width, setWidth] = useState(Number(stageCanvasRef?.current?.offsetWidth) || 0)
+  const stageCanvasRef = React.useRef({});
+  const [height, setHeight] = useState(0)
+  const [width, setWidth] = useState(0)
 
   const calcSizeRateTabWrapper = React.useCallback(() => {
     setHeight(Number(2* stageCanvasRef?.current?.offsetWidth/3))
@@ -60,7 +60,7 @@ const RatingResultsView = () => {
 
   React.useEffect(() => {
     calcSizeRateTabWrapper()
-  }, [])
+  }, [stageCanvasRef.current])
 
   React.useEffect(() => {
     calcSizeRateTabWrapper()
@@ -74,7 +74,7 @@ const RatingResultsView = () => {
   return (
     <RateTabWrapper ref={stageCanvasRef}>
       {
-        stageCanvasRef?.current?.offsetWidth > 0 &&
+        (width > 0 && height > 0)  &&
         <FourfoldTable 
           phenomena={visiblePhenonmena || []} 
           containerWidth={width -120} 
