@@ -68,11 +68,10 @@ const RatingResultsView = () => {
     setWidth(Number(stageCanvasRef?.current?.offsetWidth *9/10) > 0 
     ? Number(9* stageCanvasRef?.current?.offsetWidth/10)
     : (getTabContentElement?.offsetWidth > 0)
-        ? getTabContentElement?.offsetWidth *8/10
+        ? getTabContentElement?.offsetWidth *7.3/10
         : 0)
 
     setWidthTabContentElement(getTabContentElement?.offsetWidth)
-    console.log('widthTabContentElement.offsetWidth')
   }, [setHeight, setWidth, stageCanvasRef, widthTabContentElement, setWidthTabContentElement])
 
   React.useEffect(() => {
