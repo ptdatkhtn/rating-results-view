@@ -49,18 +49,30 @@ const RatingResultsView = () => {
     }) 
   }
 
-  const stageCanvasRef = React.useRef({});
+  const getElFromVoteTab = document.getElementsByClassName('voting-results-container')[0]
+ 
+  const stageCanvasRef = React.useRef(null);
   const [height, setHeight] = useState(0)
   const [width, setWidth] = useState(0)
 
   const calcSizeRateTabWrapper = React.useCallback(() => {
-    setHeight(Number(2* stageCanvasRef?.current?.offsetWidth/3))
-    setWidth(Number(stageCanvasRef?.current?.offsetWidth))
-  }, [setHeight, setWidth, stageCanvasRef])
+    setHeight(
+      Number(2* stageCanvasRef?.current?.offsetWidth/3) > 0 
+      ? Number(2* stageCanvasRef?.current?.offsetWidth/3)
+      : (getElFromVoteTab?.hasAttribute('data-radar-id') 
+          && getElFromVoteTab?.getAttribute('data-radar-id') === radar?.id 
+          && getElFromVoteTab?.offsetWidth > 0)
+          ? getElFromVoteTab?.offsetWidth *2/3
+          : 0)
 
-  React.useEffect(() => {
-    calcSizeRateTabWrapper()
-  }, [stageCanvasRef.current])
+    setWidth(Number(stageCanvasRef?.current?.offsetWidth *9/10) > 0 
+    ? Number(9* stageCanvasRef?.current?.offsetWidth/10)
+    : (getElFromVoteTab?.hasAttribute('data-radar-id') 
+        && getElFromVoteTab?.getAttribute('data-radar-id') === radar?.id 
+        && getElFromVoteTab?.offsetWidth > 0)
+        ? getElFromVoteTab?.offsetWidth *9/10
+        : 0)
+  }, [setHeight, setWidth, stageCanvasRef])
 
   React.useEffect(() => {
     calcSizeRateTabWrapper()
@@ -79,16 +91,16 @@ const RatingResultsView = () => {
           phenomena={visiblePhenonmena || []} 
           containerWidth={width -120} 
           containerHeight={height - 120}
-          axisLabel3={radar.fourFieldsBottomLeft} 
-          axisLabel4={radar.fourFieldsBottomRight} 
-          axisLabel5={radar.fourFieldsTopLeft} 
-          axisLabel6={radar.fourFieldsTopRight} 
-          axisLabel1={radar.axisXTitle}
-          axisLabel1a={radar.axisXMin}
-          axisLabel1b={radar.axisXMax}
-          axisLabel2={radar.axisYTitle}
-          axisLabel2a={radar.axisYMin}
-          axisLabel2b={radar.axisYMax}
+          axisLabel3={radar?.fourFieldsBottomLeft} 
+          axisLabel4={radar?.fourFieldsBottomRight} 
+          axisLabel5={radar?.fourFieldsTopLeft} 
+          axisLabel6={radar?.fourFieldsTopRight} 
+          axisLabel1={radar?.axisXTitle}
+          axisLabel1a={radar?.axisXMin}
+          axisLabel1b={radar?.axisXMax}
+          axisLabel2={radar?.axisYTitle}
+          axisLabel2a={radar?.axisYMin}
+          axisLabel2b={radar?.axisYMax}
         />
       }
       <RatingResults phenomena={visiblePhenonmena || []} radar={radar}/>
