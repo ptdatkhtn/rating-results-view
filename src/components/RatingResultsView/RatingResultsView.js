@@ -6,13 +6,15 @@ import ConfirmationModal from '../ConfirmationModal/ConfirmationModal'
 import { ratingApi } from '../../helpers/ratingFetcher';
 import { ACTIONS } from '../../store/Actions'
 import FourfoldTable from '../FourfoldTable'
+import {innerDimensions} from '../../helpers/dimension'
 import {
   RateTabWrapper,
   RateTabFooter,
   ClearRatingsBtn,
   CloseIcon,
   IconName
-} from "./styles";
+} from "./styles"
+
 const RatingResultsView = () => {
   const { state: {phenomenaData, radar, hiddenPhenomena }, dispatch } = useContext(DataContext)
   const [openConfirmModal, setOpenConfirmModal]= useState(false)
@@ -52,34 +54,28 @@ const RatingResultsView = () => {
   const getTabContentElement = document.getElementsByClassName('tab-content')[0]
  
   const eventTimeoutRef = React.useRef(null)
-  const stageCanvasRef = React.useRef(null);
   const [height, setHeight] = useState(0)
   const [width, setWidth] = useState(0)
-  const [widthTabContentElement, setWidthTabContentElement] = useState(0)
 
   const calcSizeRateTabWrapper = React.useCallback(() => {
     setHeight(
-      Number(2* stageCanvasRef?.current?.offsetWidth/3) > 0 
-      ? Number(2* stageCanvasRef?.current?.offsetWidth/3)
-      : (getTabContentElement?.offsetWidth > 0)
-          ? getTabContentElement?.offsetWidth *6/10
-          : 0)
-
-    setWidth(Number(stageCanvasRef?.current?.offsetWidth *9/10) > 0 
-    ? Number(9* stageCanvasRef?.current?.offsetWidth/10)
-    : (getTabContentElement?.offsetWidth > 0)
-        ? getTabContentElement?.offsetWidth *7.3/10
-        : 0)
-
-    setWidthTabContentElement(getTabContentElement?.offsetWidth)
-  }, [setHeight, setWidth, stageCanvasRef, widthTabContentElement, setWidthTabContentElement])
+      getTabContentElement? 
+      ((innerDimensions(getTabContentElement).width - 60) * 0.56)
+      : 500
+      )
+    setWidth(
+      getTabContentElement?
+      (innerDimensions(getTabContentElement).width - 60)
+      : 800
+      )
+  }, [setHeight, setWidth])
 
   React.useEffect(() => {
     calcSizeRateTabWrapper()
     return () => {
       window.removeEventListener('resize', calcSizeRateTabWrapper)
     }
-  }, [calcSizeRateTabWrapper, height, width, stageCanvasRef])
+  }, [calcSizeRateTabWrapper, height, width])
 
   window.addEventListener('resize', function () {
     // clearTimeOut() resets the setTimeOut() timer
@@ -93,9 +89,9 @@ const RatingResultsView = () => {
   }, false)
 
   return (
-    <RateTabWrapper ref={stageCanvasRef}>
+    <RateTabWrapper>
       {
-        (width > 0 && height > 0)  &&
+        width > 0 &&
         <FourfoldTable 
           phenomena={visiblePhenonmena || []} 
           containerWidth={width -120} 

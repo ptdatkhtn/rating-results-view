@@ -495,11 +495,11 @@ const App = ({
         }}>
       <div style={{paddingBottom:"32px", display: 'flex', alignItems: 'center'}}>
           <input style={{width:"20px", height: "20px", cursor: 'pointer', margin: 0}} type="checkbox" label='Hide labels'  id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={!visibleText} onChange={onToggleTitle}></input>
-          <label style={{fontSize:"18px", fontWeight:'bold', paddingLeft: '12px'}} for="rating-view-tab-cb-name"> Hide Titles</label><br></br>
+          <label style={{fontSize:"13px", fontWeight:'unset', paddingLeft: '12px', marginBottom: 0}} for="rating-view-tab-cb-name"> Hide titles</label><br></br>
           <input style={{width:"20px", height: "20px", cursor: 'pointer', margin: 0, marginLeft: '20px'}} type="radio" label='Show as average'  id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={isAverage} onChange={onToggleIsAverage}></input>
-          <label style={{fontSize:"18px", fontWeight:'bold', paddingLeft: '12px'}} for="rating-view-tab-cb-name"> Show as Average</label><br></br>
+          <label style={{fontSize:"13px", fontWeight:'unset', paddingLeft: '12px', marginBottom: 0}} for="rating-view-tab-cb-name"> Show as Average</label><br></br>
           <input style={{width:"20px", height: "20px", cursor: 'pointer', margin: 0, marginLeft: '20px'}} type="radio" label='Show as median'  id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={!isAverage} onChange={onToggleIsMedian}></input>
-          <label style={{fontSize:"18px", fontWeight:'bold', paddingLeft: '12px'}} for="rating-view-tab-cb-name"> Show as Median</label><br></br>
+          <label style={{fontSize:"13px", fontWeight:'unset', paddingLeft: '12px', marginBottom: 0}} for="rating-view-tab-cb-name"> Show as Median</label><br></br>
         </div>
         <div style={{ position: 'relative', width: containerWidth, height: containerHeight, background: 'white' }}>
           <svg id='svg-app' style={{ position: 'absolute' }} />
