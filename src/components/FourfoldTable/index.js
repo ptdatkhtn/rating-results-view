@@ -270,6 +270,7 @@ const App = ({
       .join('circle')
       .attr('stroke', d => d.type[0].outerStroke)
       .attr('cursor', 'pointer')
+      .attr('r', 10)
       .style('fill', d => d.type[0].fillSymbol)
 
     const myCircle = scatterSvg.append('g')
@@ -278,6 +279,7 @@ const App = ({
       .join('circle')
       .attr('stroke', d => d.type[0].innerStroke)
       .attr('cursor', 'pointer')
+      .attr('r', 7)
       .style('fill', d => d.type[0].fillSymbol)
       .attr('cursor', 'pointer')
 
@@ -331,6 +333,9 @@ const App = ({
       const xr = tx().rescaleX(x);
       const yr = ty().rescaleY(y);
 
+      const radius1 = myCircle1.attr('r')
+      const radius = myCircle.attr('r')
+
       gx.call(xAxis, xr);
       gy.call(yAxis, yr);
       
@@ -357,7 +362,7 @@ const App = ({
         myTexts.transition(tran2)
           .attr('font-size', fonts)
           .attr('x', d => xr(d.x) - getTextWidth(d.title, fonts) / 2)
-          .attr('y', d => yr(d.y) + NODE_RADIUS * 3)
+          .attr('y', d => yr(d.y) + 10 * 3)
         } catch (error) {
           console.error(error)
         }
@@ -366,18 +371,47 @@ const App = ({
         const fontS = myTexts.attr('font-size')
         return xr(d.x) - getTextWidth(d.title, fontS) / 2
       })
-      .attr('y', d => yr(d.y) + NODE_RADIUS * 3)
+      .attr('y', d => yr(d.y) + 10 * 3)
 
       myCircle1
         .transition(trans)
-        .attr('cx', d => xr(+d.x))
-        .attr('cy', d => yr(+d.y))
-        .attr('r', 10)
-      myCircle
+        .on('end', () => {
+          try {
+            const scale = Math.min(t.k, 8)
+          const minScale = Math.max(scale, 1)
+          const r = Math.max(10, Math.floor(10 + minScale))
+          const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
+          myCircle1.transition(tran2)
+            .attr('cx', d => xr(d.x))
+            .attr('cy', d => yr(d.y))
+            .attr('r', r)
+          } catch (error) {
+            console.error(error)
+          }
+        })
+        .attr('cx', d => xr(d.x))
+        .attr('cy', d => yr(d.y))
+        .attr('r', radius1)
+
+        myCircle
         .transition(trans)
-        .attr('cx', d => xr(+d.x))
-        .attr('cy', d => yr(+d.y))
-        .attr('r', 7)
+        .on('end', () => {
+          try {
+            const scale = Math.min(t.k, 8)
+          const minScale = Math.max(scale, 1)
+          const r = Math.max(7, Math.floor(7 + minScale))
+          const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
+          myCircle.transition(tran2)
+            .attr('cx', d => xr(d.x))
+            .attr('cy', d => yr(d.y))
+            .attr('r', r)
+          } catch (error) {
+            console.error(error)
+          }
+        })
+        .attr('cx', d => xr(d.x))
+        .attr('cy', d => yr(d.y))
+        .attr('r', radius)
         
     });
     d3.selectAll('circle').on('click', d => onClickNode(d.id))
@@ -387,7 +421,7 @@ const App = ({
     return () => {
       scatterSvg.selectAll("*").remove()
     }
-  }, [phenomena, nodeListAsAverage, nodeListAsMedian, scatterSvg, isAverage, isMedian, visibleText])
+  }, [phenomena, scatterSvg, isAverage, isMedian, visibleText])
 
   const onClickNode = (id) => {
     setVisibleDialog(true)
