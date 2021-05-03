@@ -18,7 +18,7 @@ const CheckBox = ({
                 checked={checked}
                 onChange={onChange}
             />
-            <CheckMark className='checkmark' />
+            <CheckMark style={{background: 'rgb(0, 195, 255)', border: '1px solid rgb(0, 195, 255)'}} />
             { label !== '' &&
                 <Label>{label}</Label>
             }

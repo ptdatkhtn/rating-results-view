@@ -4,7 +4,9 @@ import Modal from 'react-modal'
 import Iframe from 'react-iframe'
 import AxisX from './AxisX'
 import AxisY from './AxisY'
-
+import styles from './FourfoldTable.module.css'
+import { Checkbox } from '@sangre-fp/ui'
+import classes from './FourfoldTable.module.css'
 const NODE_RADIUS = 10
 const CHAR_WIDTH = 8
 
@@ -440,7 +442,7 @@ const App = ({
 
   const onToggleTitle = (event) => {
     const isChecked = event.target.checked
-    setVisibleText(!isChecked)
+    setVisibleText(!visibleText)
   }
 
   const onToggleIsAverage= (event) => {
@@ -482,7 +484,7 @@ const App = ({
     fontSize: '48px',
     fontWeight: 540,
   }
-
+console.log('visibleText', visibleText)
   return (
     <div style={{ display: 'flex',  paddingTop: '54px', paddingBottom: '54px'}}>
       <AxisY originalHeight={containerHeight} axisHeight={containerHeight + 170} axisLabel2={axisLabel2} axisLabel2a={axisLabel2a} axisLabel2b={axisLabel2b} />
@@ -494,8 +496,7 @@ const App = ({
         // background: '#e0dede' 
         }}>
       <div style={{paddingBottom:"32px", display: 'flex', alignItems: 'center'}}>
-          <input style={{width:"20px", height: "20px", cursor: 'pointer', margin: 0}} type="checkbox" label='Hide labels'  id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={!visibleText} onChange={onToggleTitle}></input>
-          <label style={{fontSize:"13px", fontWeight:'unset', paddingLeft: '12px', marginBottom: 0}} for="rating-view-tab-cb-name"> Hide titles</label><br></br>
+          <Checkbox label='Hide labels' checked={!visibleText} onChange={onToggleTitle} className={styles.resetMargin}/>
           <input style={{width:"20px", height: "20px", cursor: 'pointer', margin: 0, marginLeft: '20px'}} type="radio" label='Show as average'  id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={isAverage} onChange={onToggleIsAverage}></input>
           <label style={{fontSize:"13px", fontWeight:'unset', paddingLeft: '12px', marginBottom: 0}} for="rating-view-tab-cb-name"> Show as Average</label><br></br>
           <input style={{width:"20px", height: "20px", cursor: 'pointer', margin: 0, marginLeft: '20px'}} type="radio" label='Show as median'  id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={!isAverage} onChange={onToggleIsMedian}></input>
