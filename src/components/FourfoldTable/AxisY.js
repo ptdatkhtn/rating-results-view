@@ -16,7 +16,7 @@ const AxisY = ({
   return (
     <>
       <table cellPadding='0' cellSpacing='0' style={{ 
-        height: axisHeight, 
+        height: +axisHeight + 120, 
         margin: 0, 
         // background: 'rgb(224 222 222)', 
         padding: '77px 0px 93px 0' }}>
@@ -31,7 +31,7 @@ const AxisY = ({
       </table>
 
       <table cellPadding='0' cellSpacing='0' style={{ 
-        height: axisHeight, 
+        height: +axisHeight + 120, 
         margin: 0, 
         // background: 'rgb(224 222 222)', 
         padding: '77px 0px 93px 0' }}>
