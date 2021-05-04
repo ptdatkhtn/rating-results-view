@@ -62,7 +62,7 @@ const App = ({
   const nodeListAsMedian = React.useMemo(()=> {
     let nodes = []
     !!phenomena?.length && phenomena.map((phen) => {
-      if (phen['rating_x']['median'] && phen['rating_y']['median']) {
+      if (phen['rating_x']['median'] !== null && phen['rating_y']['median'] !== null) {
         const {innerStroke, outerStroke, fillSymbol} = setNodeColor(phen)
         let node = {}
         node['id'] = phen['id']
@@ -71,7 +71,7 @@ const App = ({
         node['x'] = phen['rating_x']['median']
         node['y'] = phen['rating_y']['median']
         node['avg'] = false
-
+        console.log('node', node)
         nodes.push(node)
       }
     })
@@ -80,6 +80,7 @@ const App = ({
 
   const nodeListAsAverage = React.useMemo(() => {
     let nodes = []
+    console.log('phenomena', phenomena)
     !!phenomena?.length && phenomena.map((phen) => {
       if (phen['rating_x']['avg'] && phen['rating_y']['avg']) {
         const { innerStroke, outerStroke, fillSymbol } = setNodeColor(phen)
@@ -97,6 +98,8 @@ const App = ({
     return nodes
   }, [phenomena])
 
+  console.log('nodeListAsMedian', nodeListAsMedian)
+  console.log('nodeListAsAverage', nodeListAsAverage)
   const [visibleDialog, setVisibleDialog] = useState(false)
   const [visibleText, setVisibleText] = useState(true)
   const [appContext, setAppContext] = useState({})
@@ -141,7 +144,8 @@ const App = ({
 
   useEffect(() => {
     if (!scatterSvg) return
-    d3.selectAll('#myTexts').style('opacity', visibleText ? 1 : 0)
+    d3.selectAll('#myTextsAvg').style('opacity', visibleText ? 1 : 0)
+    d3.selectAll('#myTextsMedian').style('opacity', visibleText ? 1 : 0)
   }, [scatterSvg, visibleText])
 
   useEffect(() => {
@@ -236,13 +240,22 @@ const App = ({
       .attr("stroke", "#ccc")
       .attr("stroke-width", 1)
       
-    const myTexts = scatterSvg.append('g')
+    const myTextsAvg = scatterSvg.append('g')
       .selectAll('text')
-      .data(nodes)
+      .data(nodeListAsAverage)
       .join('text')
       .text(d => d.title)
       .style('fill', 'black')
-      .attr('id', 'myTexts')
+      .attr('id', 'myTextsAvg')
+      .attr('font-size', 12)
+
+      const myTextsMedian = scatterSvg.append('g')
+      .selectAll('text')
+      .data(nodeListAsMedian)
+      .join('text')
+      .text(d => d.title)
+      .style('fill', 'black')
+      .attr('id', 'myTextsMedian')
       .attr('font-size', 12)
 
     const myCircleAvg1 = scatterSvg.append('g')
@@ -354,7 +367,7 @@ const App = ({
         .attr("x2", d => xr(d.x2))
         .attr("y2", d => yr(d.y2))
         
-      myTexts
+        myTextsMedian
         .transition(trans)
         .on('end', () => {
           try {
@@ -362,7 +375,7 @@ const App = ({
             const minScale = Math.max(scale, 1)
             const fonts = Math.max(12, Math.floor(11 + minScale))
             const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
-            myTexts.transition(tran2)
+            myTextsMedian.transition(tran2)
               .attr('font-size', fonts)
               .attr('x', d => xr(d.x) - getTextWidth(d.title, fonts) / 2)
               .attr('y', d => yr(d.y) + 10 * 3)
@@ -371,7 +384,29 @@ const App = ({
           }
         })
         .attr('x', d => {
-          const fontS = myTexts.attr('font-size')
+          const fontS = myTextsMedian.attr('font-size')
+          return xr(d.x) - getTextWidth(d.title, fontS) / 2
+        })
+        .attr('y', d => yr(d.y) + 10 * 3)
+
+        myTextsAvg
+        .transition(trans)
+        .on('end', () => {
+          try {
+            const scale = Math.min(t.k, 9)
+            const minScale = Math.max(scale, 1)
+            const fonts = Math.max(12, Math.floor(11 + minScale))
+            const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
+            myTextsAvg.transition(tran2)
+              .attr('font-size', fonts)
+              .attr('x', d => xr(d.x) - getTextWidth(d.title, fonts) / 2)
+              .attr('y', d => yr(d.y) + 10 * 3)
+          } catch (error) {
+            console.error(error)
+          }
+        })
+        .attr('x', d => {
+          const fontS = myTextsAvg.attr('font-size')
           return xr(d.x) - getTextWidth(d.title, fontS) / 2
         })
         .attr('y', d => yr(d.y) + 10 * 3)
