@@ -60,12 +60,12 @@ const RatingResultsView = () => {
   const calcSizeRateTabWrapper = React.useCallback(() => {
     setHeight(
       getTabContentElement? 
-      ((innerDimensions(getTabContentElement).width - 60) * 0.56)
+      ((innerDimensions(getTabContentElement).width) * 0.56)
       : 500
       )
     setWidth(
       getTabContentElement?
-      (innerDimensions(getTabContentElement).width - 60)
+      (innerDimensions(getTabContentElement).width)
       : 800
       )
   }, [setHeight, setWidth])
@@ -94,8 +94,8 @@ const RatingResultsView = () => {
         width > 0 &&
         <FourfoldTable 
           phenomena={visiblePhenonmena || []} 
-          containerWidth={width -120} 
-          containerHeight={height - 120}
+          containerWidth={width} 
+          containerHeight={height}
           axisLabel3={radar?.fourFieldsBottomLeft} 
           axisLabel4={radar?.fourFieldsBottomRight} 
           axisLabel5={radar?.fourFieldsTopLeft} 
