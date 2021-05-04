@@ -59,13 +59,13 @@ const RatingResultsView = () => {
 
   const calcSizeRateTabWrapper = React.useCallback(() => {
     setHeight(
-      getTabContentElement? 
-      ((innerDimensions(getTabContentElement).width) * 0.56)
+      getTabContentElement?
+      ((innerDimensions(getTabContentElement).width -60) * 0.56)
       : 500
       )
     setWidth(
       getTabContentElement?
-      (innerDimensions(getTabContentElement).width)
+      (innerDimensions(getTabContentElement).width -60)
       : 800
       )
   }, [setHeight, setWidth])
