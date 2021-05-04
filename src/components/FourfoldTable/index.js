@@ -474,10 +474,10 @@ const App = ({
 
   return (
     <div style={{ display: 'flex',  paddingTop: '54px', paddingBottom: '54px'}}>
-      <AxisY originalHeight={containerHeight} axisHeight={containerHeight + 170} axisLabel2={axisLabel2} axisLabel2a={axisLabel2a} axisLabel2b={axisLabel2b} />
+      <AxisY originalHeight={containerHeight} axisHeight={containerHeight} axisLabel2={axisLabel2} axisLabel2a={axisLabel2a} axisLabel2b={axisLabel2b} />
       <div style={{ 
         width: containerWidth, 
-        height: containerHeight + 70, 
+        height: containerHeight, 
         padding: '0px 0px 60px 0', 
         boxSizing: 'content-box', 
         // background: '#e0dede' 
@@ -489,7 +489,11 @@ const App = ({
           <input style={{width:"20px", height: "20px", cursor: 'pointer', margin: 0, marginLeft: '20px'}} type="radio" label='Show as median'  id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={!isAverage} onChange={onToggleIsMedian}></input>
           <label style={{fontSize:"13px", fontWeight:'unset', paddingLeft: '12px', marginBottom: 0}} for="rating-view-tab-cb-name"> Show as Median</label><br></br>
         </div>
+<<<<<<< HEAD
         <div style={{ position: 'relative', width: containerWidth - 60, height: containerHeight, background: 'white' }}>
+=======
+        <div style={{ position: 'relative', width: containerWidth , height: containerHeight, background: 'white' }}>
+>>>>>>> a444d8689a049cca42f77c46c509eedd7d0dd196
           <svg id='svg-app' style={{ position: 'absolute' }} />
           <canvas id='axis' />
 
