@@ -4,9 +4,7 @@ import Modal from 'react-modal'
 import Iframe from 'react-iframe'
 import AxisX from './AxisX'
 import AxisY from './AxisY'
-import styles from './FourfoldTable.module.css'
-import { Checkbox } from '@sangre-fp/ui'
-import classes from './FourfoldTable.module.css'
+
 const NODE_RADIUS = 10
 const CHAR_WIDTH = 8
 
@@ -124,27 +122,24 @@ const App = ({
   const [isAverage, setIsAverage] = useState(true)
   const [isMedian, setIsMedian] = useState(false)
 
-   // each px font size equal with 2px
-   const getTextWidth = (text, fontSize = 12, fontFace = 'Roboto') => {
-    const canvasAxis = document.getElementById('axis')
-    const context = canvasAxis.getContext('2d')
-    context.font = fontSize + 'px ' + fontFace
-    return context.measureText(text).width
-  }
+  const getTextWidth = text => text.length * CHAR_WIDTH
+  const xTypes = [axisLabel1a, axisLabel1, axisLabel1b]
+  const yTypes = [axisLabel2a, axisLabel2, axisLabel2b]
   const innerTexts = [
     { x: 25, y: 25, title: axisLabel3 },
     { x: 75, y: 25, title: axisLabel4 },
     { x: 25, y: 75, title: axisLabel5 },
     { x: 75, y: 75, title: axisLabel6 }
   ]
+  const appMargin = { top: 20, right: 20, bottom: 30, left: 40 }
   const innerLineData = [
-    {
+    { 
       x1: -1500,
       y1: 50,
       x2: 1500,
       y2: 50
     },
-    {
+    { 
       x1: 50,
       y1: -1500,
       x2: 50,
@@ -152,25 +147,37 @@ const App = ({
     }
   ]
 
-  const drawNormalAxis = () => {
-    axis.width = containerWidth
-    axis.height = containerHeight
+  const drawLine = ({ begin, end }) => {
+    // axisContext.lineWidth = 1
+    // axisContext.strokeStyle = 'rgb(37 37 37)'
+    // axisContext.beginPath()
+    // axisContext.moveTo(...begin)
+    // axisContext.lineTo(...end)
+    // axisContext.stroke()
   }
+
+  // const drawNormalAxis = () => {
+  //   axis.width = containerWidth
+  //   axis.height = containerHeight
+
+  //   drawLine({ begin: [0, axis.clientHeight / 2], end: [axis.clientWidth, axis.clientHeight / 2] })
+  //   drawLine({ begin: [axis.clientWidth / 2, 0], end: [axis.clientWidth / 2, axis.clientHeight] })
+  // }
 
   const drawNodes = useCallback(() => {
     d3.selectAll('#myTexts').style('opacity', visibleText ? 1 : 0)
   }, [scatterSvg, visibleText, transformInfo])
 
-  useEffect(() => {
-    if (appContext.axis) {
-      drawNormalAxis()
-    }
-  }, [appContext.axis])
+  // useEffect(() => {
+  //   if (appContext.axis) {
+  //     drawNormalAxis()
+  //   }
+  // }, [appContext.axis])
 
   useEffect(() => {
     if (!scatterSvg) return
     drawNodes()
-  }, [scatterSvg, visibleText])
+  }, [scatterSvg, visibleText ])
 
   function center(event, target) {
     if (event.sourceEvent) {
@@ -216,7 +223,6 @@ const App = ({
       .domain(d3.extent(data, d => d[0]))
       .range([containerHeight - 30, 10])
       .nice()
-
     const xAxis = (g, scale) => g
       .attr("transform", `translate(0,${y(0)})`)
       .call(d3.axisBottom(scale).ticks(8))
@@ -224,6 +230,8 @@ const App = ({
       .call(g2 => g2.selectAll(".tick line")
         .attr("display","none"))
       
+      
+
     const yAxis = (g, scale) => g
       .attr("transform", `translate(${x(0)},0)`)
       .call(d3.axisLeft(scale).ticks(8))
@@ -251,7 +259,9 @@ const App = ({
       .attr("stroke", "#ccc")
       .attr("stroke-width", 1)
       
-      const myTexts = scatterSvg.append('g')
+      let myTexts = ''
+     if (visibleText) {
+      myTexts = scatterSvg.append('g')
       .selectAll('text')
       .data(nodes)
       .join('text')
@@ -259,6 +269,7 @@ const App = ({
       .style('fill', 'black')
       .attr('id', 'myTexts')
       .attr('font-size', 12)
+     }
 
     const myCircle1 = scatterSvg.append('g')
       .selectAll('circle')
@@ -347,7 +358,7 @@ const App = ({
         .attr("x2", d => xr(d.x2))
         .attr("y2", d => yr(d.y2))
         
-      myTexts
+      visibleText && myTexts
       .transition(trans)
       .on('end', () => {
         try {
@@ -429,7 +440,7 @@ const App = ({
 
   const onToggleTitle = (event) => {
     const isChecked = event.target.checked
-    setVisibleText(!visibleText)
+    setVisibleText(!isChecked)
   }
 
   const onToggleIsAverage= (event) => {
@@ -483,13 +494,14 @@ const App = ({
         // background: '#e0dede' 
         }}>
       <div style={{paddingBottom:"32px", display: 'flex', alignItems: 'center'}}>
-          <Checkbox label='Hide labels' checked={!visibleText} onChange={onToggleTitle} className={styles.resetMargin}/>
+          <input style={{width:"20px", height: "20px", cursor: 'pointer', margin: 0}} type="checkbox" label='Hide labels'  id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={!visibleText} onChange={onToggleTitle}></input>
+          <label style={{fontSize:"13px", fontWeight:'unset', paddingLeft: '12px', marginBottom: 0}} for="rating-view-tab-cb-name"> Hide titles</label><br></br>
           <input style={{width:"20px", height: "20px", cursor: 'pointer', margin: 0, marginLeft: '20px'}} type="radio" label='Show as average'  id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={isAverage} onChange={onToggleIsAverage}></input>
           <label style={{fontSize:"13px", fontWeight:'unset', paddingLeft: '12px', marginBottom: 0}} for="rating-view-tab-cb-name"> Show as Average</label><br></br>
           <input style={{width:"20px", height: "20px", cursor: 'pointer', margin: 0, marginLeft: '20px'}} type="radio" label='Show as median'  id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={!isAverage} onChange={onToggleIsMedian}></input>
           <label style={{fontSize:"13px", fontWeight:'unset', paddingLeft: '12px', marginBottom: 0}} for="rating-view-tab-cb-name"> Show as Median</label><br></br>
         </div>
-        <div style={{ position: 'relative', width: containerWidth , height: containerHeight, background: 'white' }}>
+        <div style={{ position: 'relative', width: containerWidth, height: containerHeight, background: 'white' }}>
           <svg id='svg-app' style={{ position: 'absolute' }} />
           <canvas id='axis' />
 
