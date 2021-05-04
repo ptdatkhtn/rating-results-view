@@ -17,6 +17,7 @@ import {
 
 const RatingResultsView = () => {
   const { state: {phenomenaData, radar, hiddenPhenomena }, dispatch } = useContext(DataContext)
+  console.log('phenomenaData', phenomenaData)
   const [openConfirmModal, setOpenConfirmModal]= useState(false)
   let visiblePhenonmena = []
   let inVisiblePhenonmena = []
