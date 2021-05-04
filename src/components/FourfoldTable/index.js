@@ -124,24 +124,27 @@ const App = ({
   const [isAverage, setIsAverage] = useState(true)
   const [isMedian, setIsMedian] = useState(false)
 
-  const getTextWidth = text => text.length * CHAR_WIDTH
-  const xTypes = [axisLabel1a, axisLabel1, axisLabel1b]
-  const yTypes = [axisLabel2a, axisLabel2, axisLabel2b]
+   // each px font size equal with 2px
+   const getTextWidth = (text, fontSize = 12, fontFace = 'Roboto') => {
+    const canvasAxis = document.getElementById('axis')
+    const context = canvasAxis.getContext('2d')
+    context.font = fontSize + 'px ' + fontFace
+    return context.measureText(text).width
+  }
   const innerTexts = [
     { x: 25, y: 25, title: axisLabel3 },
     { x: 75, y: 25, title: axisLabel4 },
     { x: 25, y: 75, title: axisLabel5 },
     { x: 75, y: 75, title: axisLabel6 }
   ]
-  const appMargin = { top: 20, right: 20, bottom: 30, left: 40 }
   const innerLineData = [
-    { 
+    {
       x1: -1500,
       y1: 50,
       x2: 1500,
       y2: 50
     },
-    { 
+    {
       x1: 50,
       y1: -1500,
       x2: 50,
@@ -149,37 +152,25 @@ const App = ({
     }
   ]
 
-  const drawLine = ({ begin, end }) => {
-    // axisContext.lineWidth = 1
-    // axisContext.strokeStyle = 'rgb(37 37 37)'
-    // axisContext.beginPath()
-    // axisContext.moveTo(...begin)
-    // axisContext.lineTo(...end)
-    // axisContext.stroke()
+  const drawNormalAxis = () => {
+    axis.width = containerWidth
+    axis.height = containerHeight
   }
-
-  // const drawNormalAxis = () => {
-  //   axis.width = containerWidth
-  //   axis.height = containerHeight
-
-  //   drawLine({ begin: [0, axis.clientHeight / 2], end: [axis.clientWidth, axis.clientHeight / 2] })
-  //   drawLine({ begin: [axis.clientWidth / 2, 0], end: [axis.clientWidth / 2, axis.clientHeight] })
-  // }
 
   const drawNodes = useCallback(() => {
     d3.selectAll('#myTexts').style('opacity', visibleText ? 1 : 0)
   }, [scatterSvg, visibleText, transformInfo])
 
-  // useEffect(() => {
-  //   if (appContext.axis) {
-  //     drawNormalAxis()
-  //   }
-  // }, [appContext.axis])
+  useEffect(() => {
+    if (appContext.axis) {
+      drawNormalAxis()
+    }
+  }, [appContext.axis])
 
   useEffect(() => {
     if (!scatterSvg) return
     drawNodes()
-  }, [scatterSvg, visibleText ])
+  }, [scatterSvg, visibleText])
 
   function center(event, target) {
     if (event.sourceEvent) {
@@ -225,6 +216,7 @@ const App = ({
       .domain(d3.extent(data, d => d[0]))
       .range([containerHeight - 30, 10])
       .nice()
+
     const xAxis = (g, scale) => g
       .attr("transform", `translate(0,${y(0)})`)
       .call(d3.axisBottom(scale).ticks(8))
@@ -232,8 +224,6 @@ const App = ({
       .call(g2 => g2.selectAll(".tick line")
         .attr("display","none"))
       
-      
-
     const yAxis = (g, scale) => g
       .attr("transform", `translate(${x(0)},0)`)
       .call(d3.axisLeft(scale).ticks(8))
@@ -261,9 +251,7 @@ const App = ({
       .attr("stroke", "#ccc")
       .attr("stroke-width", 1)
       
-      let myTexts = ''
-     if (visibleText) {
-      myTexts = scatterSvg.append('g')
+      const myTexts = scatterSvg.append('g')
       .selectAll('text')
       .data(nodes)
       .join('text')
@@ -271,7 +259,6 @@ const App = ({
       .style('fill', 'black')
       .attr('id', 'myTexts')
       .attr('font-size', 12)
-     }
 
     const myCircle1 = scatterSvg.append('g')
       .selectAll('circle')
@@ -296,8 +283,8 @@ const App = ({
     let z = d3.zoomIdentity;
 
     // set up the ancillary zooms and an accessor for their transforms
-    const zoomX = d3.zoom().scaleExtent([1, 80]);
-    const zoomY = d3.zoom().scaleExtent([1, 80]);
+    const zoomX = d3.zoom().scaleExtent([1, 8]);
+    const zoomY = d3.zoom().scaleExtent([1, 8]);
     const tx = () => d3.zoomTransform(gx.node());
     const ty = () => d3.zoomTransform(gy.node());
     gx.call(zoomX).attr("pointer-events", "none");
@@ -310,11 +297,11 @@ const App = ({
         e.transform.k = 1
         return
       }
-      if (e.transform.k > 80) {
-        e.transform.k = 80
+      if (e.transform.k > 8) {
+        e.transform.k = 8
         return
       }
-      e.transform.k = Math.min(Math.max(e.transform.k, 1), 80)
+      e.transform.k = Math.min(Math.max(e.transform.k, 1), 8)
       
       const trans = d3.transition().duration(150).ease(d3.easeLinear)
       const t = e.transform;
@@ -360,7 +347,7 @@ const App = ({
         .attr("x2", d => xr(d.x2))
         .attr("y2", d => yr(d.y2))
         
-      visibleText && myTexts
+      myTexts
       .transition(trans)
       .on('end', () => {
         try {
@@ -484,7 +471,7 @@ const App = ({
     fontSize: '48px',
     fontWeight: 540,
   }
-console.log('visibleText', visibleText)
+
   return (
     <div style={{ display: 'flex',  paddingTop: '54px', paddingBottom: '54px'}}>
       <AxisY originalHeight={containerHeight} axisHeight={containerHeight + 170} axisLabel2={axisLabel2} axisLabel2a={axisLabel2a} axisLabel2b={axisLabel2b} />
