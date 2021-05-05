@@ -232,8 +232,7 @@ const App = ({
       .call(g2 => g2.selectAll(".tick line")
         .attr("display","none"))
 
-    const gx = scatterSvg.append("g")
-    const gy = scatterSvg.append("g")
+    
   
     const myWhiteRect = scatterSvg.append('g')
       .selectAll('rect')
@@ -258,6 +257,9 @@ const App = ({
       .attr("stroke", "#ccc")
       .attr("stroke-width", 1)
       
+    const gx = scatterSvg.append("g")
+    const gy = scatterSvg.append("g")
+
     const myTextsAvg = scatterSvg.append('g')
       .selectAll('text')
       .data(nodeListAsAverage)
