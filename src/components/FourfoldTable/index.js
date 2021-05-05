@@ -225,7 +225,7 @@ const App = ({
     let nodes = [...nodeListAsAverage, ...nodeListAsMedian]
 
     let data = nodes.map(item => [item.x, item.y])
-    data = [...data, ...Array.from({ length: 50 }, () => [100 * Math.random(), Math.random()])]
+    data = [...data, ...Array.from({ length: 50 }, () => [100 * Math.random(), 100 * Math.random()])]
 
     const x = d3.scaleLinear()
       .domain(d3.extent(data, d => d[0]))
@@ -563,7 +563,7 @@ const App = ({
 
   return (
     <div style={{ display: 'flex', paddingTop: '54px', paddingBottom: '54px' }}>
-      <AxisY originalHeight={containerHeight} axisHeight={containerHeight + 170} axisLabel2={axisLabel2} axisLabel2a={axisLabel2a} axisLabel2b={axisLabel2b} />
+      <AxisY originalHeight={containerHeight} axisHeight={containerHeight} axisLabel2={axisLabel2} axisLabel2a={axisLabel2a} axisLabel2b={axisLabel2b} />
       <div style={{
         width: containerWidth,
         height: containerHeight + 70,
