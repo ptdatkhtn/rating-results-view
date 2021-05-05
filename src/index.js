@@ -14,7 +14,7 @@ const renderApp = (nid) => {
     )
 }
 
-const appElements = document.getElementsByClassName('rating-results-container')
+const appElements = document.getElementsByClassName('rating-results-app')
 
 const defaultRadarId = (/node=\d+/.test(document.location.href) && document.location.href.replace(/^.*node=(\d+).*$/, '$1')) || null
 
