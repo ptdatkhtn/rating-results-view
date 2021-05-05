@@ -23,6 +23,45 @@ const App = ({
   axisLabel2b = 'High End Default',
   phenomena = []
 }) => {
+
+  const [visibleDialog, setVisibleDialog] = useState(false)
+  const [visibleText, setVisibleText] = useState(true)
+  const [appContext, setAppContext] = useState({})
+  const { axis, scatterSvg } = appContext
+  const [isAverage, setIsAverage] = useState(true)
+
+  const rectNodes = React.useMemo(() => {
+    return [
+      {
+        x: 0,
+        y: 100,
+        width: containerWidth - 40,
+        height: containerHeight - 40
+      }
+    ]
+  }, [containerWidth, containerHeight])
+
+  const innerTexts = [
+    { x: 25, y: 25, title: axisLabel3 },
+    { x: 75, y: 25, title: axisLabel4 },
+    { x: 25, y: 75, title: axisLabel5 },
+    { x: 75, y: 75, title: axisLabel6 }
+  ]
+  const innerLineData = [
+    {
+      x1: -1500,
+      y1: 50,
+      x2: 1500,
+      y2: 50
+    },
+    {
+      x1: 50,
+      y1: -1500,
+      x2: 50,
+      y2: 1500
+    }
+  ]
+
   const setNodeColor = (phenomenon) => {
     let innerStroke = 'transparent'
     let outerStroke ='rgb(0, 202, 141)'
@@ -98,14 +137,13 @@ const App = ({
     return nodes
   }, [phenomena])
 
-  console.log('nodeListAsMedian', nodeListAsMedian)
-  console.log('nodeListAsAverage', nodeListAsAverage)
-  const [visibleDialog, setVisibleDialog] = useState(false)
-  const [visibleText, setVisibleText] = useState(true)
-  const [appContext, setAppContext] = useState({})
-  const { axis, scatterSvg } = appContext
-  const [isAverage, setIsAverage] = useState(true)
-  // const [isMedian, setIsMedian] = useState(false)
+  function center(event, target) {
+    if (event.sourceEvent) {
+      const p = d3.pointers(event, target);
+      return [d3.mean(p, d => d[0]), d3.mean(p, d => d[1])];
+    }
+    return [containerWidth / 2, containerHeight / 2];
+  }
 
    // each px font size equal with 2px
    const getTextWidth = (text, fontSize = 12, fontFace = 'Roboto') => {
@@ -114,26 +152,6 @@ const App = ({
     context.font = fontSize + 'px ' + fontFace
     return context.measureText(text).width
   }
-  const innerTexts = [
-    { x: 25, y: 25, title: axisLabel3 },
-    { x: 75, y: 25, title: axisLabel4 },
-    { x: 25, y: 75, title: axisLabel5 },
-    { x: 75, y: 75, title: axisLabel6 }
-  ]
-  const innerLineData = [
-    {
-      x1: -1500,
-      y1: 50,
-      x2: 1500,
-      y2: 50
-    },
-    {
-      x1: 50,
-      y1: -1500,
-      x2: 50,
-      y2: 1500
-    }
-  ]
 
   useEffect(() => {
     if (appContext.axis) {
@@ -162,13 +180,7 @@ const App = ({
     
   }, [scatterSvg, isAverage])
 
-  function center(event, target) {
-    if (event.sourceEvent) {
-      const p = d3.pointers(event, target);
-      return [d3.mean(p, d => d[0]), d3.mean(p, d => d[1])];
-    }
-    return [containerWidth / 2, containerHeight / 2];
-  }
+  
 
   useEffect(() => {
     d3.select('#svg-app').attr("viewBox", [0, 0, containerWidth, containerHeight])
@@ -222,6 +234,12 @@ const App = ({
 
     const gx = scatterSvg.append("g")
     const gy = scatterSvg.append("g")
+  
+    const myWhiteRect = scatterSvg.append('g')
+      .selectAll('rect')
+      .data(rectNodes)
+      .join('rect')
+      .attr('fill', 'white')
 
     const innerText = scatterSvg.append('g')
       .selectAll('text')
@@ -355,6 +373,13 @@ const App = ({
       gx.call(xAxis, xr);
       gy.call(yAxis, yr);
       
+      myWhiteRect
+        .transition(trans)
+        .attr('x', d => xr(d.x))
+        .attr('y', d => yr(d.y))
+        .attr('width', d => d.width * t.k)
+        .attr('height', d => d.height * t.k)
+
       innerText
         .transition(trans)
         .attr('x', d => xr(d.x) - getTextWidth(d.title))
@@ -366,7 +391,7 @@ const App = ({
         .attr("y1", d => yr(d.y1))
         .attr("x2", d => xr(d.x2))
         .attr("y2", d => yr(d.y2))
-        
+
         myTextsMedian
         .transition(trans)
         .on('end', () => {
@@ -564,7 +589,7 @@ const App = ({
           <input style={{width:"20px", height: "20px", cursor: 'pointer', margin: 0, marginLeft: '20px'}} type="radio" label='Show as median'  id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={!isAverage} onChange={onToggleIsMedian}></input>
           <label style={{fontSize:"13px", fontWeight:'unset', paddingLeft: '12px', marginBottom: 0}} for="rating-view-tab-cb-name"> Show as Median</label><br></br>
         </div>
-        <div style={{ position: 'relative', width: containerWidth, height: containerHeight, background: 'white' }}>
+        <div style={{ position: 'relative', width: containerWidth, height: containerHeight, background: 'grey' }}>
           <svg id='svg-app' style={{ position: 'absolute' }} />
           <canvas id='axis' />
 
