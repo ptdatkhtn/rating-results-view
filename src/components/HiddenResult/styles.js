@@ -35,7 +35,7 @@ export const WildCard = styled.h4`
   font-size: 15px;
   line-height: 1.5;
   min-height: 25px;
-  padding-left: 25px;
+  padding-left: 26px;
   padding-top: 0;
 
   &:before {

@@ -571,13 +571,19 @@ const App = ({
         boxSizing: 'content-box',
         // background: '#e0dede' 
       }}>
-        <div style={{ paddingBottom: "32px", display: 'flex', alignItems: 'center' }}>
-          <input style={{ width: "20px", height: "20px", cursor: 'pointer', margin: 0 }} type="checkbox" label='Hide labels' id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={!visibleText} onChange={onToggleTitle}></input>
-          <label style={{ fontSize: "13px", fontWeight: 'unset', paddingLeft: '12px', marginBottom: 0 }} for="rating-view-tab-cb-name"> Hide titles</label><br></br>
-          <input style={{ width: "20px", height: "20px", cursor: 'pointer', margin: 0, marginLeft: '20px' }} type="radio" label='Show as average' id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={isAverage} onChange={onToggleIsAverage}></input>
-          <label style={{ fontSize: "13px", fontWeight: 'unset', paddingLeft: '12px', marginBottom: 0 }} for="rating-view-tab-cb-name"> Show as Average</label><br></br>
-          <input style={{ width: "20px", height: "20px", cursor: 'pointer', margin: 0, marginLeft: '20px' }} type="radio" label='Show as median' id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={!isAverage} onChange={onToggleIsMedian}></input>
-          <label style={{ fontSize: "13px", fontWeight: 'unset', paddingLeft: '12px', marginBottom: 0 }} for="rating-view-tab-cb-name"> Show as Median</label><br></br>
+        <div style={{ paddingBottom: "32px", display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{display: 'flex', alignItems: 'center'}}>
+            <input style={{ width: "20px", height: "20px", cursor: 'pointer', margin: 0 }} type="checkbox" label='Hide labels' id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={!visibleText} onChange={onToggleTitle}></input>
+            <label style={{ fontSize: "13px", fontWeight: 'unset', paddingLeft: '8px', marginBottom: 0 }} for="rating-view-tab-cb-name"> Hide titles</label><br></br>
+          </div>
+          <div style={{display: 'flex', alignItems: 'center' }}>
+            <p style={{ fontSize: "13px"}} >Show results as: </p>
+            <input style={{ width: "20px", height: "20px", cursor: 'pointer', margin: 0, marginLeft: '16px' }} type="radio" label='Show as average' id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={isAverage} onChange={onToggleIsAverage}></input>
+            <label style={{ fontSize: "13px", fontWeight: 'unset', paddingLeft: '8px', marginBottom: 0 }} for="rating-view-tab-cb-name"> Average </label><br></br>
+            <input style={{ width: "20px", height: "20px", cursor: 'pointer', margin: 0, marginLeft: '16px' }} type="radio" label='Show as median' id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={!isAverage} onChange={onToggleIsMedian}></input>
+            <label style={{ fontSize: "13px", fontWeight: 'unset', paddingLeft: '8px', marginBottom: 0 }} for="rating-view-tab-cb-name"> Median </label><br></br>
+          </div>
+          
         </div>
         <div style={{ position: 'relative', width: containerWidth, height: containerHeight, background: 'grey' }}>
           <svg id='svg-app' style={{ position: 'absolute' }} />
