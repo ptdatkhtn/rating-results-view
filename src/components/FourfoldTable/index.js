@@ -82,8 +82,8 @@ const App = ({
       {
         x: 0,
         y: 100,
-        width: containerWidth - 20,
-        height: containerHeight - 20
+        width: containerWidth,
+        height: containerHeight
       }
     ]
   }, [containerWidth, containerHeight])
@@ -229,21 +229,21 @@ const App = ({
 
     const x = d3.scaleLinear()
       .domain(d3.extent(data, d => d[0]))
-      .range([20, containerWidth - 10])
+      .range([0, containerWidth - 10])
       .nice()
     const y = d3.scaleLinear()
       .domain(d3.extent(data, d => d[0]))
-      .range([containerHeight - 20, 0])
+      .range([containerHeight, 0])
       .nice()
 
     const xAxis = (g, scale) => g
-      .attr("transform", `translate(0,${y(0)})`)
+      .attr("transform", `translate(0,${y(0) - 20})`)
       .call(d3.axisBottom(scale).ticks(8))
       .call(g2 => g2.select(".domain").attr("display", "none"))
       .call(g2 => g2.selectAll(".tick line").attr("display", "none"))
 
     const yAxis = (g, scale) => g
-      .attr("transform", `translate(${x(0)},0)`)
+      .attr("transform", `translate(${x(0) + 25},0)`)
       .call(d3.axisLeft(scale).ticks(8))
       .call(g2 => g2.select(".domain").attr("display", "none"))
       .call(g2 => g2.selectAll(".tick line").attr("display", "none"))
@@ -579,7 +579,7 @@ const App = ({
           <input style={{ width: "20px", height: "20px", cursor: 'pointer', margin: 0, marginLeft: '20px' }} type="radio" label='Show as median' id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={!isAverage} onChange={onToggleIsMedian}></input>
           <label style={{ fontSize: "13px", fontWeight: 'unset', paddingLeft: '12px', marginBottom: 0 }} for="rating-view-tab-cb-name"> Show as Median</label><br></br>
         </div>
-        <div style={{ position: 'relative', width: containerWidth, height: containerHeight, background: '#D3DAE1' }}>
+        <div style={{ position: 'relative', width: containerWidth, height: containerHeight, background: 'grey' }}>
           <svg id='svg-app' style={{ position: 'absolute' }} />
           <canvas id='axis' />
 
