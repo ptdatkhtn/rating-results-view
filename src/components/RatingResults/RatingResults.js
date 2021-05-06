@@ -10,34 +10,34 @@ const RatingResults = ({phenomena, radar}) => {
   const [ratingsPhenomenonY, setRatingsPhenomenonY] = React.useState([])
   let ratingsPhenomenonX2 = []
   let ratingsPhenomenonY2 = []
-  useEffect(() => {
-    try {
-      (async () => {
-        const ratingsPhenomenon = await ratingApi.getRatingByPhenomenonId(radar?.group?.id, radar?.id, phenomenon?.id)
+  // React.useEffect(() => {
+  //   try {
+  //     (async () => {
+  //       const ratingsPhenomenon = await ratingApi.getRatingByPhenomenonId(radar?.group?.id, radar?.id, phenomenon?.id)
         
-        Object.keys(ratingsPhenomenon?.data).map(async (pid) => {
-          // console.log('ratingsPhenomenon', ratingsPhenomenon[pid])
-          const params = pid.split('/')
-          // console.log('params', params)
-          if (isRatingX && params[6] === 'x') {
-            console.log('xxxx', ratingsPhenomenon?.data[pid])
-            ratingsPhenomenonX2 = [...ratingsPhenomenonX2, ratingsPhenomenon?.data[pid]]
+  //       Object.keys(ratingsPhenomenon?.data).map(async (pid) => {
+  //         // console.log('ratingsPhenomenon', ratingsPhenomenon[pid])
+  //         const params = pid.split('/')
+  //         // console.log('params', params)
+  //         if (isRatingX && params[6] === 'x') {
+  //           console.log('xxxx', ratingsPhenomenon?.data[pid])
+  //           ratingsPhenomenonX2 = [...ratingsPhenomenonX2, ratingsPhenomenon?.data[pid]]
             
-          } if (params[6] === 'y') {
-            console.log('yyy', ratingsPhenomenon?.data[pid])
-            ratingsPhenomenonY2.push([ratingsPhenomenon?.data[pid]])
+  //         } if (params[6] === 'y') {
+  //           console.log('yyy', ratingsPhenomenon?.data[pid])
+  //           ratingsPhenomenonY2.push([ratingsPhenomenon?.data[pid]])
           
-          }
+  //         }
           
-      })
+  //     })
       
-        setRatingsPhenomenonX(ratingsPhenomenonX2)
-    })();
-    } catch (error) {
+  //       setRatingsPhenomenonX(ratingsPhenomenonX2)
+  //   })();
+  //   } catch (error) {
       
-    }
+  //   }
     
-  }, [])
+  // }, [])
   
   return (
     <Container>
