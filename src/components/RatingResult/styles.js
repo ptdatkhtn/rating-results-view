@@ -115,7 +115,7 @@ export const RatingSlider = styled.input`
     }
 
     &.inactive::-webkit-slider-thumb {
-        background-color: #aaaaaa;
+        background-color: #848484;
     }
 `
 
@@ -133,4 +133,15 @@ export const IconToggleVisibilityWrapper= styled.div `
   width: 21px;
   height: 15px;
   position: relative;
+`
+
+export const SingleRating= styled.span `
+    height: 12px;
+    width: 12px;
+    background-color: #848484;
+    border-radius: 50%;
+    display: inline-block;
+    position: absolute;
+    top: -13px;
+    left: calc(${props => props.leftValue}% - 9.5px);
 `

@@ -103,42 +103,42 @@ export const DataProvider = ({children, node}) => {
 
             } catch (error) {
                 // mock data
-                const nodes = [
-                    {
-                      id: 1,
-                      'content-type-alias': 'cooling',
-                      content: {
-                        short_title: 'short_title1111'
-                      } ,
-                      rating_x: {
-                        median: 40,
-                        avg: 20
-                      },
-                      rating_y: {
-                        median: 38,
-                        avg: 68
-                      }
-                    },
-                    {
-                      id: 2,
-                      'content-type-alias': 'cooling',
-                      content: {
-                        short_title: 'short_title222222'
-                      } ,
-                      rating_x: {
-                        median: 20,
-                        avg: 30
-                      },
-                      rating_y: {
-                        median: 58,
-                        avg: 78
-                      }
-                    }
-                  ]
-                  dispatch({
-                    type: ACTIONS.PHENOMENONDATA,
-                    payload: nodes
-                })
+                // const nodes = [
+                //     {
+                //       id: 1,
+                //       'content-type-alias': 'cooling',
+                //       content: {
+                //         short_title: 'short_title1111'
+                //       } ,
+                //       rating_x: {
+                //         median: 40,
+                //         avg: 20
+                //       },
+                //       rating_y: {
+                //         median: 38,
+                //         avg: 68
+                //       }
+                //     },
+                //     {
+                //       id: 2,
+                //       'content-type-alias': 'cooling',
+                //       content: {
+                //         short_title: 'short_title222222'
+                //       } ,
+                //       rating_x: {
+                //         median: 20,
+                //         avg: 30
+                //       },
+                //       rating_y: {
+                //         median: 58,
+                //         avg: 78
+                //       }
+                //     }
+                //   ]
+                //   dispatch({
+                //     type: ACTIONS.PHENOMENONDATA,
+                //     payload: nodes
+                // })
                 
                 dispatch({
                     type: ACTIONS.ERROR,
