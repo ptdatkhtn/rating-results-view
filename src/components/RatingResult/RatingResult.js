@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { DataContext } from "../../store/GlobalState";
 import {
   RatingWidget,
@@ -10,10 +10,32 @@ import {
   IconToggleVisibility,
   RatingSliderScale,
   SliderScaleMin,
-  SliderScaleMax
+  SliderScaleMax,
+  SingleRating
 } from "./styles";
 import { ratingApi } from "../../helpers/ratingFetcher";
 import { ACTIONS } from "../../store/Actions";
+
+export const nodes = [
+  {
+    left: 10
+  },
+  {
+    left: 20
+  },
+  {
+    left: 30
+  },
+  {
+    left: 40
+  },
+  {
+    left: 100   
+  },
+  {
+    left: 50   
+  }
+]
 
 const Rating = ({ phenomenon, radar, isRatingX }) => { 
   const {
@@ -97,7 +119,17 @@ const Rating = ({ phenomenon, radar, isRatingX }) => {
             max="100"
             value={isRatingX? phenomenon?.rating_x?.avg: phenomenon?.rating_y?.avg }
             disabled={true}
-          ></RatingSlider>       
+          >
+          </RatingSlider>
+          <div style={{position:'relative', width:'100%'}}>
+            
+            {
+            //    Object.keys(ratingsPhenomenon).map(async (pid) => {
+            //     // console.log('ratingsPhenomenon', isRatingX ? ratingsPhenomenon[pid]['avg'])
+                
+            // })
+            }
+          </div>      
         </RatingItem>
       </RatingWidget>
     )
