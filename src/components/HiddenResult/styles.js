@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import {Eye} from '@styled-icons/bootstrap'
 export const Container = styled.div`
   display: flex;

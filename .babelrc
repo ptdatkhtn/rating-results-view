@@ -1,7 +1,0 @@
-{
-    "plugins": [
-      ["babel-plugin-styled-components", {
-        "namespace": "rating-results-app"
-      }]
-    ]
-  }
