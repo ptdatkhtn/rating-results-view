@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import {EyeSlash} from '@styled-icons/bootstrap'
 
 export const RatingWidget = styled.div`
