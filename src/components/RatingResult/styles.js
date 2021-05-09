@@ -107,11 +107,11 @@ export const RatingSlider = styled.input`
     }
 
     &.inactive {
-        background-color: #aaaaaa;
+        background-color: #c4c4c4;
     }
 
     &.inactive:after {
-        background-color: #aaaaaa;
+        background-color: #c4c4c4;
     }
 
     &.inactive::-webkit-slider-thumb {
