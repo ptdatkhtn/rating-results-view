@@ -98,7 +98,7 @@ const Rating = ({ phenomenon, radar, isRatingX }) => {
     }
   }
 
-  console.log('eeppp', phenomenon)
+  console.log('pheeee', phenomenon)
   return (
     phenomenon && (
       <RatingWidget>
@@ -129,7 +129,9 @@ const Rating = ({ phenomenon, radar, isRatingX }) => {
                 (phenomenon?.rating_x?.values && !!phenomenon?.rating_x?.values?.length && phenomenon?.rating_x?.values)
                 : (phenomenon?.rating_y?.values && !!phenomenon?.rating_y?.values?.length && phenomenon?.rating_y?.values)) || [])?.map(
                      /* eslint-disable */
-                  rating => <SingleRating left={rating}/>
+                  rating => {
+                    return <SingleRating leftValue={rating}/>
+                  }
                   
               )
             }

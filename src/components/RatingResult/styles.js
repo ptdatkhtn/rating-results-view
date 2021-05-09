@@ -143,5 +143,5 @@ export const SingleRating= styled.span `
     display: inline-block;
     position: absolute;
     top: -13px;
-    left: calc(${props => props.leftValue}% - 9.5px);
+    left: calc(${props => props.leftValue}%  - 2.5px);
 `
