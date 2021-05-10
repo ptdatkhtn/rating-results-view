@@ -223,9 +223,9 @@ const App = ({
 
   }, [scatterSvg, isAverage])
 
-  useEffect(() => {
-    d3.select('#svg-app').attr("viewBox", [0, 0, containerWidth, containerHeight])
-  }, [containerWidth, containerHeight])
+  // useEffect(() => {
+  //   d3.select('#svg-app').attr("viewBox", [0, 0, containerWidth, containerHeight])
+  // }, [containerWidth, containerHeight])
 
   useEffect(() => {
     const svg = d3.select('#svg-app').attr("viewBox", [0, 0, containerWidth, containerHeight])
@@ -236,7 +236,7 @@ const App = ({
       axisContext: canvasAxis.getContext('2d'),
       scatterSvg: svg
     })
-  }, [])
+  }, [containerWidth])
 
   useEffect(() => {
     if (phenomena.length < 1 || !scatterSvg) return
