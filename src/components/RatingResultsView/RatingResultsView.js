@@ -57,25 +57,25 @@ const RatingResultsView = () => {
   const [height, setHeight] = useState(0)
   const [width, setWidth] = useState(0)
 
-  const calcSizeRateTabWrapper = React.useCallback(() => {
+  const calcSizeRateTabWrapper = () => {
     setHeight(
       getTabContentElement? 
       (+(innerDimensions(getTabContentElement).width -60) * 0.56)
-      : 1536 * 0.56
+      : 800 * 0.56
       )
     setWidth(
       getTabContentElement?
       (innerDimensions(getTabContentElement).width -60)
-      : 1536
+      : 800
       )
-  }, [setHeight, setWidth])
+  }
 
   React.useEffect(() => {
     calcSizeRateTabWrapper()
     return () => {
       window.removeEventListener('resize', calcSizeRateTabWrapper)
     }
-  }, [calcSizeRateTabWrapper, height, width])
+  }, [])
 
   window.addEventListener('resize', function () {
     // clearTimeOut() resets the setTimeOut() timer
@@ -85,7 +85,7 @@ const RatingResultsView = () => {
 
     // setTimeout returns the numeric ID which is used by
     // clearTimeOut to reset the timer
-    eventTimeoutRef.current = setTimeout(calcSizeRateTabWrapper, 500);
+    eventTimeoutRef.current = setTimeout(calcSizeRateTabWrapper, 250);
   }, false)
 
   return (
