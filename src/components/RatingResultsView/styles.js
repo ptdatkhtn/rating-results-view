@@ -19,10 +19,10 @@ export const ClearRatingsBtn = styled.a`
   margin: auto 0;
   cursor: pointer;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   color: #006998;
   border: 1px solid #006998;
-  width: 148px;
+  width: 132px;
   border-radius: 20px;
   padding: 0 12px
 `
@@ -32,6 +32,7 @@ export const CloseIcon = styled.div`
     display: inline-block;
     content: '\\d7';
     font-size: 22px;
+    color: #006998;
   }
 `
 
@@ -40,4 +41,5 @@ export const IconName = styled.div`
     font-size: 12px;
     margin: auto 0;
     padding-top: 3px;
+    color: #006998;
 `

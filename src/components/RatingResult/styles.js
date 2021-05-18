@@ -49,6 +49,10 @@ export const RatingItemHeader = styled.h4`
     padding-left: 26px;
     padding-top: 0;
     padding-right: 60px;
+    width: 410px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     &:before {
         background:${props => props.symbol};
@@ -120,7 +124,7 @@ export const RatingSlider = styled.input`
 `
 
 export const IconToggleVisibility= styled(EyeSlash)`
-  color: #006998
+  color: #006998;
   font-weight: 500;
   cursor: pointer;
   font-size: 15px;

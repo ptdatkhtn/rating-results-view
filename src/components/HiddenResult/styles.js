@@ -12,7 +12,7 @@ export const WildCardWrapper = styled.div`
 
 `
 export const IconToggleVisibility= styled(Eye)`
-  color: #006998
+  color: #006998;
   font-weight: 500;
   cursor: pointer;
   font-size: 15px;
