@@ -362,8 +362,8 @@ const App = ({
     let z = d3.zoomIdentity
 
     // set up the ancillary zooms and an accessor for their transforms
-    const zoomX = d3.zoom().scaleExtent([1, 8]).translateExtent([[0, 0], [containerWidth, containerHeight]])
-    const zoomY = d3.zoom().scaleExtent([1, 8]).translateExtent([[0, 0], [containerWidth, containerHeight]])
+    const zoomX = d3.zoom().scaleExtent([1, 8])
+    const zoomY = d3.zoom().scaleExtent([1, 8])
     const tx = () => d3.zoomTransform(gx.node())
     const ty = () => d3.zoomTransform(gy.node())
     gx.call(zoomX).attr("pointer-events", "none")
