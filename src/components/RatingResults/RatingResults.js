@@ -8,7 +8,7 @@ const RatingResults = ({phenomena, radar}) => {
   
   return (
     <Container>
-      <div>
+      <div style={{width: 'calc(50% - 12px)'}}>
         <AxisName>{radar?.axisXTitle}</AxisName>
         {
           SortedPhenomenaX
@@ -18,7 +18,7 @@ const RatingResults = ({phenomena, radar}) => {
           ))
         }
       </div>
-      <div>
+      <div style={{width: 'calc(50% - 12px)'}}>
         <AxisName>{radar?.axisYTitle}</AxisName>
         {
          SortedPhenomenaY
