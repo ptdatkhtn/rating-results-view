@@ -499,7 +499,7 @@ const App = ({
           .attr('cy', d => yr(d.y))
           .attr('r', radius1)
           .attr('class', 'left')
-          .attr('data-href', d => getPhenomenonUrl(radar?.id, d?.id))
+          .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
   
         myCircleAvg
           .transition(trans)
@@ -521,7 +521,10 @@ const App = ({
           .attr('cy', d => yr(d.y))
           .attr('r', radius)
           .attr('class', 'left')
-          .attr('data-href', d => getPhenomenonUrl(radar?.id, d?.id))
+          .attr('data-href', d => {
+            // console.log('ddd', d)
+            return getPhenomenonUrl(radar?.id, d)
+          })
   
         myCircleMedian1
           .transition(trans)
@@ -543,7 +546,7 @@ const App = ({
           .attr('cy', d => yr(d.y))
           .attr('r', radius1)
           .attr('class', 'left')
-          .attr('data-href', d => getPhenomenonUrl(radar?.id, d?.id))
+          .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
   
         myCircleMedian
           .transition(trans)
@@ -565,7 +568,7 @@ const App = ({
           .attr('cy', d => yr(d.y))
           .attr('r', radius)
           .attr('class', 'left')
-          .attr('data-href', d => getPhenomenonUrl(radar?.id, d?.id))
+          .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
 
           if (isAverage) {
             d3.selectAll('#myTextsAvg').style('opacity', visibleText ? 1 : 0)
