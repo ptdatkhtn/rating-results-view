@@ -605,7 +605,7 @@ const App = ({
   const classes = useStyles();
 
   return (
-    <div>
+    <div style={{ paddingBottom: "32px", display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
       <div style={{ paddingBottom: "32px", display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{display: 'flex', alignItems: 'center'}}>
           <Checkbox
