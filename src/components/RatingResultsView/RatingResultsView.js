@@ -11,8 +11,6 @@ import {
   RateTabWrapper,
   RateTabFooter,
   ClearRatingsBtn,
-  CloseIcon,
-  IconName
 } from "./styles"
 
 const RatingResultsView = () => {
@@ -111,9 +109,8 @@ const RatingResultsView = () => {
       <RatingResults phenomena={visiblePhenonmena || []} radar={radar}/>
       <HiddenResults phenomena={inVisiblePhenonmena || []}/>
       <RateTabFooter>
-        <ClearRatingsBtn onClick={openConfirmModalHandler}>
-          <CloseIcon></CloseIcon>
-          <IconName>CLEAR RATINGS</IconName>
+        <ClearRatingsBtn onClick={openConfirmModalHandler} className="btn btn-outline-secondary btn-sm">
+          <span className="af-custom-close" />Clear ratings
         </ClearRatingsBtn>
       </RateTabFooter>
       <ConfirmationModal confirmationModal={openConfirmModal} confirmationModalClose={closeConfirmModalHandler} clearRatings={onClearRatesHandler}/>

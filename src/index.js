@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {DataProvider} from "./store/GlobalState";
 import RatingResultsView from './components/RatingResultsView/RatingResultsView';
-
+import '@sangre-fp/css-framework/scss/fp-base-styles.scss';
 //http://localhost:3010/?node=194688
 const renderApp = (nid) => {
     return (

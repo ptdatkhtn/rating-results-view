@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.11.4",
     "@sangre-fp/connectors": "^1.5.5",
+    "@sangre-fp/css-framework": "^0.0.5",
     "@sangre-fp/ui": "^2.0.23",
     "@styled-icons/bootstrap": "^10.29.0",
     "@styled-icons/fa-solid": "^10.26.0",
@@ -18,6 +19,7 @@
     "react-dom": "^16.12.0",
     "react-iframe": "^1.8.0",
     "react-scripts": "^3.4.0",
+    "sass": "^1.32.13",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
