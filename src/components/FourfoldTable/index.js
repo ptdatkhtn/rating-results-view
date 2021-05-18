@@ -5,6 +5,7 @@ import AxisY from './AxisY'
 import Checkbox from '@material-ui/core/Checkbox'
 import Radio from '@material-ui/core/Radio'
 import {makeStyles} from '@material-ui/core'
+import {getPhenomenonUrl} from '../../helpers/contentCard'
 
 const useStyles = makeStyles({
   root: {
@@ -39,7 +40,8 @@ const App = ({
   axisLabel2 = 'Vertical Axis Default',
   axisLabel2a = 'Low End Default',
   axisLabel2b = 'High End Default',
-  phenomena = []
+  phenomena = [],
+  radar
 }) => {
 
   const [visibleDialog, setVisibleDialog] = useState(false)
@@ -496,6 +498,8 @@ const App = ({
           .attr('cx', d => xr(d.x))
           .attr('cy', d => yr(d.y))
           .attr('r', radius1)
+          .attr('class', 'left')
+          .attr('data-href', d => getPhenomenonUrl(radar?.id, d?.id))
   
         myCircleAvg
           .transition(trans)
@@ -516,6 +520,8 @@ const App = ({
           .attr('cx', d => xr(d.x))
           .attr('cy', d => yr(d.y))
           .attr('r', radius)
+          .attr('class', 'left')
+          .attr('data-href', d => getPhenomenonUrl(radar?.id, d?.id))
   
         myCircleMedian1
           .transition(trans)
@@ -536,6 +542,8 @@ const App = ({
           .attr('cx', d => xr(d.x))
           .attr('cy', d => yr(d.y))
           .attr('r', radius1)
+          .attr('class', 'left')
+          .attr('data-href', d => getPhenomenonUrl(radar?.id, d?.id))
   
         myCircleMedian
           .transition(trans)
@@ -556,6 +564,8 @@ const App = ({
           .attr('cx', d => xr(d.x))
           .attr('cy', d => yr(d.y))
           .attr('r', radius)
+          .attr('class', 'left')
+          .attr('data-href', d => getPhenomenonUrl(radar?.id, d?.id))
 
           if (isAverage) {
             d3.selectAll('#myTextsAvg').style('opacity', visibleText ? 1 : 0)

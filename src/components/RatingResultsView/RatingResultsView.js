@@ -104,6 +104,7 @@ const RatingResultsView = () => {
           axisLabel2={radar?.axisYTitle}
           axisLabel2a={radar?.axisYMin}
           axisLabel2b={radar?.axisYMax}
+          radar={radar}
         />
       }
       <RatingResults phenomena={visiblePhenonmena || []} radar={radar}/>
