@@ -13,6 +13,7 @@ import {
   SliderScaleMax,
   SingleRating
 } from "./styles";
+import {getPhenomenonUrl} from '../../helpers'
 import { ratingApi } from "../../helpers/ratingFetcher";
 import { ACTIONS } from "../../store/Actions";
 
@@ -101,7 +102,7 @@ const Rating = ({ phenomenon, radar, isRatingX }) => {
   console.log('pheeee', phenomenon)
   return (
     phenomenon && (
-      <RatingWidget>
+      <RatingWidget className='left' data-href={getPhenomenonUrl(radar?.id, phenomenon?.id)}>
         <RatingHeader>
           <RatingItemHeader symbol={symbolPhenomenon} symbolBorder={symbolBorderPhenomenon} symbolBoxShadow={symbolBoxShadowPhenomenon}>{phenomenon?.content?.title}</RatingItemHeader>
           <IconToggleVisibilityWrapper onClick={onVisibilityHandler}>
