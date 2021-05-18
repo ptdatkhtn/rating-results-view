@@ -362,8 +362,8 @@ const App = ({
     let z = d3.zoomIdentity
 
     // set up the ancillary zooms and an accessor for their transforms
-    const zoomX = d3.zoom().scaleExtent([1, 8])
-    const zoomY = d3.zoom().scaleExtent([1, 8])
+    const zoomX = d3.zoom().scaleExtent([1, 8]).translateExtent([[0, 0], [containerWidth, containerHeight]])
+    const zoomY = d3.zoom().scaleExtent([1, 8]).translateExtent([[0, 0], [containerWidth, containerHeight]])
     const tx = () => d3.zoomTransform(gx.node())
     const ty = () => d3.zoomTransform(gy.node())
     gx.call(zoomX).attr("pointer-events", "none")
@@ -605,8 +605,16 @@ const App = ({
   const classes = useStyles();
 
   return (
-    <>
-      <div style={{ paddingBottom: "32px", display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+    <div style={{ display: 'flex', paddingTop: '54px', paddingBottom: '54px' }}>
+      <AxisY originalHeight={containerHeight} axisHeight={containerHeight} axisLabel2={axisLabel2} axisLabel2a={axisLabel2a} axisLabel2b={axisLabel2b} />
+      <div style={{
+        width: containerWidth,
+        height: containerHeight + 70,
+        padding: '0px 0px 60px 0',
+        boxSizing: 'content-box',
+        // background: '#e0dede' 
+      }}>
+        <div style={{ paddingBottom: "32px", display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{display: 'flex', alignItems: 'center'}}>
             <Checkbox
               color='primary'
@@ -634,7 +642,7 @@ const App = ({
               onChange={onToggleIsAverage}
               id="rating-view-tab-cb-id"
             />
-
+            {/* <input style={{ width: "20px", height: "20px", cursor: 'pointer', margin: 0, marginLeft: '16px' }} type="radio" label='Show as average' id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={isAverage} onChange={onToggleIsAverage}></input> */}
             <label style={{ fontSize: "13px", fontWeight: 'unset', paddingLeft: '8px', marginBottom: 0 }} for="rating-view-tab-cb-name"> Average </label><br></br>
             <Radio
               color='primary'
@@ -647,20 +655,11 @@ const App = ({
               onChange={onToggleIsMedian}
               id="rating-view-tab-cb-id"
             />
+            {/* <input style={{ width: "20px", height: "20px", cursor: 'pointer', margin: 0, marginLeft: '16px' }} type="radio" label='Show as median' id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={!isAverage} onChange={onToggleIsMedian}></input> */}
             <label style={{ fontSize: "13px", fontWeight: 'unset', paddingLeft: '8px', marginBottom: 0 }} for="rating-view-tab-cb-name"> Median </label><br></br>
           </div>
           
         </div>
-    <div className='rating-results-diagram' style={{ display: 'flex', paddingTop: '54px', paddingBottom: '54px' }}>
-      <AxisY originalHeight={containerHeight} axisHeight={containerHeight} axisLabel2={axisLabel2} axisLabel2a={axisLabel2a} axisLabel2b={axisLabel2b} />
-      <div style={{
-        width: containerWidth,
-        height: containerHeight + 70,
-        padding: '0px 0px 60px 0',
-        boxSizing: 'content-box',
-        // background: '#e0dede' 
-      }}>
-        
         <div style={{ position: 'relative', width: containerWidth, height: containerHeight, background: 'grey' }}>
           <svg id='svg-app' style={{ position: 'absolute' }} />
           <canvas id='axis' />
@@ -680,7 +679,6 @@ const App = ({
       </div>
       {visibleDialog && <button style={buttonStyles} onClick={onCloseDialog}>X</button>}
     </div>
-    </>
   )
 }
 
