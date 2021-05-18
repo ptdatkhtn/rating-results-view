@@ -605,79 +605,79 @@ const App = ({
   const classes = useStyles();
 
   return (
-    <div style={{ paddingBottom: "32px", display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <div style={{ paddingBottom: "32px", display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{display: 'flex', alignItems: 'center'}}>
-          <Checkbox
-            color='primary'
-            className={classes.checkBoxSize}
-            classes={{
-              root: classes.root,
-              checked: classes.checked 
-            }}
-            checked={!visibleText} 
-            onChange={onToggleTitle}
-            id="rating-view-tab-cb-id"
-          />
-          <label style={{ fontSize: "13px", fontWeight: 'unset', paddingLeft: '8px', marginBottom: 0 }} for="rating-view-tab-cb-name"> Hide titles</label><br></br>
-        </div>
-        <div style={{display: 'flex', alignItems: 'center' }}>
-          <p style={{ fontSize: "13px", margin: 0}}>Show results as: </p>
-          <Radio
-            color='primary'
-            className={classes.radioSize}
-            classes={{
-              root: classes.root,
-              checked: classes.checked 
-            }}
-            checked={isAverage} 
-            onChange={onToggleIsAverage}
-            id="rating-view-tab-cb-id"
-          />
-          <label style={{ fontSize: "13px", fontWeight: 'unset', paddingLeft: '8px', marginBottom: 0 }} for="rating-view-tab-cb-name"> Average </label><br></br>
-          <Radio
-            color='primary'
-            className={classes.radioSize}
-            classes={{
-              root: classes.root,
-              checked: classes.checked 
-            }}
-            checked={!isAverage} 
-            onChange={onToggleIsMedian}
-            id="rating-view-tab-cb-id"
-          />
-          <label style={{ fontSize: "13px", fontWeight: 'unset', paddingLeft: '8px', marginBottom: 0 }} for="rating-view-tab-cb-name"> Median </label><br></br>
-        </div>  
-      </div>
-      <div className='rating-results-diagram' style={{ display: 'flex', paddingTop: '54px', paddingBottom: '54px' }}>
-        <AxisY originalHeight={containerHeight} axisHeight={containerHeight} axisLabel2={axisLabel2} axisLabel2a={axisLabel2a} axisLabel2b={axisLabel2b} />
-        <div style={{
-          width: containerWidth,
-          height: containerHeight + 70,
-          padding: '0px 0px 60px 0',
-          boxSizing: 'content-box',
-          // background: '#e0dede' 
-        }}>
-
-          <div style={{ position: 'relative', width: containerWidth, height: containerHeight, background: 'grey' }}>
-            <svg id='svg-app' style={{ position: 'absolute' }} />
-            <canvas id='axis' />
-
-            {/* {visibleDialog && (
-              <Modal style={customStyles} ariaHideApp={false} isOpen={true} contentLabel='Phenomena card label'>
-                <Iframe url='http://www.youtube.com/embed/xDMP3i36naA'
-                  width='100%'
-                  height='100%'
-                  id='myId'
-                  display='initial'
-                  position='relative' />
-              </Modal>
-            )} */}
+    <div style={{ display: 'flex', paddingTop: '54px', paddingBottom: '54px' }}>
+      <AxisY originalHeight={containerHeight} axisHeight={containerHeight} axisLabel2={axisLabel2} axisLabel2a={axisLabel2a} axisLabel2b={axisLabel2b} />
+      <div style={{
+        width: containerWidth,
+        height: containerHeight + 70,
+        padding: '0px 0px 60px 0',
+        boxSizing: 'content-box',
+        // background: '#e0dede' 
+      }}>
+        <div style={{ paddingBottom: "32px", display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{display: 'flex', alignItems: 'center'}}>
+            <Checkbox
+              color='primary'
+              className={classes.checkBoxSize}
+              classes={{
+                root: classes.root,
+                checked: classes.checked 
+              }}
+              checked={!visibleText} 
+              onChange={onToggleTitle}
+              id="rating-view-tab-cb-id"
+            />
+            <label style={{ fontSize: "13px", fontWeight: 'unset', paddingLeft: '8px', marginBottom: 0 }} for="rating-view-tab-cb-name"> Hide titles</label><br></br>
           </div>
-          <AxisX originalWidth={containerWidth} axisWidth={containerWidth} axisLabel1={axisLabel1} axisLabel1a={axisLabel1a} axisLabel1b={axisLabel1b} />
+          <div style={{display: 'flex', alignItems: 'center' }}>
+            <p style={{ fontSize: "13px", margin: 0}}>Show results as: </p>
+            <Radio
+              color='primary'
+              className={classes.radioSize}
+              classes={{
+                root: classes.root,
+                checked: classes.checked 
+              }}
+              checked={isAverage} 
+              onChange={onToggleIsAverage}
+              id="rating-view-tab-cb-id"
+            />
+            {/* <input style={{ width: "20px", height: "20px", cursor: 'pointer', margin: 0, marginLeft: '16px' }} type="radio" label='Show as average' id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={isAverage} onChange={onToggleIsAverage}></input> */}
+            <label style={{ fontSize: "13px", fontWeight: 'unset', paddingLeft: '8px', marginBottom: 0 }} for="rating-view-tab-cb-name"> Average </label><br></br>
+            <Radio
+              color='primary'
+              className={classes.radioSize}
+              classes={{
+                root: classes.root,
+                checked: classes.checked 
+              }}
+              checked={!isAverage} 
+              onChange={onToggleIsMedian}
+              id="rating-view-tab-cb-id"
+            />
+            {/* <input style={{ width: "20px", height: "20px", cursor: 'pointer', margin: 0, marginLeft: '16px' }} type="radio" label='Show as median' id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={!isAverage} onChange={onToggleIsMedian}></input> */}
+            <label style={{ fontSize: "13px", fontWeight: 'unset', paddingLeft: '8px', marginBottom: 0 }} for="rating-view-tab-cb-name"> Median </label><br></br>
+          </div>
+          
         </div>
-        {visibleDialog && <button style={buttonStyles} onClick={onCloseDialog}>X</button>}
+        <div style={{ position: 'relative', width: containerWidth, height: containerHeight, background: 'grey' }}>
+          <svg id='svg-app' style={{ position: 'absolute' }} />
+          <canvas id='axis' />
+
+          {/* {visibleDialog && (
+            <Modal style={customStyles} ariaHideApp={false} isOpen={true} contentLabel='Phenomena card label'>
+              <Iframe url='http://www.youtube.com/embed/xDMP3i36naA'
+                width='100%'
+                height='100%'
+                id='myId'
+                display='initial'
+                position='relative' />
+            </Modal>
+          )} */}
+        </div>
+        <AxisX originalWidth={containerWidth} axisWidth={containerWidth} axisLabel1={axisLabel1} axisLabel1a={axisLabel1a} axisLabel1b={axisLabel1b} />
       </div>
+      {visibleDialog && <button style={buttonStyles} onClick={onCloseDialog}>X</button>}
     </div>
   )
 }
