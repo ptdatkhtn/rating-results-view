@@ -9,6 +9,7 @@ import {
   IconToggleVisibility,
   IconToggleVisibilityWrapper,
 } from "./styles";
+import {getPhenomenonUrl} from '../../helpers/contentCard'
 
 const HiddenResult = ({ phenomenon }) => {
   const {
@@ -83,7 +84,7 @@ const HiddenResult = ({ phenomenon }) => {
   
   return (
     <Container>
-      <WildCardWrapper>
+      <WildCardWrapper className='left' data-href={getPhenomenonUrl(radar?.id, phenomenon)}>
         <WildCard
           symbol={symbolPhenomenon}
           symbolBorder={symbolBorderPhenomenon}

@@ -9,7 +9,9 @@ export const Container = styled.div`
 
 `
 export const WildCardWrapper = styled.div`
-
+  :hover {
+    cursor:pointer;
+  }
 `
 export const IconToggleVisibility= styled(Eye)`
   color: #006998;
