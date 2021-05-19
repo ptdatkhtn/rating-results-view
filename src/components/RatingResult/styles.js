@@ -3,6 +3,9 @@ import {EyeSlash} from '@styled-icons/bootstrap'
 
 export const RatingWidget = styled.div`
   width: 100%;
+  :hover {
+    cursor:pointer;
+  }
 `
 
 export const RatingHeader = styled.div`
