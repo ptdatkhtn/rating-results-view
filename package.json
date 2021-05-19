@@ -20,7 +20,8 @@
     "react-iframe": "^1.8.0",
     "react-scripts": "^3.4.0",
     "sass": "^1.32.13",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "nprogress": "^0.2.0"
   },
   "scripts": {
     "start": "sh -ac '. ./.env.dev; PORT=3010 react-scripts start'",
