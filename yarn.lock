@@ -2605,10 +2605,10 @@
     axios "^0.19.1"
     lodash-es "^4.17.15"
 
-"@sangre-fp/css-framework@^0.0.5":
-  version "0.0.5"
-  resolved "https://npm.sangre.dev/@sangre-fp%2fcss-framework/-/css-framework-0.0.5.tgz#2295b457a8f941b5fb0bf09ef466a27865af78e6"
-  integrity sha512-KSS5osv+mUnQPo55HU9+cjXOPB5K6omPtxJVIY7A8XXTz+BmFRJy6nH+WCwGrtwinRrox7ch5elQy+LptGpTEw==
+"@sangre-fp/css-framework@^0.0.7":
+  version "0.0.7"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fcss-framework/-/css-framework-0.0.7.tgz#6204c259d5caff447a9188a7915b8e58f36086be"
+  integrity sha512-V6s7oZ+TaCVTOgAGeFVIXCo4LpJO4AYAillaTEyMtCvmvPudjxMzK8UXA3jnxBVH82b5EMbCJ/v4uLNcMvFsGg==
 
 "@sangre-fp/i18n@^2.0.15":
   version "2.0.15"
