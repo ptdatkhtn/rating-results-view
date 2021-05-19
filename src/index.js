@@ -8,7 +8,7 @@ const renderApp = (nid) => {
     return (
         <React.StrictMode>
             <DataProvider node={nid}>
-                <RatingResultsView />
+                <RatingResultsView className="fp-fw-styles" />
             </DataProvider>
         </React.StrictMode>
     )
