@@ -616,7 +616,7 @@ const App = ({
 
   return (
     <div style={{width: '100%'}}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingLeft: '56px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingLeft: '56px', paddingRight: '60px' }}>
         <div style={{display: 'flex', alignItems: 'center'}}>
           <Checkbox
             color='primary'
@@ -661,12 +661,12 @@ const App = ({
           <label style={{ fontSize: "13px", fontWeight: 'unset', paddingLeft: '8px', marginBottom: 0 }} for="rating-view-tab-cb-name"> Median </label><br></br>
         </div>   
     </div>
-    <div className='rating-results-diagram' style={{ display: 'flex', paddingTop: '32px', paddingBottom: '54px' }}>
+    <div className='rating-results-diagram' style={{ display: 'flex', paddingTop: '60px', paddingRight: '60px' }}>
       <AxisY originalHeight={containerHeight} axisHeight={containerHeight} axisLabel2={axisLabel2} axisLabel2a={axisLabel2a} axisLabel2b={axisLabel2b} />
       <div style={{
         width: containerWidth,
         height: containerHeight + 70,
-        padding: '0px 0px 60px 0',
+        // padding: '0px 0px 60px 0',
         boxSizing: 'content-box',
         // background: '#e0dede' 
       }}>
