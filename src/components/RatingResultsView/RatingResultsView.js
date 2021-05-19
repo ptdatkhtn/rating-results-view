@@ -92,7 +92,7 @@ const RatingResultsView = () => {
         width > 0 &&
         <FourfoldTable 
           phenomena={visiblePhenonmena || []} 
-          containerWidth={width} 
+          containerWidth={width - 60} 
           containerHeight={height + 60}
           axisLabel3={radar?.fourFieldsBottomLeft} 
           axisLabel4={radar?.fourFieldsBottomRight} 
