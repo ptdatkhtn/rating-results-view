@@ -99,7 +99,6 @@ const Rating = ({ phenomenon, radar, isRatingX }) => {
     }
   }
 
-  console.log('pheeee', phenomenon)
   return (
     phenomenon && (
       <RatingWidget className='left' data-href={getPhenomenonUrl(radar?.id, phenomenon)}>

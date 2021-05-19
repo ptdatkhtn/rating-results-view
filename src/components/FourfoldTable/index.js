@@ -147,7 +147,7 @@ const App = ({
   const nodeListAsMedian = React.useMemo(() => {
     let nodes = []
     !!phenomena?.length && phenomena.map((phen) => {
-      if (phen['rating_x']['median'] !== null && phen['rating_y']['median'] !== null) {
+      if (phen['rating_x'] && phen['rating_y'] && phen['rating_x']['median'] !== null && phen['rating_y']['median'] !== null) {
         const { innerStroke, outerStroke, fillSymbol } = setNodeColor(phen)
         let node = {}
         node['id'] = phen['id']
@@ -156,7 +156,6 @@ const App = ({
         node['x'] = phen['rating_x']['median']
         node['y'] = phen['rating_y']['median']
         node['avg'] = false
-        console.log('node', node)
         nodes.push(node)
       }
     })
@@ -165,9 +164,8 @@ const App = ({
 
   const nodeListAsAverage = React.useMemo(() => {
     let nodes = []
-    console.log('phenomena', phenomena)
     !!phenomena?.length && phenomena.map((phen) => {
-      if (phen['rating_x']['avg'] && phen['rating_y']['avg']) {
+      if (phen['rating_x'] && phen['rating_y'] && phen['rating_x']['avg'] && phen['rating_y']['avg']) {
         const { innerStroke, outerStroke, fillSymbol } = setNodeColor(phen)
         let node = {}
         node['id'] = phen['id']
@@ -522,7 +520,6 @@ const App = ({
           .attr('r', radius)
           .attr('class', 'left')
           .attr('data-href', d => {
-            // console.log('ddd', d)
             return getPhenomenonUrl(radar?.id, d)
           })
   
