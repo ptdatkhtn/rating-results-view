@@ -24,10 +24,7 @@ export const IconToggleVisibility= styled(Eye)`
   right: 0;
 `
 export const IconToggleVisibilityWrapper= styled.div `
-  width: 21px;
-  height: 15px;
-  position: absolute;
-  right: 0;
+  margin-bottom: 6px;
 `
 export const WildCard = styled.h4`
   display: block;

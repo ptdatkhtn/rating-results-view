@@ -137,9 +137,7 @@ export const IconToggleVisibility= styled(EyeSlash)`
   right: 0;
 `
 export const IconToggleVisibilityWrapper= styled.div `
-  width: 21px;
-  height: 15px;
-  position: relative;
+    margin-bottom: 6px;
 `
 
 export const SingleRating= styled.span `
