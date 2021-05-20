@@ -101,9 +101,12 @@ const Rating = ({ phenomenon, radar, isRatingX }) => {
 
   return (
     phenomenon && (
-      <RatingWidget className='left' data-href={getPhenomenonUrl(radar?.id, phenomenon)}>
+      <RatingWidget >
         <RatingHeader>
-          <RatingItemHeader symbol={symbolPhenomenon} symbolBorder={symbolBorderPhenomenon} symbolBoxShadow={symbolBoxShadowPhenomenon}>{phenomenon?.content?.title}</RatingItemHeader>
+          <RatingItemHeader 
+            className='left' data-href={getPhenomenonUrl(radar?.id, phenomenon)}
+            symbol={symbolPhenomenon} symbolBorder={symbolBorderPhenomenon} symbolBoxShadow={symbolBoxShadowPhenomenon}>{phenomenon?.content?.title}
+          </RatingItemHeader>
           <IconToggleVisibilityWrapper onClick={onVisibilityHandler}>
             <IconToggleVisibility></IconToggleVisibility>
           </IconToggleVisibilityWrapper>
