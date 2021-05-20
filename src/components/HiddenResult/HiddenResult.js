@@ -94,7 +94,8 @@ const HiddenResult = ({ phenomenon }) => {
         </WildCard>
       </WildCardWrapper>
       <IconToggleVisibilityWrapper onClick={onVisibilityHandler}>
-        <IconToggleVisibility></IconToggleVisibility>
+        {/* <IconToggleVisibility></IconToggleVisibility> */}
+        <span className=" af-custom-eye-blocked" style={{fontSize: '1.3em', color: '#006998'}}/>
       </IconToggleVisibilityWrapper>
     </Container>
   );

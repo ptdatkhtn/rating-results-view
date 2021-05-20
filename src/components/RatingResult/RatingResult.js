@@ -108,7 +108,8 @@ const Rating = ({ phenomenon, radar, isRatingX }) => {
             symbol={symbolPhenomenon} symbolBorder={symbolBorderPhenomenon} symbolBoxShadow={symbolBoxShadowPhenomenon}>{phenomenon?.content?.title}
           </RatingItemHeader>
           <IconToggleVisibilityWrapper onClick={onVisibilityHandler}>
-            <IconToggleVisibility></IconToggleVisibility>
+            {/* <IconToggleVisibility></IconToggleVisibility> */}
+            <span className=" af-custom-eye" style={{fontSize: '1.3em', color: '#006998'}}/>
           </IconToggleVisibilityWrapper>
         </RatingHeader>
         <RatingItem>
