@@ -625,18 +625,18 @@ const App = ({
           .attr('cy', d => yr(d.y))
           .attr('r', radius)
 
-          if (isAverage) {
-            d3.selectAll('#myNewTextsAvg').style('opacity', visibleText ? 1 : 0)
-            d3.selectAll('#myNewTextsMedian').style('opacity', 0)
-            d3.selectAll('#circleAvg').style('opacity', 1)
-            d3.selectAll('#circleMedian').style('opacity', 0)
-          }
-          else if (!isAverage) {
-            d3.selectAll('#myNewTextsMedian').style('opacity', visibleText ? 1 : 0)
-            d3.selectAll('#myNewTextsAvg').style('opacity', 0)
-            d3.selectAll('#circleMedian').style('opacity', 1)
-            d3.selectAll('#circleAvg').style('opacity', 0)
-          }
+          // if (isAverage) {
+          //   d3.selectAll('#myNewTextsAvg').style('opacity', visibleText ? 1 : 0)
+          //   d3.selectAll('#myNewTextsMedian').style('opacity', 0)
+          //   d3.selectAll('#circleAvg').style('opacity', 1)
+          //   d3.selectAll('#circleMedian').style('opacity', 0)
+          // }
+          // else if (!isAverage) {
+          //   d3.selectAll('#myNewTextsMedian').style('opacity', visibleText ? 1 : 0)
+          //   d3.selectAll('#myNewTextsAvg').style('opacity', 0)
+          //   d3.selectAll('#circleMedian').style('opacity', 1)
+          //   d3.selectAll('#circleAvg').style('opacity', 0)
+          // }
       } catch (error) {
         console.error(error)
       }
