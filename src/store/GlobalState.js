@@ -56,55 +56,61 @@ export const DataProvider = ({children, node}) => {
             const page = 0
             const size = phenomenaIds?.length || 10
             const phenonmena = []
-            await getPhenomena({ phenomena:phenomenaIds, undefined, groups, page, size }).then(
-                async (data) => 
-                {
-                    const types = await getPhenomenaTypes(groups[1])
-                    /* eslint-disable */
-                    data?.result.map((phenonmenon) => {
-                        /* eslint-disable */
-                        types?.map((type) => {
-                            if (String(phenonmenon?.content?.type) === String(type?.id)) {
-                                phenonmenon['content-type-alias'] = type.alias
-                                phenonmenon['content-type-title'] = type.title
-                                /* eslint-disable */
-                                phenonmena?.push(phenonmenon)
-                            }
-                        })
-                    })
-                    // fetch all ratings for all phenomenon
-                    await ratingApi.getAllRatings(groups[1], node).then(
-                        async ({data}) => {
-                            /* eslint-disable */
-                            Object.keys(data)?.map( async(phe) => {
-                                const pheId = phe.split('/')
-                                /* eslint-disable */
-                                !!phenonmena?.length && phenonmena?.forEach(phenomenon => { 
-                                    if(String(phenomenon?.id) === String(pheId[5]) && String(pheId[6]) === 'x') {
-                                        phenomenon['rating_x'] = data[phe]
-                                    }
-                                    if(String(phenomenon?.id) === String(pheId[5]) && String(pheId[6]) === 'y') {
-                                        phenomenon['rating_y'] = data[phe]
-                                    }
-                                })
-                            })  
-                        }
-                    )
 
-                    await ratingApi.getAllHiddenRatings(groups[1], node)
-                        .then(async (hiddenPhenomena) => {
-                            dispatch({
-                                type: ACTIONS.HIDDENPHENOMENA,
-                                payload:  hiddenPhenomena?.data[`rating/${groups[1]}/radar/${node}`]?.hidden || []
-                            })
+            const [allHiddenRatings, phenomenaList, phenomenaTypes, allRatings] = await Promise.all(
+                [
+                    ratingApi.getAllHiddenRatings(groups[1], node)
+                    .then(async (hiddenPhenomena) => {
+                        console.log('dadaaaa123')
+                        dispatch({
+                            type: ACTIONS.HIDDENPHENOMENA,
+                            payload:  hiddenPhenomena?.data[`rating/${groups[1]}/radar/${node}`]?.hidden || []
                         })
-                    dispatch({
-                        type: ACTIONS.PHENOMENONDATA,
-                        payload: phenonmena.filter((p) => p.hasOwnProperty('rating_x') && p.hasOwnProperty('rating_y'))
                     })
-                }
-                
+                    ,
+                    getPhenomena({ phenomena:phenomenaIds, undefined, groups, page, size })
+                    ,
+                    getPhenomenaTypes(groups[1])
+                    ,
+                    ratingApi.getAllRatings(groups[1], node)
+                ]
             )
+            
+            {
+                /* eslint-disable */
+                phenomenaList?.result.map((phenonmenon) => {
+                    /* eslint-disable */
+                    phenomenaTypes?.map((type) => {
+                        if (String(phenonmenon?.content?.type) === String(type?.id)) {
+                            phenonmenon['content-type-alias'] = type.alias
+                            phenonmenon['content-type-title'] = type.title
+                            /* eslint-disable */
+                            phenonmena?.push(phenonmenon)
+                        }
+                    })
+                })
+
+                /* eslint-disable */
+                Object.keys(allRatings?.data)?.map( async(phe) => {
+                    const pheId = phe.split('/')
+                    /* eslint-disable */
+                    !!phenonmena?.length && phenonmena?.forEach(phenomenon => { 
+                        if(String(phenomenon?.id) === String(pheId[5]) && String(pheId[6]) === 'x') {
+                            phenomenon['rating_x'] = allRatings?.data[phe]
+                        }
+                        if(String(phenomenon?.id) === String(pheId[5]) && String(pheId[6]) === 'y') {
+                            phenomenon['rating_y'] = allRatings?.data[phe]
+                        }
+                    })
+                })  
+               
+
+                dispatch({
+                    type: ACTIONS.PHENOMENONDATA,
+                    payload: phenonmena.filter((p) => p.hasOwnProperty('rating_x') && p.hasOwnProperty('rating_y'))
+                })
+            }
+
             NProgress.done(true)
             NProgress.remove();
             return []
