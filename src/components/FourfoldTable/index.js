@@ -182,6 +182,18 @@ const App = ({
     if (!scatterSvg) return
     d3.selectAll('#myNewTextsAvg').style('opacity', visibleText ? 1 : 0)
     d3.selectAll('#myNewTextsMedian').style('opacity', visibleText ? 1 : 0)
+    if (isAverage) {
+      d3.selectAll('#myNewTextsAvg').style('opacity', visibleText ? 1 : 0)
+      d3.selectAll('#myNewTextsMedian').style('opacity', 0)
+      d3.selectAll('#circleAvg').style('opacity', 1)
+      d3.selectAll('#circleMedian').style('opacity', 0)
+    }
+    else if (!isAverage) {
+      d3.selectAll('#myNewTextsMedian').style('opacity', visibleText ? 1 : 0)
+      d3.selectAll('#myNewTextsAvg').style('opacity', 0)
+      d3.selectAll('#circleMedian').style('opacity', 1)
+      d3.selectAll('#circleAvg').style('opacity', 0)
+    }
   }, [scatterSvg, visibleText])
 
   useEffect(() => {
