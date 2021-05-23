@@ -2,29 +2,6 @@ import React, { useEffect, useState } from 'react'
 import * as d3 from 'd3'
 import AxisX from './AxisX'
 import AxisY from './AxisY'
-import Checkbox from '@material-ui/core/Checkbox'
-import Radio from '@material-ui/core/Radio'
-import {makeStyles} from '@material-ui/core'
-
-const useStyles = makeStyles({
-  root: {
-    border: 'none',
-    padding: 0,
-    margin: 0,
-    // color: 'black',
-    '&$checked': {
-      color: '#00C3FF'
-    }
-  },
-  checked: {},
-  checkBoxSize: {
-    transform: 'scale(1.111111)',
-  },
-  radioSize: {
-    transform: 'scale(1.111111)',
-    paddingLeft: '16px'
-  }
-});
 
 const App = ({
   containerWidth = 500,
@@ -48,17 +25,6 @@ const App = ({
   const { axis, scatterSvg } = appContext
   const [isAverage, setIsAverage] = useState(true)
 
-  const customStyles = {
-    content: {
-      width: '30%',
-      height: '100%',
-      top: 0,
-      left: 0
-    },
-    overlay: {
-      background: 'transparent'
-    }
-  }
   const buttonStyles = {
     position: 'fixed',
     top: '50%',
@@ -254,6 +220,7 @@ const App = ({
   }, [containerWidth])
 
   useEffect(() => {
+    
     if (phenomena.length < 1 || !scatterSvg) return
     let nodes = [...nodeListAsAverage, ...nodeListAsMedian]
 
@@ -389,6 +356,19 @@ const App = ({
       .style('fill', d => d.type[0].fillSymbol)
       .attr('cursor', 'pointer')
 
+      if (isAverage) {
+        d3.selectAll('#myNewTextsAvg').style('opacity', visibleText ? 1 : 0)
+        d3.selectAll('#myNewTextsMedian').style('opacity', 0)
+        d3.selectAll('#circleAvg').style('opacity', 1)
+        d3.selectAll('#circleMedian').style('opacity', 0)
+      }
+      else if (!isAverage) {
+        d3.selectAll('#myNewTextsMedian').style('opacity', visibleText ? 1 : 0)
+        d3.selectAll('#myNewTextsAvg').style('opacity', 0)
+        d3.selectAll('#circleMedian').style('opacity', 1)
+        d3.selectAll('#circleAvg').style('opacity', 0)
+      }
+      
     // z holds a copy of the previous transform, so we can track its changes
     let z = d3.zoomIdentity
 
@@ -456,6 +436,10 @@ const App = ({
           .transition(trans)
           .attr('x', d => xr(d.x) - getTextWidth(d.title))
           .attr('y', d => yr(d.y))
+          // .attr('color', 'red')
+          // .attr('font-family', 'L10')
+          // .attr('font-size', '18.2px')
+          // .attr('font-style', 'italic')
   
         innerLine
           .transition(trans)
@@ -624,19 +608,6 @@ const App = ({
           .attr('cx', d => xr(d.x))
           .attr('cy', d => yr(d.y))
           .attr('r', radius)
-
-          // if (isAverage) {
-          //   d3.selectAll('#myNewTextsAvg').style('opacity', visibleText ? 1 : 0)
-          //   d3.selectAll('#myNewTextsMedian').style('opacity', 0)
-          //   d3.selectAll('#circleAvg').style('opacity', 1)
-          //   d3.selectAll('#circleMedian').style('opacity', 0)
-          // }
-          // else if (!isAverage) {
-          //   d3.selectAll('#myNewTextsMedian').style('opacity', visibleText ? 1 : 0)
-          //   d3.selectAll('#myNewTextsAvg').style('opacity', 0)
-          //   d3.selectAll('#circleMedian').style('opacity', 1)
-          //   d3.selectAll('#circleAvg').style('opacity', 0)
-          // }
       } catch (error) {
         console.error(error)
       }
@@ -670,53 +641,39 @@ const App = ({
     setIsAverage(false)
   }
 
-  const classes = useStyles();
-
   return (
     <div style={{width: '100%'}}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingLeft: '56px', paddingRight: '60px' }}>
         <div style={{display: 'flex', alignItems: 'center'}}>
-          <Checkbox
-            color='primary'
-            className={classes.checkBoxSize}
-            classes={{
-              root: classes.root,
-              checked: classes.checked 
-            }}
-            checked={!visibleText} 
-            onChange={onToggleTitle}
-            id="rating-view-tab-cb-id"
-          />
-          <label style={{ fontSize: "13px", fontWeight: 'unset', paddingLeft: '8px', marginBottom: 0 }} for="rating-view-tab-cb-name"> Hide titles</label><br></br>
+          <div className="custom-control custom-checkbox">
+            <input type="checkbox" className="custom-control-input" id="customCheckbox_hideTitles_ratings" checked={!visibleText} onChange={onToggleTitle} />
+              <label className="custom-control-label" for="customCheckbox_hideTitles_ratings">Hide titles</label>
+          </div>
         </div>
         <div style={{display: 'flex', alignItems: 'center' }}>
           <p style={{ fontSize: "13px", margin: 0}}>Show results as: </p>
-          <Radio
-            color='primary'
-            className={classes.radioSize}
-            classes={{
-              root: classes.root,
-              checked: classes.checked 
-            }}
-            checked={isAverage} 
-            onChange={onToggleIsAverage}
-            id="rating-view-tab-cb-id"
-          />
-          {/* <input style={{ width: "20px", height: "20px", cursor: 'pointer', margin: 0, marginLeft: '16px' }} type="radio" label='Show as average' id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={isAverage} onChange={onToggleIsAverage}></input> */}
-          <label style={{ fontSize: "13px", fontWeight: 'unset', paddingLeft: '8px', marginBottom: 0 }} for="rating-view-tab-cb-name"> Average </label><br></br>
-          <Radio
-            color='primary'
-            className={classes.radioSize}
-            classes={{
-              root: classes.root,
-              checked: classes.checked 
-            }}
-            checked={!isAverage} 
-            onChange={onToggleIsMedian}
-            id="rating-view-tab-cb-id"
-          />
-          {/* <input style={{ width: "20px", height: "20px", cursor: 'pointer', margin: 0, marginLeft: '16px' }} type="radio" label='Show as median' id="rating-view-tab-cb-id" name="rating-view-tab-cb-name" checked={!isAverage} onChange={onToggleIsMedian}></input> */}
-          <label style={{ fontSize: "13px", fontWeight: 'unset', paddingLeft: '8px', marginBottom: 0 }} for="rating-view-tab-cb-name"> Median </label><br></br>
+          <div className="custom-control custom-radio custom-control-inline" style={{marginLeft: '16px'}}>
+            <input 
+              type="radio" 
+              id="customRadioInline_AsAverage" 
+              name="customRadioInline_AsAverage" 
+              className="custom-control-input" 
+              checked={isAverage} 
+              onChange={onToggleIsAverage} 
+            />
+              <label className="custom-control-label" for="customRadioInline_AsAverage">Average</label>
+          </div>
+          <div class="custom-control custom-radio custom-control-inline">
+            <input 
+              type="radio" 
+              id="customRadioInline_AsMedian" 
+              name="customRadioInline_AsMedian" 
+              className="custom-control-input" 
+              checked={!isAverage} 
+              onChange={onToggleIsMedian} 
+            />
+              <label className="custom-control-label" for="customRadioInline_AsMedian">Median</label>
+          </div>
         </div>   
     </div>
     <div className='rating-results-diagram' style={{ display: 'flex', paddingTop: '60px', paddingRight: '60px' }}>
@@ -731,17 +688,6 @@ const App = ({
         <div style={{ position: 'relative', width: containerWidth, height: containerHeight, background: 'white' }}>
           <svg id='svg-app' style={{ position: 'absolute' }} />
           <canvas id='axis' />
-
-          {/* {visibleDialog && (
-            <Modal style={customStyles} ariaHideApp={false} isOpen={true} contentLabel='Phenomena card label'>
-              <Iframe url='http://www.youtube.com/embed/xDMP3i36naA'
-                width='100%'
-                height='100%'
-                id='myId'
-                display='initial'
-                position='relative' />
-            </Modal>
-          )} */}
         </div>
         <AxisX originalWidth={containerWidth} axisWidth={containerWidth} axisLabel1={axisLabel1} axisLabel1a={axisLabel1a} axisLabel1b={axisLabel1b} />
       </div>
