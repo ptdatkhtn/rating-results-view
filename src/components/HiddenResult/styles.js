@@ -36,6 +36,10 @@ export const WildCard = styled.h4`
   min-height: 25px;
   padding-left: 26px;
   padding-top: 0;
+  width: 410px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   &:before {
     background: ${props => props.symbol};

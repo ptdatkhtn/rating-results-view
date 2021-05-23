@@ -6,7 +6,6 @@ import {
   Container,
   WildCardWrapper,
   WildCard,
-  IconToggleVisibility,
   IconToggleVisibilityWrapper,
 } from "./styles";
 import {getPhenomenonUrl} from '../../helpers/contentCard'
@@ -94,7 +93,6 @@ const HiddenResult = ({ phenomenon }) => {
         </WildCard>
       </WildCardWrapper>
       <IconToggleVisibilityWrapper onClick={onVisibilityHandler}>
-        {/* <IconToggleVisibility></IconToggleVisibility> */}
         <span className=" af-custom-eye" style={{fontSize: '1.3em', color: '#006998', cursor: 'pointer'}}/>
       </IconToggleVisibilityWrapper>
     </Container>

@@ -9,6 +9,6 @@ export const Container= styled.div `
     padding-left: 18px;
 `
 export const HiddenResultsWrapper = styled.div`
-    width: 25%
-    min-width: 442px
+    width: 25%;
+    min-width: 442px;
 `
