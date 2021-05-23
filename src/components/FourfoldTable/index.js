@@ -129,7 +129,7 @@ const App = ({
         node['x'] = phen['rating_x']['median']
         node['y'] = phen['rating_y']['median']
         node['avg'] = false
-        console.log('node', node)
+
         nodes.push(node)
       }
     })
@@ -138,7 +138,7 @@ const App = ({
 
   const nodeListAsAverage = React.useMemo(() => {
     let nodes = []
-    console.log('phenomena', phenomena)
+
     !!phenomena?.length && phenomena.map((phen) => {
       if (phen['rating_x']['avg'] && phen['rating_y']['avg']) {
         const { innerStroke, outerStroke, fillSymbol } = setNodeColor(phen)
@@ -164,7 +164,7 @@ const App = ({
     return [containerWidth / 2, containerHeight / 2]
   }
 
-  const getTextWidth = (text, fontSize = 12, fontFace = 'Roboto') => {
+  const getTextWidth = (text, fontSize = 10, fontFace = 'Roboto') => {
     const canvasAxis = document.getElementById('axis')
     const context = canvasAxis.getContext('2d')
     context.font = fontSize + 'px ' + fontFace
@@ -260,7 +260,10 @@ const App = ({
       .join('text')
       .text(d => d.title)
       .style('fill', 'rgb(224, 222, 222)')
-      .style('font-size', '20')
+      .style('font-size', '18.2px')
+      .style('font-style', 'italic')
+      .style('font-weight', '700')
+      .style('font-family', 'L10')
       .style('text-align', 'center')
 
     const innerLine = scatterSvg.append('g')
@@ -368,7 +371,7 @@ const App = ({
         d3.selectAll('#circleMedian').style('opacity', 1)
         d3.selectAll('#circleAvg').style('opacity', 0)
       }
-      
+
     // z holds a copy of the previous transform, so we can track its changes
     let z = d3.zoomIdentity
 
@@ -436,10 +439,6 @@ const App = ({
           .transition(trans)
           .attr('x', d => xr(d.x) - getTextWidth(d.title))
           .attr('y', d => yr(d.y))
-          // .attr('color', 'red')
-          // .attr('font-family', 'L10')
-          // .attr('font-size', '18.2px')
-          // .attr('font-style', 'italic')
   
         innerLine
           .transition(trans)
@@ -455,7 +454,7 @@ const App = ({
               const scale = Math.min(t.k, 8)
               const minScale = Math.max(scale, 1)
               const r = Math.max(10, Math.floor(10 + minScale))
-              const fonts = Math.max(12, Math.floor(11 + minScale))
+              const fonts = Math.max(10, Math.floor(9 + minScale))
               d3.selectAll('#myNewTextsAvg').style('font-size', fonts).attr('y', d => yr(d.y) + r / 1)
             } catch (err) {
               console.log('error', err)
@@ -474,7 +473,7 @@ const App = ({
               const scale = Math.min(t.k, 8)
               const minScale = Math.max(scale, 1)
               const r = Math.max(10, Math.floor(10 + minScale))
-              const fonts = Math.max(12, Math.floor(11 + minScale))
+              const fonts = Math.max(10, Math.floor(9 + minScale))
               d3.selectAll('#myNewTextsMedian').style('font-size', fonts).attr('y', d => yr(d.y) + r / 1)
             } catch (err) {
               console.log('error', err)
