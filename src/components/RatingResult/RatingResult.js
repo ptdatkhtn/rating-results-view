@@ -109,7 +109,7 @@ const Rating = ({ phenomenon, radar, isRatingX }) => {
           </RatingItemHeader>
           <IconToggleVisibilityWrapper onClick={onVisibilityHandler}>
             {/* <IconToggleVisibility></IconToggleVisibility> */}
-            <span className=" af-custom-eye-blocked" style={{fontSize: '1.3em', color: '#006998', cursor: 'pointer'}}/>
+            <span className=" af-custom-eye-blocked" style={{fontSize: '13px', color: '#006998', cursor: 'pointer'}}/>
           </IconToggleVisibilityWrapper>
         </RatingHeader>
         <RatingItem>
