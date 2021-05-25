@@ -6,10 +6,9 @@ import {
   Container,
   WildCardWrapper,
   WildCard,
-  IconToggleVisibilityWrapper,
 } from "./styles";
 import {getPhenomenonUrl} from '../../helpers/contentCard'
-
+import * as tokens from "@sangre-fp/css-framework/tokens/fp-design-tokens"
 const HiddenResult = ({ phenomenon }) => {
   const {
     state: { hiddenPhenomena, radar },
@@ -46,55 +45,43 @@ const HiddenResult = ({ phenomenon }) => {
       });
     }
   };
-  
-  let symbolPhenomenon = ''
-  let symbolBorderPhenomenon = ''
-  let symbolBoxShadowPhenomenon = ''
+
+  let iconClassName = ''
   if(phenomenon?.['content-type-alias'] === 'rising'){
-    symbolPhenomenon= 'rgb(0, 202, 141)'
-    symbolBorderPhenomenon= 'transparent'
-    symbolBoxShadowPhenomenon='transparent'
+      iconClassName = 'rising'
   } 
   else if(phenomenon?.['content-type-alias'] === 'weaksignal'){
-    symbolPhenomenon= 'rgb(168, 168, 168)'
-    symbolBorderPhenomenon= 'transparent'
-    symbolBoxShadowPhenomenon='transparent'
+    iconClassName = 'weaksignal'
   }
   else if (phenomenon?.['content-type-alias'] === 'summary'){
-    symbolPhenomenon= 'rgb(0, 202, 141)'
-    symbolBorderPhenomenon= 'rgb(0, 202, 141)'
-    symbolBoxShadowPhenomenon='#fff'
+    iconClassName = 'summary'
   }
   else if (phenomenon?.['content-type-alias'] === 'cooling'){
-    symbolPhenomenon= 'rgb(0, 152, 255)'
-    symbolBorderPhenomenon= 'transparent'
-    symbolBoxShadowPhenomenon='transparent'
+    iconClassName = 'cooling'
   }
   else if (phenomenon?.['content-type-alias'] === 'wildcard'){
-    symbolPhenomenon= 'rgb(233, 87, 87)'
-    symbolBorderPhenomenon= 'transparent'
-    symbolBoxShadowPhenomenon='transparent'
+    iconClassName = 'wildcard'
   }
   else {
-    symbolPhenomenon= 'transparent'
-    symbolBorderPhenomenon='rgb(0, 202, 141)'
-    symbolBoxShadowPhenomenon='transparent'
+    iconClassName = 'undefined'
   }
+
   
   return (
     <Container>
-      <WildCardWrapper className='left' data-href={getPhenomenonUrl(radar?.id, phenomenon)}>
+      <WildCardWrapper 
+        className='left' 
+        data-href={getPhenomenonUrl(radar?.id, phenomenon)}
+      >
         <WildCard
-          symbol={symbolPhenomenon}
-          symbolBorder={symbolBorderPhenomenon}
-          symbolBoxShadow={symbolBoxShadowPhenomenon}
+          className= {`left icon-issue ${iconClassName}`}
         >
           {phenomenon?.content?.title}
         </WildCard>
       </WildCardWrapper>
-      <IconToggleVisibilityWrapper onClick={onVisibilityHandler}>
-        <span className=" af-custom-eye" style={{fontSize: '1.3em', color: '#006998', cursor: 'pointer'}}/>
-      </IconToggleVisibilityWrapper>
+      <a onClick={onVisibilityHandler}>
+        <span className=" af-custom-eye" style={{fontSize: '1.3em', color: tokens.ColorBlue, cursor: 'pointer'}}/>
+      </a>
     </Container>
   );
 };

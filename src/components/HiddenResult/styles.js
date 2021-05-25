@@ -1,5 +1,6 @@
 import styled from "styled-components/macro";
-import {Eye} from '@styled-icons/bootstrap'
+import * as tokens from "@sangre-fp/css-framework/tokens/fp-design-tokens"
+
 export const Container = styled.div`
   display: flex;
   width: 100%;
@@ -13,46 +14,20 @@ export const WildCardWrapper = styled.div`
     cursor:pointer;
   }
 `
-export const IconToggleVisibility= styled(Eye)`
-  color: #006998;
-  font-weight: 500;
-  cursor: pointer;
-  font-size: 15px;
-  display: flex;
-  justify-content: flex-end;
-  position: relative;
-  right: 0;
-`
-export const IconToggleVisibilityWrapper= styled.div `
-  margin-bottom: 6px;
-`
+
 export const WildCard = styled.h4`
-  display: block;
-  position: relative;
-  margin-bottom: 6px;
-  font-weight: 700;
-  font-size: 15px;
-  line-height: 1.5;
+  font-size: ${tokens.H4FontSize};
   min-height: 25px;
   padding-left: 26px;
-  padding-top: 0;
   width: 410px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 
   &:before {
-    background: ${props => props.symbol};
-    border: 1px solid ${props => props.symbolBorder};
-    box-shadow: inset 0px 0px 1px 1px ${props => props.symbolBoxShadow};
-    display: block;
     position: absolute;
     left: 0;
     top: 4px;
-    content: '';
-    width: 16px;
-    height: 16px;
-    border-radius: 100%;
   }
 `
 

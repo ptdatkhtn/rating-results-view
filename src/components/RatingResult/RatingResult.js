@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { DataContext } from "../../store/GlobalState";
 import {
   RatingWidget,
@@ -6,7 +6,6 @@ import {
   RatingItem,
   RatingSlider,
   RatingHeader,
-  IconToggleVisibilityWrapper,
   RatingSliderScale,
   SliderScaleMin,
   SliderScaleMax,
@@ -15,67 +14,13 @@ import {
 import {getPhenomenonUrl} from '../../helpers/contentCard'
 import { ratingApi } from "../../helpers/ratingFetcher";
 import { ACTIONS } from "../../store/Actions";
-
-export const nodes = [
-  {
-    left: 10
-  },
-  {
-    left: 20
-  },
-  {
-    left: 30
-  },
-  {
-    left: 40
-  },
-  {
-    left: 100   
-  },
-  {
-    left: 50   
-  }
-]
+import * as tokens from "@sangre-fp/css-framework/tokens/fp-design-tokens"
 
 const Rating = ({ phenomenon, radar, isRatingX }) => { 
   const {
     state: { hiddenPhenomena },
     dispatch,
   } = useContext(DataContext);
-
-  let symbolPhenomenon = ''
-  let symbolBorderPhenomenon = ''
-  let symbolBoxShadowPhenomenon = ''
-  if(phenomenon?.['content-type-alias'] === 'rising'){
-    symbolPhenomenon= 'rgb(0, 202, 141)'
-    symbolBorderPhenomenon= 'transparent'
-    symbolBoxShadowPhenomenon='transparent'
-  } 
-  else if(phenomenon?.['content-type-alias'] === 'weaksignal'){
-    symbolPhenomenon= 'rgb(168, 168, 168)'
-    symbolBorderPhenomenon= 'transparent'
-    symbolBoxShadowPhenomenon='transparent'
-  }
-  else if (phenomenon?.['content-type-alias'] === 'summary'){
-    symbolPhenomenon= 'rgb(0, 202, 141)'
-    symbolBorderPhenomenon= 'rgb(0, 202, 141)'
-    symbolBoxShadowPhenomenon='#fff'
-  }
-  else if (phenomenon?.['content-type-alias'] === 'cooling'){
-    symbolPhenomenon= 'rgb(0, 152, 255)'
-    symbolBorderPhenomenon= 'transparent'
-    symbolBoxShadowPhenomenon='transparent'
-  }
-  else if (phenomenon?.['content-type-alias'] === 'wildcard'){
-    symbolPhenomenon= 'rgb(233, 87, 87)'
-    symbolBorderPhenomenon= 'transparent'
-    symbolBoxShadowPhenomenon='transparent'
-  }
-  else {
-    symbolPhenomenon= 'transparent'
-    symbolBorderPhenomenon='rgb(0, 202, 141)'
-    symbolBoxShadowPhenomenon='transparent'
-  }
 
   const onVisibilityHandler = async () => {
     try {
@@ -98,17 +43,39 @@ const Rating = ({ phenomenon, radar, isRatingX }) => {
     }
   }
 
+  let iconClassName = ''
+  if(phenomenon?.['content-type-alias'] === 'rising'){
+      iconClassName = 'rising'
+  } 
+  else if(phenomenon?.['content-type-alias'] === 'weaksignal'){
+    iconClassName = 'weaksignal'
+  }
+  else if (phenomenon?.['content-type-alias'] === 'summary'){
+    iconClassName = 'summary'
+  }
+  else if (phenomenon?.['content-type-alias'] === 'cooling'){
+    iconClassName = 'cooling'
+  }
+  else if (phenomenon?.['content-type-alias'] === 'wildcard'){
+    iconClassName = 'wildcard'
+  }
+  else {
+    iconClassName = 'undefined'
+  }
+
   return (
     phenomenon && (
       <RatingWidget >
         <RatingHeader>
           <RatingItemHeader 
-            className='left' data-href={getPhenomenonUrl(radar?.id, phenomenon)}
-            symbol={symbolPhenomenon} symbolBorder={symbolBorderPhenomenon} symbolBoxShadow={symbolBoxShadowPhenomenon}>{phenomenon?.content?.title}
+            className= {`left icon-issue ${iconClassName}`}
+            data-href={getPhenomenonUrl(radar?.id, phenomenon)}
+          >
+            {phenomenon?.content?.title}
           </RatingItemHeader>
-          <IconToggleVisibilityWrapper onClick={onVisibilityHandler}>
-            <span className=" af-custom-eye-blocked" style={{fontSize: '1.3em', color: '#006998', cursor: 'pointer'}}/>
-          </IconToggleVisibilityWrapper>
+          <a onClick={onVisibilityHandler}>
+            <span className=" af-custom-eye-blocked" style={{fontSize: '1.3em', color: tokens.ColorBlue, cursor: 'pointer'}}/>
+          </a>
         </RatingHeader>
         <RatingItem>
           <RatingSliderScale>
