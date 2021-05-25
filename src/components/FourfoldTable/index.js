@@ -559,6 +559,9 @@ const App = ({
           .attr('cx', d => xr(d.x))
           .attr('cy', d => yr(d.y))
           .attr('r', radius1)
+          .attr('class', 'left')
+          .attr('data-href', d => getPhenomenonUrl(radar?.id, d?.id))
+
   
         myCircleAvg
           .transition(trans)
@@ -579,6 +582,7 @@ const App = ({
           .attr('cx', d => xr(d.x))
           .attr('cy', d => yr(d.y))
           .attr('r', radius)
+          
   
         myCircleMedian1
           .transition(trans)
@@ -599,6 +603,9 @@ const App = ({
           .attr('cx', d => xr(d.x))
           .attr('cy', d => yr(d.y))
           .attr('r', radius1)
+          .attr('class', 'left')
+          .attr('data-href', d => getPhenomenonUrl(radar?.id, d?.id))
+
   
         myCircleMedian
           .transition(trans)
