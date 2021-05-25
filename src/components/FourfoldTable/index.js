@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import * as d3 from 'd3'
 import AxisX from './AxisX'
 import AxisY from './AxisY'
+import {getPhenomenonUrl} from '../../helpers/contentCard'
 
 const App = ({
   containerWidth = 500,
