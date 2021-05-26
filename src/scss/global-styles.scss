@@ -1,4 +1,9 @@
+@import "../../node_modules/@sangre-fp/css-framework/tokens/fp-design-tokens";
+
 .fp-fw-styles {
-  @import "../../node_modules/@sangre-fp/css-framework/dist/fp-root";
-  @import "../../node_modules/@sangre-fp/css-framework/dist/fp-base-styles";
+  .custom-radio {
+    .custom-control-label {
+      font-weight: $font-weight-normal;
+    }
+  }
 }
