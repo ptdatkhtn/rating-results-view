@@ -717,7 +717,6 @@ const App = ({
         </div>
         <AxisX originalWidth={containerWidth} axisWidth={containerWidth} axisLabel1={axisLabel1} axisLabel1a={axisLabel1a} axisLabel1b={axisLabel1b} />
       </div>
-      {visibleDialog && <button style={buttonStyles} onClick={onCloseDialog}>X</button>}
     </div>
   </div>
 
