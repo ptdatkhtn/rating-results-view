@@ -86,7 +86,7 @@ const RatingResultsView = () => {
     return () => {
       window.removeEventListener('resize', calcSizeRateTabWrapper)
     }
-  }, [width, setWidth])
+  }, [])
 
   window.addEventListener('resize', function () {
     // clearTimeOut() resets the setTimeOut() timer
