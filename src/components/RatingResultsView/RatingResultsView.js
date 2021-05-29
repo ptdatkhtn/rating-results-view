@@ -56,6 +56,7 @@ const RatingResultsView = () => {
   const calcSizeRateTabWrapper = () => {
     const getTabContentElement = document.getElementsByClassName('tab-content active')
   
+    console.log('adadada', getTabContentElement)
     setHeight(
       getTabContentElement? 
       (+(innerDimensions(getTabContentElement).width -60) * 0.56)
