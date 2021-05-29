@@ -49,13 +49,26 @@ const RatingResultsView = () => {
     }) 
   }
 
-  const getTabContentElement = document.getElementsByClassName('tab-content')[0]
+
+  const getTabContentElements = document.getElementsByClassName('tab-content')
+  let getTabContentElement = null
  
   const eventTimeoutRef = React.useRef(null)
   const [height, setHeight] = useState(0)
   const [width, setWidth] = useState(0)
 
   const calcSizeRateTabWrapper = () => {
+    if (getTabContentElements[0] && innerDimensions(getTabContentElement).width -60 > 0) {
+      getTabContentElement = getTabContentElements[0]
+    }
+    else {
+        getTabContentElements.forEach((tab) => {
+          if (tab && innerDimensions(tab).width -60 > 0) {
+            getTabContentElement = tab 
+          }
+        })
+      }
+
     setHeight(
       getTabContentElement? 
       (+(innerDimensions(getTabContentElement).width -60) * 0.56)
@@ -73,7 +86,7 @@ const RatingResultsView = () => {
     return () => {
       window.removeEventListener('resize', calcSizeRateTabWrapper)
     }
-  }, [])
+  }, [width, setWidth])
 
   window.addEventListener('resize', function () {
     // clearTimeOut() resets the setTimeOut() timer
@@ -83,7 +96,7 @@ const RatingResultsView = () => {
 
     // setTimeout returns the numeric ID which is used by
     // clearTimeOut to reset the timer
-    eventTimeoutRef.current = setTimeout(calcSizeRateTabWrapper, 250);
+    eventTimeoutRef.current = setTimeout(calcSizeRateTabWrapper, 200);
   }, false)
 
   return (
