@@ -50,14 +50,16 @@ const RatingResultsView = () => {
   }
 
 
-  const getTabContentElements = document.getElementsByClassName('tab-content')
-  let getTabContentElement = null
+  
  
   const eventTimeoutRef = React.useRef(null)
   const [height, setHeight] = useState(0)
   const [width, setWidth] = useState(0)
 
   const calcSizeRateTabWrapper = () => {
+    const getTabContentElements = document.getElementsByClassName('tab-content')
+  let getTabContentElement = null
+    console.log('case 1aaaaaaa', getTabContentElements)
     if (getTabContentElements[0] && innerDimensions(getTabContentElement).width -60 > 0) {
       getTabContentElement = getTabContentElements[0]
       console.log('case 1', getTabContentElement)
