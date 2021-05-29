@@ -60,11 +60,14 @@ const RatingResultsView = () => {
   const calcSizeRateTabWrapper = () => {
     if (getTabContentElements[0] && innerDimensions(getTabContentElement).width -60 > 0) {
       getTabContentElement = getTabContentElements[0]
+      console.log('case 1', getTabContentElement)
     }
     else {
         getTabContentElements.forEach((tab) => {
           if (tab && innerDimensions(tab).width -60 > 0) {
-            getTabContentElement = tab 
+            getTabContentElement = tab
+            console.log('case 2', getTabContentElement)
+            return;
           }
         })
       }
