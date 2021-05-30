@@ -8,7 +8,7 @@ const renderApp = (nid) => {
     return (
         <React.StrictMode>
             <DataProvider node={nid}>
-            <div>voting tab test</div>
+            <RatingResultsView/>
             </DataProvider>
         </React.StrictMode>
     )
