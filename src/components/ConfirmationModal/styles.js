@@ -43,7 +43,7 @@ export const Btn = styled.button`
     font-weight: 600;
     font-size: 13px;
     cursor: pointer;
-
+    margin: 0 4px 0 4px;
     &:active {
         border: none;
     }

@@ -14,7 +14,7 @@ const ConfirmationModal = ({
         <BtnGroup>
           <Btn
             onClick={confirmationModalClose}
-            className="btn btn-lg btn-plain-gray"
+            className="btn btn-lg btn-plain-primary"
           >
             {requestTranslation("cancel").toUpperCase()}
           </Btn>
