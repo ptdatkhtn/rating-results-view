@@ -25,6 +25,7 @@ export const DataProvider = ({children, node}) => {
     const fetchPhenomenaDataInitTime = useCallback(
         async () => {
             try {
+                await startSession()
             NProgress.start()
             NProgress.set(0.4)
                 let phenomenaIds = []
@@ -156,11 +157,7 @@ export const DataProvider = ({children, node}) => {
     )
 
     useEffect(() => {
-        try {
-            (async () => {
-                await startSession()
-            })();
-    
+        try {    
             fetchPhenomenaDataInitTime()
             dispatch({type: ACTIONS.ERROR, payload: {success: 'Start session is done'}})
         } catch (error) {
