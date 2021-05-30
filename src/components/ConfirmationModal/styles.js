@@ -1,4 +1,5 @@
 import styled from "styled-components/macro";
+import * as tokens from "@sangre-fp/css-framework/tokens/fp-design-tokens"
 
 export const modalStyles = {
     content: {
@@ -39,7 +40,8 @@ export const modalStyles = {
 export const Btn = styled.button`
     border: none;
     outline: none;
-    background-color: #6fbf40;
+    // background-color: #6fbf40;
+    background-color: ${tokens.ColorGreen};
     font-weight: 600;
     font-size: 13px;
     cursor: pointer;

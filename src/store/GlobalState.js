@@ -3,6 +3,7 @@ import reducers from './Reducers.js'
 import { startSession } from '../helpers/session';
 import { ACTIONS } from './Actions'
 import { getRadar, getPhenomenaTypes } from '@sangre-fp/connectors/drupal-api';
+import radarDataApi from '@sangre-fp/connectors/radar-data-api';
 import {getPhenomena} from '../helpers/phenomenonFetcher'
 import { ratingApi } from '../helpers/ratingFetcher';
 import NProgress from 'nprogress'
@@ -24,34 +25,27 @@ export const DataProvider = ({children, node}) => {
     const fetchPhenomenaDataInitTime = useCallback(
         async () => {
             try {
-                NProgress.start()
+            NProgress.start()
             NProgress.set(0.4)
                 let phenomenaIds = []
             let groups = [0]
             // node=194690
-            await getRadar(node).then ((radar) => {
-                dispatch({
-                    type: ACTIONS.RADAR,
-                    payload: radar
+            const [getRadarDataApi, getRadarDrupalApi] = await Promise.all([
+                radarDataApi.getRadar(node).then(radar => {
+                     /* eslint-disable */
+                    Object.keys(radar?.data?.phenomena).map(async (pid) => {
+                        phenomenaIds.push(radar?.data?.phenomena[pid]?.id)
+                    })
+                }),
+                getRadar(node).then ((radar) => {
+                    dispatch({
+                        type: ACTIONS.RADAR,
+                        payload: radar
+                    })
+    
+                    groups = groups.concat(radar?.group?.id)
                 })
-
-/*                radar.axisXMax
-                radar.axisXMin
-                radar.axisXTitle
-                radar.axisYMax
-                radar.axisYMin
-                radar.axisYTitle
-                radar.fourFieldsBottomLeft
-                radar.fourFieldsBottomRight
-                radar.fourFieldsTopLeft
-                radar.fourFieldsTopRight*/
-
-                groups = groups.concat(radar?.group?.id)
-                /* eslint-disable */
-                Object.keys(radar?.phenomena).map(async (pid) => {
-                    phenomenaIds.push(pid)
-                })
-            })
+            ])
               
             const page = 0
             const size = phenomenaIds?.length || 10
@@ -61,14 +55,13 @@ export const DataProvider = ({children, node}) => {
                 [
                     ratingApi.getAllHiddenRatings(groups[1], node)
                     .then(async (hiddenPhenomena) => {
-                        console.log('dadaaaa123')
                         dispatch({
                             type: ACTIONS.HIDDENPHENOMENA,
                             payload:  hiddenPhenomena?.data[`rating/${groups[1]}/radar/${node}`]?.hidden || []
                         })
                     })
                     ,
-                    getPhenomena({ phenomena:phenomenaIds, undefined, groups, page, size })
+                    getPhenomena({ 'phenomena':phenomenaIds, undefined, groups: groups, page, size })
                     ,
                     getPhenomenaTypes(groups[1])
                     ,
@@ -103,7 +96,6 @@ export const DataProvider = ({children, node}) => {
                         }
                     })
                 })  
-               
 
                 dispatch({
                     type: ACTIONS.PHENOMENONDATA,
