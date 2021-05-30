@@ -11,7 +11,7 @@ export const RatingWidget = styled.div`
 export const RatingHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
+//   align-items: center;
 `
 
 export const RatingSliderScale = styled.div`
@@ -45,10 +45,12 @@ export const RatingItemHeader = styled.h4`
     font-size: ${tokens.H4FontSize};
     min-height: 25px;
     padding-left: 26px !important;
-    width: 410px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    width: 99%;
+    word-wrap: break-word;
+    // width: 410px;
+    // white-space: nowrap;
+    // overflow: hidden;
+    // text-overflow: ellipsis;
 
     &:before {
         position: absolute;

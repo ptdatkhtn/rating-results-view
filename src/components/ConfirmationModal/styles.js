@@ -39,7 +39,7 @@ export const modalStyles = {
 export const Btn = styled.button`
     border: none;
     outline: none;
-    background: none;
+    background-color: #6fbf40;
     font-weight: 600;
     font-size: 13px;
     cursor: pointer;
