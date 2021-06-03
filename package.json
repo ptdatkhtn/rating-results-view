@@ -1,6 +1,6 @@
 {
   "name": "rating-results",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.4",
