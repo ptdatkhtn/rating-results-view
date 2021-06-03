@@ -70,7 +70,7 @@ const App = ({
     left: 50
   }
 
-  const maxTextWidth = 120
+  const maxTextWidth = 100
 
   const rectNodes = React.useMemo(() => {
     return [
