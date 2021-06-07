@@ -42,7 +42,7 @@ export const Btn = styled.button`
     outline: none;
     // background-color: #6fbf40;
     background-color: ${tokens.ColorGreen};
-    font-weight: 600;
+    font-weight: 500;
     font-size: 13px;
     cursor: pointer;
     margin: 0 4px 0 4px;
@@ -56,7 +56,7 @@ export const BtnGroup = styled.div`
     justify-content: center;
 `
 
-export const ModalContent = styled.h5`
+export const ModalContent = styled.h3`
     display: flex;
     justify-content: center;
 `
