@@ -56,6 +56,7 @@ export const RatingItemHeader = styled.h4`
         position: absolute;
         left: 0;
         top: 3px;
+        background:${props => props.backgroundColor} !important;
     }
 `
 

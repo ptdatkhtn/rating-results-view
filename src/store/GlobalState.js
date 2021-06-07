@@ -75,6 +75,12 @@ export const DataProvider = ({children, node}) => {
                             phenonmenon['content-type-title'] = type.title
                             /* eslint-disable */
                             phenonmena?.push(phenonmenon)
+                            if(String(phenonmenon?.content?.type).includes('fp:doc-types')){
+                                const nameCustomType = String(phenonmenon?.content?.type).split('/')[3]
+                                phenonmenon['color'] = String(type?.style?.color)
+                            } else {
+                                phenonmenon['color'] = 'none'
+                            }
                         }
                     })
                 })

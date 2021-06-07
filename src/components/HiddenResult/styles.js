@@ -31,6 +31,7 @@ export const WildCard = styled.h4`
     position: absolute;
     left: 0;
     top: 4px;
+    background:${props => props.backgroundColor} !important;
   }
 `
 

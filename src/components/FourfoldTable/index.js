@@ -126,7 +126,11 @@ const App = ({
         const { innerStroke, outerStroke, fillSymbol } = setNodeColor(phen)
         let node = {}
         node['id'] = phen['id']
-        node['type'] = [].concat({ innerStroke, outerStroke, fillSymbol })
+        if (phen?.color === 'none') {
+          node['type'] = [].concat({ innerStroke, outerStroke, fillSymbol })
+        } else {
+          node['type'] = [].concat({ innerStroke, outerStroke: 'transparent', fillSymbol: phen.color })
+        }
         node['title'] = String(phen['content']['short_title']) || String(phen['content']['title'])
         node['x'] = phen['rating_x']['median']
         node['y'] = phen['rating_y']['median']
@@ -143,10 +147,15 @@ const App = ({
 
     !!phenomena?.length && phenomena.map((phen) => {
       if (phen['rating_x']['avg'] && phen['rating_y']['avg']) {
+        console.log('phen', phen)
         const { innerStroke, outerStroke, fillSymbol } = setNodeColor(phen)
         let node = {}
         node['id'] = phen['id']
-        node['type'] = [].concat({ innerStroke, outerStroke, fillSymbol })
+        if (phen?.color === 'none') {
+          node['type'] = [].concat({ innerStroke, outerStroke, fillSymbol })
+        } else {
+          node['type'] = [].concat({ innerStroke, outerStroke: 'transparent', fillSymbol: phen.color })
+        }
         node['title'] = String(phen['content']['short_title']) || String(phen['content']['title'])
         node['x'] = phen['rating_x']['avg']
         node['y'] = phen['rating_y']['avg']
@@ -320,7 +329,9 @@ const App = ({
       .attr('cursor', 'pointer')
       .attr('r', 10)
       .attr('id', 'circleAvg')
-      .style('fill', d => d.type[0].fillSymbol)
+      .style('fill', d => {
+        return d.type[0].fillSymbol
+      })
 
     const myCircleAvg = scatterSvg.append('g')
       .selectAll('circle')
