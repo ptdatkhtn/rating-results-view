@@ -17,7 +17,7 @@ export const modalStyles = {
         left: 'auto',
         right: 'auto',
         bottom: 'auto',
-        padding: '50px 0',
+        padding: '30px 50px',
         overflow: 'visible',
         border: 'none',
         marginTop: '56px'
@@ -54,6 +54,7 @@ export const Btn = styled.button`
 export const BtnGroup = styled.div`
     display: flex;
     justify-content: center;
+    margin-top: 25px;
 `
 
 export const ModalContent = styled.h3`
