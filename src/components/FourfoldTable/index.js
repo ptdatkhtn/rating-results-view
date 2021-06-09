@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import * as d3 from 'd3'
 import AxisX from './AxisX'
 import AxisY from './AxisY'
@@ -27,40 +27,11 @@ const App = ({
   const { axis, scatterSvg } = appContext
   const [isAverage, setIsAverage] = useState(true)
 
-  const buttonStyles = {
-    position: 'fixed',
-    top: '50%',
-    left: 'calc(30% - 2px)',
-    'zIndex': 100,
-    width: '66px',
-    height: '74px',
-    background: 'white',
-    borderColor: 'transparent',
-    cursor: 'pointer',
-    'boxShadow': '1px 1px 1px 0px #887979',
-    fontSize: '48px',
-    fontWeight: 540,
-  }
-
   const innerTexts = [
-    { x: 25, y: 25, title: axisLabel3 },
-    { x: 75, y: 25, title: axisLabel4 },
-    { x: 25, y: 75, title: axisLabel5 },
-    { x: 75, y: 75, title: axisLabel6 }
-  ]
-  const innerLineData = [
-    {
-      x1: -1500,
-      y1: 50,
-      x2: 1500,
-      y2: 50
-    },
-    {
-      x1: 50,
-      y1: -1500,
-      x2: 50,
-      y2: 1500
-    }
+    { x: 0.25, y: 0.25, title: axisLabel3 },
+    { x: 0.75, y: 0.25, title: axisLabel4 },
+    { x: 0.25, y: 0.75, title: axisLabel5 },
+    { x: 0.75, y: 0.75, title: axisLabel6 }
   ]
 
   const margin = {
@@ -70,13 +41,28 @@ const App = ({
     left: 50
   }
 
+  const innerLineData = [
+    {
+      x1: 0,
+      y1: 0.5,
+      x2: 1,
+      y2: 0.5
+    },
+    {
+      x1: 0.5,
+      y1: 0,
+      x2: 0.5,
+      y2: 1
+    }
+  ]
+
   const maxTextWidth = 90
 
-  const rectNodes = React.useMemo(() => {
+  const rectNodes = useMemo(() => {
     return [
       {
         x: 0,
-        y: 100,
+        y: 1,
         width: containerWidth,
         height: containerHeight
       }
@@ -126,14 +112,10 @@ const App = ({
         const { innerStroke, outerStroke, fillSymbol } = setNodeColor(phen)
         let node = {}
         node['id'] = phen['id']
-        if (phen?.color === 'none') {
-          node['type'] = [].concat({ innerStroke, outerStroke, fillSymbol })
-        } else {
-          node['type'] = [].concat({ innerStroke, outerStroke: 'transparent', fillSymbol: phen.color })
-        }
+        node['type'] = [].concat({ innerStroke, outerStroke, fillSymbol })
         node['title'] = String(phen['content']['short_title']) || String(phen['content']['title'])
-        node['x'] = phen['rating_x']['median']
-        node['y'] = phen['rating_y']['median']
+        node['x'] = phen['rating_x']['median'] / 100
+        node['y'] = phen['rating_y']['median'] / 100
         node['avg'] = false
 
         nodes.push(node)
@@ -150,14 +132,10 @@ const App = ({
         const { innerStroke, outerStroke, fillSymbol } = setNodeColor(phen)
         let node = {}
         node['id'] = phen['id']
-        if (phen?.color === 'none') {
-          node['type'] = [].concat({ innerStroke, outerStroke, fillSymbol })
-        } else {
-          node['type'] = [].concat({ innerStroke, outerStroke: 'transparent', fillSymbol: phen.color })
-        }
+        node['type'] = [].concat({ innerStroke, outerStroke, fillSymbol })
         node['title'] = String(phen['content']['short_title']) || String(phen['content']['title'])
-        node['x'] = phen['rating_x']['avg']
-        node['y'] = phen['rating_y']['avg']
+        node['x'] = phen['rating_x']['avg'] / 100
+        node['y'] = phen['rating_y']['avg'] / 100
         node['avg'] = true
 
         nodes.push(node)
@@ -238,36 +216,34 @@ const App = ({
   }, [containerWidth])
 
   useEffect(() => {
-    
     if (phenomena.length < 1 || !scatterSvg) return
     let nodes = [...nodeListAsAverage, ...nodeListAsMedian]
-
     let data = nodes.map(item => [item.x, item.y])
-    data = [...data, ...Array.from({ length: 50 }, () => [100 * Math.random(), 100 * Math.random()])]
-
+    data = [...data, ...Array.from({ length: 50 }, () => [Math.random(), Math.random()])]
+   
     const x = d3.scaleLinear()
       .domain(d3.extent(data, d => d[0]))
       .nice()
       .rangeRound([margin.left, containerWidth - margin.right])
       
     const y = d3.scaleLinear()
-      .domain(d3.extent(data, d => d[0]))
+      .domain(d3.extent(data, d => d[1]))
       .nice()
       .rangeRound([containerHeight - margin.bottom, margin.top])
-
+    
     const xAxis = (g, scale) => g
       .attr("transform", `translate(0,${y(0) + 10})`)
-      .style('opacity', 0)
-      .call(d3.axisBottom(scale).ticks(8))
+      .call(d3.axisBottom(scale).ticks(2))
       .call(g2 => g2.select(".domain").attr("display", "none"))
+      .call(g2 => g2.selectAll(".tick").style("color", "grey"))
       .call(g2 => g2.selectAll(".tick line").attr("display", "none"))
-
     const yAxis = (g, scale) => g
       .attr("transform", `translate(${x(0) - 5},0)`)
-      .style('opacity', 0)
-      .call(d3.axisLeft(scale).ticks(8))
+      .call(d3.axisLeft(scale).ticks(2))
       .call(g2 => g2.select(".domain").attr("display", "none"))
       .call(g2 => g2.selectAll(".tick line").attr("display", "none"))
+      .call(g2 => g2.selectAll(".tick").style("color", "grey"))
+      .call(g2 => g2.selectAll(".tick:first-child line").attr("display", "none"))
 
     const myWhiteRect = scatterSvg.append('g')
       .selectAll('rect')
@@ -328,9 +304,7 @@ const App = ({
       .attr('cursor', 'pointer')
       .attr('r', 10)
       .attr('id', 'circleAvg')
-      .style('fill', d => {
-        return d.type[0].fillSymbol
-      })
+      .style('fill', d => d.type[0].fillSymbol)
 
     const myCircleAvg = scatterSvg.append('g')
       .selectAll('circle')
