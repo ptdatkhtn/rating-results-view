@@ -7,6 +7,7 @@ import { ratingApi } from '../../helpers/ratingFetcher';
 import { ACTIONS } from '../../store/Actions'
 import FourfoldTable from '../FourfoldTable'
 import {innerDimensions} from '../../helpers/dimension'
+import { requestTranslation } from '@sangre-fp/i18n'
 import {
   RateTabWrapper,
   RateTabFooter,
@@ -111,7 +112,7 @@ const RatingResultsView = () => {
       <HiddenResults phenomena={inVisiblePhenonmena || []}/>
       <RateTabFooter>
         <ClearRatingsBtn onClick={openConfirmModalHandler} className="btn btn-outline-secondary btn-sm">
-          <span className="af-custom-close" />Clear ratings
+          <span className="af-custom-close" />{requestTranslation('ClearRatings_RatingResults')}
         </ClearRatingsBtn>
       </RateTabFooter>
       <ConfirmationModal confirmationModal={openConfirmModal} confirmationModalClose={closeConfirmModalHandler} clearRatings={onClearRatesHandler}/>

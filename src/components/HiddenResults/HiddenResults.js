@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { requestTranslation } from '@sangre-fp/i18n'
 import HiddenResult from '../HiddenResult/HiddenResult'
 import {
     Container,
@@ -9,8 +9,8 @@ import {
 const HiddenResults = ({phenomena}) => {
     return (
         <Container>
-            <h3>Hidden phenomena</h3>
-            <p style={{width: '100%'}}>You can toggle the visibility of a phenomenon for other users by pressing the eye icon.</p>
+            <h3>{requestTranslation('hiddenPhenomena_RatingResults')}</h3>
+            <p style={{width: '100%'}}>{requestTranslation('hiddenPhenomenaDescription_RatingResults')}</p>
             <HiddenResultsWrapper>
                 {
                     !!phenomena?.length && phenomena?.map ((phenomenon) => {
