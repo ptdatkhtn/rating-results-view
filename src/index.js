@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom';
 import {DataProvider} from "./store/GlobalState";
 import RatingResultsView from './components/RatingResultsView/RatingResultsView';
 import './scss/global-styles.scss';
-import './translations' 
+import './translations'
+import { startSession } from '@sangre-fp/connectors/session'
+
 //http://localhost:3010/?node=194688
 const renderApp = (nid) => {
     return (
@@ -15,18 +17,20 @@ const renderApp = (nid) => {
     )
 }
 
-const appElements = document.getElementsByClassName('rating-results-app')
+startSession().then(() => {
+    const appElements = document.getElementsByClassName('rating-results-app')
 
-const defaultRadarId = (/node=\d+/.test(document.location.href) && document.location.href.replace(/^.*node=(\d+).*$/, '$1')) || null
+    const defaultRadarId = (/node=\d+/.test(document.location.href) && document.location.href.replace(/^.*node=(\d+).*$/, '$1')) || null
 
-for (let el of appElements) {
-    ReactDOM.render(
-        renderApp(
-            el.hasAttribute('data-radar-id') ? el.getAttribute('data-radar-id') : defaultRadarId,
-        ),
-        el
-    )
-}
+    for (let el of appElements) {
+        ReactDOM.render(
+            renderApp(
+                el.hasAttribute('data-radar-id') ? el.getAttribute('data-radar-id') : defaultRadarId,
+            ),
+            el
+        )
+    }
+})
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
