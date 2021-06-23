@@ -47,19 +47,19 @@ export const DataProvider = ({children, node}) => {
 
                 const [allHiddenRatings, phenomenaList, phenomenaTypes, allRatings] = await Promise.all(
                     [
-                        ratingApi.getAllHiddenRatings(groups[1], node)
+                        ratingApi.getAllHiddenRatings(groups[1] || 0, node)
                             .then(async (hiddenPhenomena) => {
                                 dispatch({
                                     type: ACTIONS.HIDDENPHENOMENA,
-                                    payload: hiddenPhenomena?.data[`rating/${groups[1]}/radar/${node}`]?.hidden || []
+                                    payload: hiddenPhenomena?.data[`rating/${groups[1] || 0}/radar/${node}`]?.hidden || []
                                 })
                             })
                         ,
                         getPhenomena({'phenomena': phenomenaIds, undefined, groups: groups, page, size})
                         ,
-                        getPhenomenaTypes(groups[1])
+                        getPhenomenaTypes(groups[1] || 0)
                         ,
-                        ratingApi.getAllRatings(groups[1], node)
+                        ratingApi.getAllRatings(groups[1] || 0, node)
                     ]
                 )
 

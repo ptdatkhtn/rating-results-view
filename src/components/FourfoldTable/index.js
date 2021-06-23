@@ -3,7 +3,10 @@ import * as d3 from 'd3'
 import AxisX from './AxisX'
 import AxisY from './AxisY'
 import {getPhenomenonUrl} from '../../helpers/contentCard'
-import { requestTranslation } from '@sangre-fp/i18n';
+import { requestTranslation } from '@sangre-fp/i18n'
+
+const NODE_RADIUS = 10
+const SPECIAL_NODE_RADIUS = 6
 
 const App = ({
   containerWidth = 500,
@@ -86,8 +89,8 @@ const App = ({
 
   const setNodeColor = (phenomenon) => {
     let innerStroke = 'transparent'
-    let outerStroke = 'rgb(0, 202, 141)'
-    let fillSymbol = '#fff'
+    let outerStroke = 'transparent'
+    let fillSymbol = 'rgb(0, 202, 141)'
 
     if (phenomenon['content-type-alias'] === 'summary') {
       innerStroke = '#fff'
@@ -127,11 +130,23 @@ const App = ({
         const { innerStroke, outerStroke, fillSymbol } = setNodeColor(phen)
         let node = {}
         node['id'] = phen['id']
+        node['color'] = phen['color']
+        node['content-type-alias'] = phen['content-type-alias']
+
         if (phen?.color === 'none') {
-          node['type'] = [].concat({ innerStroke, outerStroke, fillSymbol })
-        } else {
+          if ((node['content-type-alias'] !== undefined) || node['content-type-alias'] !== 'undefined') {
+            // normal nodes
+            node['type'] = [].concat({ innerStroke, outerStroke, fillSymbol })
+          } else {
+             // undefined types
+          node['type'] = [].concat({ innerStroke , outerStroke, fillSymbol })
+          }
+        } 
+        else {
+          // customer custom types
           node['type'] = [].concat({ innerStroke, outerStroke: 'transparent', fillSymbol: phen.color })
         }
+
         node['title'] = String(phen['content']['short_title']) || String(phen['content']['title'])
         node['x'] = phen['rating_x']['median']
         node['y'] = phen['rating_y']['median']
@@ -148,12 +163,23 @@ const App = ({
 
     !!phenomena?.length && phenomena.map((phen) => {
       if (phen['rating_x']['avg'] && phen['rating_y']['avg']) {
+        
         const { innerStroke, outerStroke, fillSymbol } = setNodeColor(phen)
         let node = {}
         node['id'] = phen['id']
+        node['color'] = phen['color']
+        node['content-type-alias'] = phen['content-type-alias']
         if (phen?.color === 'none') {
-          node['type'] = [].concat({ innerStroke, outerStroke, fillSymbol })
-        } else {
+          if ((node['content-type-alias'] !== undefined) || node['content-type-alias'] !== 'undefined') {
+            // normal nodes
+            node['type'] = [].concat({ innerStroke, outerStroke, fillSymbol })
+          } else {
+             // undefined types
+          node['type'] = [].concat({ innerStroke , outerStroke, fillSymbol })
+          }
+        } 
+        else {
+          // customer custom types
           node['type'] = [].concat({ innerStroke, outerStroke: 'transparent', fillSymbol: phen.color })
         }
         node['title'] = String(phen['content']['short_title']) || String(phen['content']['title'])
@@ -325,9 +351,13 @@ const App = ({
       .selectAll('circle')
       .data(nodeListAsAverage)
       .join('circle')
-      .attr('stroke', d => d.type[0].outerStroke)
+      .attr('stroke', d => {
+        return d.type[0].outerStroke
+      })
       .attr('cursor', 'pointer')
-      .attr('r', 10)
+      .attr('class', d => {
+        return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'outer_special_circle left' : 'outer_normal_circle left'
+      })
       .attr('id', 'circleAvg')
       .style('fill', d => {
         return d.type[0].fillSymbol
@@ -337,11 +367,19 @@ const App = ({
       .selectAll('circle')
       .data(nodeListAsAverage)
       .join('circle')
-      .attr('stroke', d => d.type[0].innerStroke)
+      .attr('stroke', d => {
+        return d.type[0].innerStroke
+      })
       .attr('cursor', 'pointer')
-      .attr('r', 7)
+      .attr('class', d => {return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'inner_special_circle left' : 'inner_normal_circle left'})
       .attr('id', 'circleAvg')
-      .style('fill', d => d.type[0].fillSymbol)
+      .style('fill', d => {
+        if (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) {
+          return 'white'
+        }
+
+        return d.type[0].fillSymbol
+      })
       .attr('cursor', 'pointer')
 
     const myCircleMedian1 = scatterSvg.append('g')
@@ -350,8 +388,10 @@ const App = ({
       .join('circle')
       .attr('stroke', d => d.type[0].outerStroke)
       .attr('cursor', 'pointer')
-      .attr('r', 10)
       .attr('id', 'circleMedian')
+      .attr('class', d => {
+        return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'outer_special_circle_median left' : 'outer_normal_circle_median left'
+      })
       .style('fill', d => d.type[0].fillSymbol)
 
     const myCircleMedian = scatterSvg.append('g')
@@ -360,9 +400,15 @@ const App = ({
       .join('circle')
       .attr('stroke', d => d.type[0].innerStroke)
       .attr('cursor', 'pointer')
-      .attr('r', 7)
       .attr('id', 'circleMedian')
-      .style('fill', d => d.type[0].fillSymbol)
+      .attr('class', d => {return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'inner_special_circle_median left' : 'inner_normal_circle_median left'})
+      .style('fill', d => {
+        if (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) {
+          return 'white'
+        }
+
+        return d.type[0].fillSymbol
+      })
       .attr('cursor', 'pointer')
 
       if (isAverage) {
@@ -481,15 +527,15 @@ const App = ({
           })
           .attr('y', d => yr(d.y) + radius / 1)
   
-        myCircleAvg1
+        d3.selectAll('.outer_normal_circle')
           .transition(trans)
           .on('end', () => {
             try {
               const scale = Math.min(t.k, 8)
               const minScale = Math.max(scale, 1)
-              const r = Math.max(10, Math.floor(10 + minScale))
+              const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
               const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
-              myCircleAvg1.transition(tran2)
+              d3.selectAll('.outer_normal_circle').transition(tran2)
                 .attr('cx', d => xr(d.x))
                 .attr('cy', d => yr(d.y))
                 .attr('r', r)
@@ -499,20 +545,38 @@ const App = ({
           })
           .attr('cx', d => xr(d.x))
           .attr('cy', d => yr(d.y))
-          .attr('r', radius1)
-          .attr('class', 'left')
+          .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
+
+        d3.selectAll('.outer_special_circle')
+          .transition(trans)
+          .on('end', () => {
+            try {
+              const scale = Math.min(t.k, 8)
+              const minScale = Math.max(scale, 1)
+              const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
+              const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
+              d3.selectAll('.outer_special_circle').transition(tran2)
+                .attr('cx', d => xr(d.x))
+                .attr('cy', d => yr(d.y))
+                .attr('r', r)
+            } catch (error) {
+              console.error(error)
+            }
+          })
+          .attr('cx', d => xr(d.x))
+          .attr('cy', d => yr(d.y))
           .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
 
   
-        myCircleAvg
+        d3.selectAll('.inner_normal_circle')
           .transition(trans)
           .on('end', () => {
             try {
               const scale = Math.min(t.k, 8)
               const minScale = Math.max(scale, 1)
-              const r = Math.max(7, Math.floor(7 + minScale))
+              const r = Math.max(NODE_RADIUS - 3, Math.floor(NODE_RADIUS - 3 + minScale))
               const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
-              myCircleAvg.transition(tran2)
+              d3.selectAll('.inner_normal_circle').transition(tran2)
                 .attr('cx', d => xr(d.x))
                 .attr('cy', d => yr(d.y))
                 .attr('r', r)
@@ -522,19 +586,77 @@ const App = ({
           })
           .attr('cx', d => xr(d.x))
           .attr('cy', d => yr(d.y))
-          .attr('r', radius)
-          .attr('class', 'left')
+          .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
+
+        d3.selectAll('.inner_special_circle')
+          .transition(trans)
+          .on('end', () => {
+            try {
+              const scale = Math.min(t.k, 8)
+              const minScale = Math.max(scale, 1)
+              const r = Math.max(SPECIAL_NODE_RADIUS - 3, Math.floor(SPECIAL_NODE_RADIUS - 3 + minScale))
+              const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
+              d3.selectAll('.inner_special_circle').transition(tran2)
+                .attr('cx', d => xr(d.x))
+                .attr('cy', d => yr(d.y))
+                .attr('r', r)
+            } catch (error) {
+              console.error(error)
+            }
+          })
+          .attr('cx', d => xr(d.x))
+          .attr('cy', d => yr(d.y))
           .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
   
-        myCircleMedian1
+        // myCircleMedian1
+        //   .transition(trans)
+        //   .on('end', () => {
+        //     try {
+        //       const scale = Math.min(t.k, 8)
+        //       const minScale = Math.max(scale, 1)
+        //       const r = Math.max(10, Math.floor(10 + minScale))
+        //       const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
+        //       myCircleMedian1.transition(tran2)
+        //         .attr('cx', d => xr(d.x))
+        //         .attr('cy', d => yr(d.y))
+        //         .attr('r', r)
+        //     } catch (error) {
+        //       console.error(error)
+        //     }
+        //   })
+        //   .attr('cx', d => xr(d.x))
+        //   .attr('cy', d => yr(d.y))
+        //   .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
+
+  
+        // myCircleMedian
+        //   .transition(trans)
+        //   .on('end', () => {
+        //     try {
+        //       const scale = Math.min(t.k, 8)
+        //       const minScale = Math.max(scale, 1)
+        //       const r = Math.max(7, Math.floor(7 + minScale))
+        //       const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
+        //       myCircleMedian.transition(tran2)
+        //         .attr('cx', d => xr(d.x))
+        //         .attr('cy', d => yr(d.y))
+        //         .attr('r', r)
+        //     } catch (error) {
+        //       console.error(error)
+        //     }
+        //   })
+        //   .attr('cx', d => xr(d.x))
+        //   .attr('cy', d => yr(d.y))
+        //   .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
+        d3.selectAll('.outer_normal_circle_median')
           .transition(trans)
           .on('end', () => {
             try {
               const scale = Math.min(t.k, 8)
               const minScale = Math.max(scale, 1)
-              const r = Math.max(10, Math.floor(10 + minScale))
+              const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
               const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
-              myCircleMedian1.transition(tran2)
+              d3.selectAll('.outer_normal_circle_median').transition(tran2)
                 .attr('cx', d => xr(d.x))
                 .attr('cy', d => yr(d.y))
                 .attr('r', r)
@@ -544,20 +666,38 @@ const App = ({
           })
           .attr('cx', d => xr(d.x))
           .attr('cy', d => yr(d.y))
-          .attr('r', radius1)
-          .attr('class', 'left')
+          .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
+
+        d3.selectAll('.outer_special_circle_median')
+          .transition(trans)
+          .on('end', () => {
+            try {
+              const scale = Math.min(t.k, 8)
+              const minScale = Math.max(scale, 1)
+              const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
+              const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
+              d3.selectAll('.outer_special_circle_median').transition(tran2)
+                .attr('cx', d => xr(d.x))
+                .attr('cy', d => yr(d.y))
+                .attr('r', r)
+            } catch (error) {
+              console.error(error)
+            }
+          })
+          .attr('cx', d => xr(d.x))
+          .attr('cy', d => yr(d.y))
           .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
 
   
-        myCircleMedian
+        d3.selectAll('.inner_normal_circle_median')
           .transition(trans)
           .on('end', () => {
             try {
               const scale = Math.min(t.k, 8)
               const minScale = Math.max(scale, 1)
-              const r = Math.max(7, Math.floor(7 + minScale))
+              const r = Math.max(NODE_RADIUS - 3, Math.floor(NODE_RADIUS - 3 + minScale))
               const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
-              myCircleMedian.transition(tran2)
+              d3.selectAll('.inner_normal_circle_median').transition(tran2)
                 .attr('cx', d => xr(d.x))
                 .attr('cy', d => yr(d.y))
                 .attr('r', r)
@@ -567,8 +707,26 @@ const App = ({
           })
           .attr('cx', d => xr(d.x))
           .attr('cy', d => yr(d.y))
-          .attr('r', radius)
-          .attr('class', 'left')
+          .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
+
+        d3.selectAll('.inner_special_circle_median')
+          .transition(trans)
+          .on('end', () => {
+            try {
+              const scale = Math.min(t.k, 8)
+              const minScale = Math.max(scale, 1)
+              const r = Math.max(SPECIAL_NODE_RADIUS - 3, Math.floor(SPECIAL_NODE_RADIUS - 3 + minScale))
+              const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
+              d3.selectAll('.inner_special_circle_median').transition(tran2)
+                .attr('cx', d => xr(d.x))
+                .attr('cy', d => yr(d.y))
+                .attr('r', r)
+            } catch (error) {
+              console.error(error)
+            }
+          })
+          .attr('cx', d => xr(d.x))
+          .attr('cy', d => yr(d.y))
           .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
           
       } catch (error) {
