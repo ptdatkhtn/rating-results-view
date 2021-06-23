@@ -1,10 +1,10 @@
 {
   "name": "rating-results",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.4",
-    "@sangre-fp/connectors": "^1.5.5",
+    "@sangre-fp/connectors": "^2.0.0-3",
     "@sangre-fp/css-framework": "^0.0.9",
     "@sangre-fp/ui": "^2.0.23",
     "@styled-icons/bootstrap": "^10.29.0",
