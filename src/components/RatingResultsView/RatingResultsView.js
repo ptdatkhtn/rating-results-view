@@ -87,6 +87,8 @@ const RatingResultsView = () => {
     eventTimeoutRef.current = setTimeout(calcSizeRateTabWrapper, 200);
   }, false)
 
+  const canBeEditAndClearResults = String(radar?.account?.role) !== 'visitor' && String(radar?.account?.role) !== 'user'
+
   return (
     <RateTabWrapper>
       {
@@ -110,12 +112,19 @@ const RatingResultsView = () => {
       }
       <RatingResults phenomena={visiblePhenonmena || []} radar={radar}/>
       <HiddenResults phenomena={inVisiblePhenonmena || []}/>
-      <RateTabFooter>
-        <ClearRatingsBtn onClick={openConfirmModalHandler} className="btn btn-outline-secondary btn-sm">
-          <span className="af-custom-close" />{requestTranslation('ClearRatings_RatingResults')}
-        </ClearRatingsBtn>
-      </RateTabFooter>
-      <ConfirmationModal confirmationModal={openConfirmModal} confirmationModalClose={closeConfirmModalHandler} clearRatings={onClearRatesHandler}/>
+      <>
+        { canBeEditAndClearResults && 
+          (<>
+            <RateTabFooter>
+              <ClearRatingsBtn onClick={openConfirmModalHandler} className="btn btn-outline-secondary btn-sm">
+                <span className="af-custom-close" />{requestTranslation('ClearRatings_RatingResults')}
+              </ClearRatingsBtn>
+            </RateTabFooter>
+            <ConfirmationModal confirmationModal={openConfirmModal} confirmationModalClose={closeConfirmModalHandler} clearRatings={onClearRatesHandler}/>
+          </>)
+        }
+      </>
+
     </RateTabWrapper>
   );
 };

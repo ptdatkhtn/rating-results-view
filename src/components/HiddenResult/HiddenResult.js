@@ -72,7 +72,8 @@ const HiddenResult = ({ phenomenon }) => {
     backgroundColor = phenomenon?.['color']
   }
 
-  
+  const canBeEditAndClearResults = String(radar?.account?.role) !== 'visitor' && String(radar?.account?.role) !== 'user'
+
   return (
     <Container>
       <WildCardWrapper 
@@ -86,9 +87,13 @@ const HiddenResult = ({ phenomenon }) => {
           {phenomenon?.content?.title}
         </WildCard>
       </WildCardWrapper>
-      <a onClick={onVisibilityHandler}>
+      {
+        canBeEditAndClearResults && (
+          <a onClick={onVisibilityHandler}>
         <span className=" af-custom-eye" style={{fontSize: '1.3em', color: tokens.ColorBlue, cursor: 'pointer'}}/>
       </a>
+        )
+      }
     </Container>
   );
 };

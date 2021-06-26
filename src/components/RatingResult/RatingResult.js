@@ -69,6 +69,8 @@ const Rating = ({ phenomenon, radar, isRatingX }) => {
     backgroundColor = phenomenon?.['color']
   }
 
+  const canBeEditAndClearResults = String(radar?.account?.role) !== 'visitor' && String(radar?.account?.role) !== 'user'
+
   return (
     phenomenon && (
       <RatingWidget >
@@ -80,9 +82,13 @@ const Rating = ({ phenomenon, radar, isRatingX }) => {
           >
             {phenomenon?.content?.title}
           </RatingItemHeader>
-          <a onClick={onVisibilityHandler}>
-            <span className=" af-custom-eye-blocked" style={{fontSize: '1.3em', color: tokens.ColorBlue, cursor: 'pointer'}}/>
-          </a>
+          {
+            canBeEditAndClearResults && (
+              <a onClick={onVisibilityHandler}>
+              <span className=" af-custom-eye-blocked" style={{fontSize: '1.3em', color: tokens.ColorBlue, cursor: 'pointer'}}/>
+            </a>
+            )
+          }
         </RatingHeader>
         <RatingItem>
           <RatingSliderScale>
