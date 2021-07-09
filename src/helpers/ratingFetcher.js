@@ -42,4 +42,10 @@ export const ratingApi = {
     addHiddenPhenomenaRatings: async (gid, radarId, payload) => {
         return await httpRequest(baseUrl, 'POST', `meta/rating/${gid}/radar/${radarId}/phenomenon/`, payload)
     },
+
+    //Rating
+    //get avg radar phenomenon rating for current user
+    getRatingsCurrentUser: async (gid, radarId, pid) => {
+        return await httpRequest(baseUrl, 'GET', `rating/${gid}/radar/${radarId}/phenomenon/${pid}/user`)
+    },
 }

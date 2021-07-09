@@ -9,14 +9,17 @@ import {
   RatingSliderScale,
   SliderScaleMin,
   SliderScaleMax,
-  SingleRating
+  SingleRating,
+  SingleRatingCurrentUser
 } from "./styles";
 import {getPhenomenonUrl} from '../../helpers/contentCard'
 import { ratingApi } from "../../helpers/ratingFetcher";
 import { ACTIONS } from "../../store/Actions";
 import * as tokens from "@sangre-fp/css-framework/tokens/fp-design-tokens"
 
-const Rating = ({ phenomenon, radar, isRatingX }) => { 
+
+
+const Rating = ({ phenomenon,currentUserRatings, radar, isRatingX }) => { 
   const {
     state: { hiddenPhenomena },
     dispatch,
@@ -117,6 +120,8 @@ const Rating = ({ phenomenon, radar, isRatingX }) => {
                   
               )
             }
+            <SingleRatingCurrentUser leftValue={isRatingX ? currentUserRatings?.ratingCurrentX?.percentage: currentUserRatings?.ratingCurrentY?.percentage} isRated={!!currentUserRatings?.ratingCurrentX?.percentage}/>
+            
           </div>      
         </RatingItem>
       </RatingWidget>
