@@ -16,7 +16,7 @@ import {getPhenomenonUrl} from '../../helpers/contentCard'
 import { ratingApi } from "../../helpers/ratingFetcher";
 import { ACTIONS } from "../../store/Actions";
 import * as tokens from "@sangre-fp/css-framework/tokens/fp-design-tokens"
-
+import Slider from '../Slider'
 
 
 const Rating = ({ phenomenon,currentUserRatings, radar, isRatingX }) => { 
@@ -98,7 +98,7 @@ const Rating = ({ phenomenon,currentUserRatings, radar, isRatingX }) => {
               <SliderScaleMin>{isRatingX? radar?.axisXMin : radar?.axisYMin}</SliderScaleMin>
               <SliderScaleMax>{isRatingX? radar?.axisXMax : radar?.axisYMax}</SliderScaleMax>
             </RatingSliderScale>
-          <RatingSlider
+          {/* <RatingSlider
             className="inactive"
             type="range"
             min="1"
@@ -106,7 +106,10 @@ const Rating = ({ phenomenon,currentUserRatings, radar, isRatingX }) => {
             value={isRatingX? phenomenon?.rating_x?.avg: phenomenon?.rating_y?.avg }
             disabled={true}
           >
-          </RatingSlider>
+          </RatingSlider> */}
+          <Slider 
+            value={isRatingX? phenomenon?.rating_x?.avg: phenomenon?.rating_y?.avg }
+          />
           <div style={{position:'relative', width:'100%'}}>
             
             {

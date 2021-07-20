@@ -121,8 +121,9 @@ export const SingleRating= styled.span `
     border-radius: 50%;
     display: inline-block;
     position: absolute;
-    top: -13px;
-    left: calc(${props => props.leftValue}%  - 2.5px);
+    top: -23px;
+    left: calc(${props => props.leftValue}%  - 6px);
+    z-index: 4;
 `
 
 export const SingleRatingCurrentUser= styled.span `
@@ -132,6 +133,7 @@ export const SingleRatingCurrentUser= styled.span `
     border-radius: 50%;
     display: inline-block;
     position: absolute;
-    top: -13px;
-    left: calc(${props => props.leftValue}%  - 2.5px);
+    top: -23px;
+    left: calc(${props => props.leftValue}%  - 6px);
+    z-index: 4;
 `
