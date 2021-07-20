@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 const Container = styled.div`
   width: ${({ containerWidth }) => `${containerWidth}px`};
+  margin-top: 16px;
 `
 
 const TitleWrapper = styled.h3`
@@ -63,18 +64,10 @@ const Circle = styled.div`
 
 const AxisPreview = ({
   containerWidth,
-  title,
-  leftLabel,
-  rightLabel,
   value
 }) => {
   return (
     <Container containerWidth={containerWidth}>
-      <TitleWrapper>{title}</TitleWrapper>
-      <AxisLabelContainer>
-        <div>{leftLabel}</div>
-        <div>{rightLabel}</div>
-      </AxisLabelContainer>
       <BarContainer
       >
         <Line/>
