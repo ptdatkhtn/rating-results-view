@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useState, useMemo } from "react";
 import {DataContext} from '../../store/GlobalState'
 import RatingResults from "../RatingResults/RatingResults";
 import HiddenResults from "../HiddenResults/HiddenResults";
@@ -17,11 +17,13 @@ import {
 const RatingResultsView = () => {
   const { state: {phenomenaData, radar, hiddenPhenomena }, dispatch } = useContext(DataContext)
   const [openConfirmModal, setOpenConfirmModal]= useState(false)
-  let visiblePhenonmena = []
-  let inVisiblePhenonmena = []
 
-  inVisiblePhenonmena = phenomenaData?.filter(phenomenon => hiddenPhenomena?.includes(phenomenon?.id))
-  visiblePhenonmena = phenomenaData?.filter(phenomenon => !hiddenPhenomena?.includes(phenomenon?.id))
+  const inVisiblePhenonmena = useMemo(() => {
+    return phenomenaData ? phenomenaData?.filter(phenomenon => hiddenPhenomena?.includes(phenomenon?.id)) : []
+  }, [phenomenaData, hiddenPhenomena])
+  const visiblePhenonmena = useMemo(() => {
+    return phenomenaData ? phenomenaData.filter(phenomenon => !hiddenPhenomena?.includes(phenomenon?.id)) : []
+  }, [phenomenaData, hiddenPhenomena])
   const openConfirmModalHandler = () => {
     setOpenConfirmModal(true)
   } 
@@ -110,8 +112,8 @@ const RatingResultsView = () => {
           radar={radar}
         />
       }
-      <RatingResults phenomena={visiblePhenonmena || []} radar={radar}/>
-      <HiddenResults phenomena={inVisiblePhenonmena || []}/>
+      <RatingResults phenomena={visiblePhenonmena} radar={radar}/>
+      <HiddenResults phenomena={inVisiblePhenonmena}/>
       <>
         { canBeEditAndClearResults && 
           (<>

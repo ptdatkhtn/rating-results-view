@@ -17,9 +17,11 @@ const RatingResults = ({phenomena, radar}) => {
 
   useEffect(() => {
     const fetchRatingsCurrentUser = async () => {
+      
       const ratingsCurrentUser = await Promise.all(
         phenomena?.map((phen) => ratingApi.getRatingsCurrentUser(radar?.group.id, radar?.id, phen?.id))
       )
+      
       /* eslint-disable */
       /* eslint-disable */
       ratingsCurrentUser?.filter( rating => {
@@ -49,7 +51,7 @@ const RatingResults = ({phenomena, radar}) => {
 
     fetchRatingsCurrentUser()
    
-  }, [])
+  }, [phenomena])
 
   return (
     <Container>
