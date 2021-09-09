@@ -19,8 +19,12 @@ const RatingResults = ({phenomena, radar}) => {
     const fetchRatingsCurrentUser = async () => {
       
       const ratingsCurrentUser = await Promise.all(
-        phenomena?.map((phen) => ratingApi.getRatingsCurrentUser(radar?.group.id, radar?.id, phen?.id))
+        phenomena?.map((phen) => {
+          return ratingApi.getRatingsCurrentUser(radar?.group.id, radar?.id, phen?.id)
+        })
       )
+      
+      console.log('testtttingggg.....')
       
       /* eslint-disable */
       /* eslint-disable */

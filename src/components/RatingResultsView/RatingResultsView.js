@@ -91,6 +91,7 @@ const RatingResultsView = () => {
 
   const canBeEditAndClearResults = String(radar?.account?.role) !== 'visitor' && String(radar?.account?.role) !== 'user'
 
+  console.log('visiblePhenonmena', visiblePhenonmena)
   return (
     <RateTabWrapper>
       {
