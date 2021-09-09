@@ -361,34 +361,34 @@ const App = ({
       })
       .attr('cursor', 'pointer')
 
-    // const myCircleMedian1 = scatterSvg.append('g')
-    //   .selectAll('circle')
-    //   .data(nodeListAsMedian)
-    //   .join('circle')
-    //   .attr('stroke', d => d.type[0].outerStroke)
-    //   .attr('cursor', 'pointer')
-    //   .attr('id', 'circleMedian')
-    //   .attr('class', d => {
-    //     return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'outer_special_circle_median left' : 'outer_normal_circle_median left'
-    //   })
-    //   .style('fill', d => d.type[0].fillSymbol)
+    const myCircleMedian1 = scatterSvg.append('g')
+      .selectAll('circle')
+      .data(nodeListAsMedian)
+      .join('circle')
+      .attr('stroke', d => d.type[0].outerStroke)
+      .attr('cursor', 'pointer')
+      .attr('id', 'circleMedian')
+      .attr('class', d => {
+        return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'outer_special_circle_median left' : 'outer_normal_circle_median left'
+      })
+      .style('fill', d => d.type[0].fillSymbol)
 
-    // const myCircleMedian = scatterSvg.append('g')
-    //   .selectAll('circle')
-    //   .data(nodeListAsMedian)
-    //   .join('circle')
-    //   .attr('stroke', d => d.type[0].innerStroke)
-    //   .attr('cursor', 'pointer')
-    //   .attr('id', 'circleMedian')
-    //   .attr('class', d => {return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'inner_special_circle_median left' : 'inner_normal_circle_median left'})
-    //   .style('fill', d => {
-    //     if (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) {
-    //       return 'white'
-    //     }
+    const myCircleMedian = scatterSvg.append('g')
+      .selectAll('circle')
+      .data(nodeListAsMedian)
+      .join('circle')
+      .attr('stroke', d => d.type[0].innerStroke)
+      .attr('cursor', 'pointer')
+      .attr('id', 'circleMedian')
+      .attr('class', d => {return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'inner_special_circle_median left' : 'inner_normal_circle_median left'})
+      .style('fill', d => {
+        if (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) {
+          return 'white'
+        }
 
-    //     return d.type[0].fillSymbol
-    //   })
-    //   .attr('cursor', 'pointer')
+        return d.type[0].fillSymbol
+      })
+      .attr('cursor', 'pointer')
 
       if (isAverage) {
         d3.selectAll('#myNewTextsAvg').style('opacity', visibleText ? 1 : 0)

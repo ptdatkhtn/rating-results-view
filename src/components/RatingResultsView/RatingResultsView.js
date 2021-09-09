@@ -112,7 +112,7 @@ const RatingResultsView = () => {
           radar={radar}
         />
       }
-      {visiblePhenonmena.length && radar && (
+      {visiblePhenonmena.length > 0 && radar && (
         <RatingResults phenomena={visiblePhenonmena} radar={radar}/>
       )}
       {inVisiblePhenonmena.length > 0 && (
