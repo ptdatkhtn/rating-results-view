@@ -91,13 +91,12 @@ const RatingResultsView = () => {
 
   const canBeEditAndClearResults = String(radar?.account?.role) !== 'visitor' && String(radar?.account?.role) !== 'user'
 
-  console.log('visiblePhenonmena', visiblePhenonmena)
   return (
     <RateTabWrapper>
       {
-        width > 0 &&
+        width > 0 && radar && visiblePhenonmena.length > 0 &&
         <FourfoldTable 
-          phenomena={visiblePhenonmena || []} 
+          phenomena={visiblePhenonmena} 
           containerWidth={width - 60} 
           containerHeight={height + 60}
           axisLabel3={radar?.fourFieldsBottomLeft} 
@@ -113,8 +112,12 @@ const RatingResultsView = () => {
           radar={radar}
         />
       }
-      <RatingResults phenomena={visiblePhenonmena} radar={radar}/>
-      <HiddenResults phenomena={inVisiblePhenonmena}/>
+      {visiblePhenonmena.length && radar && (
+        <RatingResults phenomena={visiblePhenonmena} radar={radar}/>
+      )}
+      {inVisiblePhenonmena.length > 0 && (
+        <HiddenResults phenomena={inVisiblePhenonmena}/>
+      )}
       <>
         { canBeEditAndClearResults && 
           (<>
