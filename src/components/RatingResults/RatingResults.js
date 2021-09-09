@@ -49,7 +49,7 @@ const RatingResults = ({phenomena, radar}) => {
 
     fetchRatingsCurrentUser()
    
-  }, [phenomena])
+  }, [])
 
   return (
     <Container>
