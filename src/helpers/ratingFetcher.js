@@ -48,4 +48,8 @@ export const ratingApi = {
     getRatingsCurrentUser: async (gid, radarId, pid) => {
         return await httpRequest(baseUrl, 'GET', `rating/${gid}/radar/${radarId}/phenomenon/${pid}/user`)
     },
+
+    getRatingsCurrentUserOnly1Api: async (gid, radarId) => {
+        return await httpRequest(baseUrl, 'GET', `rating/${gid}/radar/${radarId}/user`)
+      },
 }
