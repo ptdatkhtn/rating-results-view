@@ -22,6 +22,12 @@ const reducers = (state, action) => {
                 ...state,
                 hiddenPhenomena: action.payload
             }
+
+        case ACTIONS.ISFLIP:
+            return {
+                ...state,
+                isFlip: action.payload
+            }
         default:
             return state
         }

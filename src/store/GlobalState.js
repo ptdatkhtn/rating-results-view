@@ -10,7 +10,8 @@ const initialState = {
     phenomenaData: [],
     radar: {},
     error: {},
-    hiddenPhenomena: []
+    hiddenPhenomena: [],
+    isFlip: false
 }
 
 export const DataContext = createContext(initialState) 
@@ -45,7 +46,7 @@ export const DataProvider = ({children, node}) => {
                 const size = phenomenaIds?.length || 10
                 const phenonmena = []
 
-                const [allHiddenRatings, phenomenaList, phenomenaTypes, allRatings] = await Promise.all(
+                const [allHiddenRatings, phenomenaList, phenomenaTypes, allRatings, isFlipRatings] = await Promise.all(
                     [
                         ratingApi.getAllHiddenRatings(groups[1] || 0, node)
                             .then(async (hiddenPhenomena) => {
@@ -59,11 +60,27 @@ export const DataProvider = ({children, node}) => {
                         ,
                         getPhenomenaTypes(groups[1] || 0)
                         ,
-                        ratingApi.getAllRatings(groups[1] || 0, node)
+                        ratingApi.getAllRatings(groups[1] || 0, node),
+                        ratingApi.getFlipAxisAfterSaved(groups[1], node)
+                            // .then(async (res) => {
+                            // console.log('aaaaa12222', res)
+                            
+                            // // const cloneRadar = radar
+                            // // radar['isFlip'] = data.data.isFlip || false
+                            // // console.log('radar222', radar)
+                            // await dispatch({
+                            //     type: ACTIONS.ISFLIP,
+                            //     payload: res.data.isFlip
+                            // })
+                        // })
                     ]
                 )
-
+                // console.log('radar222', radar)
                 {
+                    isFlipRatings && dispatch({
+                        type: ACTIONS.ISFLIP,
+                        payload: isFlipRatings.data?.isFlip
+                    })
                     /* eslint-disable */
                     phenomenaList?.result.map((phenonmenon) => {
                         /* eslint-disable */
@@ -82,7 +99,6 @@ export const DataProvider = ({children, node}) => {
                             }
                         })
                     })
-
                     /* eslint-disable */
                     Object.keys(allRatings?.data)?.map(async (phe) => {
                         const pheId = phe.split('/')

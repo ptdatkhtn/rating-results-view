@@ -15,15 +15,37 @@ import {
 } from "./styles"
 
 const RatingResultsView = () => {
-  const { state: {phenomenaData, radar, hiddenPhenomena }, dispatch } = useContext(DataContext)
+  const { state: {phenomenaData, radar, hiddenPhenomena, isFlip }, dispatch } = useContext(DataContext)
+
   const [openConfirmModal, setOpenConfirmModal]= useState(false)
 
+  let phenomenaFlip = [];
+  if ( !!phenomenaData?.length && isFlip) {
+    /* eslint-enable */
+    phenomenaData.map((p) => {
+      const rating_x = p && p['rating_y']
+      const rating_y = p && p['rating_x']
+      const ratingCurrentX = p && p['ratingCurrentY']
+      const ratingCurrentY = p && p['ratingCurrentX']
+      const phenCLone = {...p}
+      phenCLone['rating_x'] = rating_x
+      phenCLone['rating_y'] = rating_y
+      phenCLone['ratingCurrentX'] = ratingCurrentX
+      phenCLone['ratingCurrentY'] = ratingCurrentY
+
+      phenomenaFlip.push(phenCLone)
+    })
+  } else {
+    phenomenaFlip = phenomenaData
+  }
+
   const inVisiblePhenonmena = useMemo(() => {
-    return phenomenaData ? phenomenaData?.filter(phenomenon => hiddenPhenomena?.includes(phenomenon?.id)) : []
+    return phenomenaFlip ? phenomenaFlip?.filter(phenomenon => hiddenPhenomena?.includes(phenomenon?.id)) : []
   }, [phenomenaData, hiddenPhenomena])
   const visiblePhenonmena = useMemo(() => {
-    return phenomenaData ? phenomenaData.filter(phenomenon => !hiddenPhenomena?.includes(phenomenon?.id)) : []
+    return phenomenaFlip ? phenomenaFlip.filter(phenomenon => !hiddenPhenomena?.includes(phenomenon?.id)) : []
   }, [phenomenaData, hiddenPhenomena])
+
   const openConfirmModalHandler = () => {
     setOpenConfirmModal(true)
   } 
