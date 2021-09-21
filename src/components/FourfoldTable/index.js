@@ -4505,11 +4505,11 @@ const App = ({
         <div style={{display: 'flex', alignItems: 'center'}}>
           <div className="custom-control custom-checkbox">
             <input type="checkbox" className="custom-control-input" id="customCheckbox_hideTitles_ratings" checked={!visibleText} onChange={onToggleTitle} />
-              <label className="custom-control-label" for="customCheckbox_hideTitles_ratings" style={{fontWeight: 400, fontSize: '13px'}}>{requestTranslation('HideTitles_RatingResults')}</label>
+              <label className="custom-control-label" for="customCheckbox_hideTitles_ratings" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Hide titles' : 'Piilota otsikot') || requestTranslation('HideTitles_RatingResults')}</label>
           </div>
         </div>
         <div style={{display: 'flex', alignItems: 'center', marginRight: '-12px' }}>
-          <p style={{ fontSize: "13px", margin: 0, fontWeight: 400}}>{requestTranslation('ShowResultsAs_RatingResults')} </p>
+          <p style={{ fontSize: "13px", margin: 0, fontWeight: 400}}>{ (radar?.radarLanguage === "en" ? 'Show results as:' : 'Näytä tulokset muodossa:') || requestTranslation('ShowResultsAs_RatingResults')} </p>
           <div className="custom-control custom-radio custom-control-inline" style={{marginLeft: '16px'}}>
             <input 
               type="radio" 
@@ -4519,7 +4519,7 @@ const App = ({
               checked={isAverage} 
               onChange={onToggleIsAverage} 
             />
-              <label className="custom-control-label" for="customRadioInline_AsAverage" style={{fontWeight: 400, fontSize: '13px'}}>{requestTranslation('Average_RatingResults')}</label>
+              <label className="custom-control-label" for="customRadioInline_AsAverage" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Average' : 'Keskiarvo') || requestTranslation('Average_RatingResults')}</label>
           </div>
           <div class="custom-control custom-radio custom-control-inline">
             <input 
@@ -4530,7 +4530,7 @@ const App = ({
               checked={!isAverage} 
               onChange={onToggleIsMedian} 
             />
-              <label className="custom-control-label" for="customRadioInline_AsMedian" style={{fontWeight: 400, fontSize: '13px'}}>{requestTranslation('Median_RatingResults')}</label>
+              <label className="custom-control-label" for="customRadioInline_AsMedian" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Median' : 'Mediaani') || requestTranslation('Median_RatingResults')}</label>
           </div>
         </div>   
     </div>

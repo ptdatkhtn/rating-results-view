@@ -145,7 +145,7 @@ const RatingResultsView = () => {
           (<>
             <RateTabFooter>
               <ClearRatingsBtn onClick={openConfirmModalHandler} className="btn btn-outline-secondary btn-sm">
-                <span className="af-custom-close" />{requestTranslation('ClearRatings_RatingResults')}
+                <span className="af-custom-close" />{ radar?.radarLanguage === "en" ? 'Clear Ratings' : 'Tyhjennä arviot' || requestTranslation('ClearRatings_RatingResults')}
               </ClearRatingsBtn>
             </RateTabFooter>
             <ConfirmationModal confirmationModal={openConfirmModal} confirmationModalClose={closeConfirmModalHandler} clearRatings={onClearRatesHandler}/>
