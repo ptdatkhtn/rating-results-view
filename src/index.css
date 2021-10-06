@@ -1,0 +1,7 @@
+.af-custom-fullscreen_exit::before {
+    content: "\e955";
+}
+
+.af-custom-fullscreen::before {
+    content: "\e956";
+}

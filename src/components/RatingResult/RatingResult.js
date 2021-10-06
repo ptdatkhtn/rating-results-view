@@ -83,7 +83,7 @@ const Rating = ({ phenomenon,currentUserRatings, radar, isRatingX }) => {
             data-href={getPhenomenonUrl(radar?.id, phenomenon)}
             backgroundColor={backgroundColor}
           >
-            {phenomenon?.content?.title}
+            {phenomenon?.content?.short_title || phenomenon?.content?.title}
           </RatingItemHeader>
           {
             canBeEditAndClearResults && (
