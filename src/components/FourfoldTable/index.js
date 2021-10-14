@@ -4067,7 +4067,7 @@ const App = ({
 
     const innerText = scatterSvg.append('g').selectAll('foreignObject').data(innerTexts).join('foreignObject')
     innerText
-      .attr('width', containerWidth / 2 -20)
+      .attr('width', containerWidth / 2)
       .attr('height', 60)
       .style('fill', 'rgb(224, 222, 222)')
       .style('font-style', 'italic')
@@ -4254,7 +4254,7 @@ const App = ({
         innerText
           .transition(trans)
           .attr('x', d => {
-            return xr(d.x) - Math.min(getTextWidth(d.title, 18), containerWidth / 2) / 2 + d.gutter
+            return xr(d.x) - Math.min(getTextWidth(d.title, 18), containerWidth / 2) / 2 + (d.gutter * containerWidth / 800)
           })
           .attr('y', d => yr(d.y) - 22)
   
