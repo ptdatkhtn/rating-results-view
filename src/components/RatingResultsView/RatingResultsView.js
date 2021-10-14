@@ -89,7 +89,7 @@ const RatingResultsView = () => {
     setWidth(
       getTabContentElement?
       (innerDimensions(getTabContentElement).width -60)
-      : 800
+      : 1000
       )
   }
 

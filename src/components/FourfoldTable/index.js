@@ -4064,7 +4064,7 @@ const App = ({
       .data(rectNodes)
       .join('rect')
       .attr('fill', 'white')
-      
+
     const innerText = scatterSvg.append('g').selectAll('foreignObject').data(innerTexts).join('foreignObject')
     innerText
       .attr('width', containerWidth / 2 - (20 * containerWidth /800))
@@ -4251,12 +4251,22 @@ const App = ({
           .attr('width', d => d.width * t.k)
           .attr('height', d => d.height * t.k)
   
-        innerText
-          .transition(trans)
-          .attr('x', d => {
-            return xr(d.x) - Math.min(getTextWidth(d.title, 18), containerWidth / 2) / 2 + (d.gutter * containerWidth / 800)
-          })
-          .attr('y', d => yr(d.y) - 22)
+          if (+window.innerWidth >= 1071) {
+            innerText
+              .transition(trans)
+              .attr('x', d => {
+                return xr(d.x) - Math.min(getTextWidth(d.title, 18), containerWidth / 2) / 2 + (d.gutter * containerWidth / 800) -(20 * containerWidth /800)
+              })
+              .attr('y', d => yr(d.y) - 22)
+          } else {
+            innerText
+              .transition(trans)
+              .attr('x', d => {
+                return xr(d.x) - Math.min(getTextWidth(d.title, 18), containerWidth / 2) / 2 + (d.gutter * containerWidth / 800)
+              })
+              .attr('y', d => yr(d.y) - 22)
+          }
+        
   
         innerLine
           .transition(trans)
