@@ -19,7 +19,7 @@ import * as tokens from "@sangre-fp/css-framework/tokens/fp-design-tokens"
 import Slider from '../Slider'
 
 
-const Rating = ({ phenomenon,currentUserRatings, radar, isRatingX }) => { 
+const Rating = ({ phenomenon, radar, isRatingX }) => { 
   const {
     state: { hiddenPhenomena },
     dispatch,
@@ -123,7 +123,7 @@ const Rating = ({ phenomenon,currentUserRatings, radar, isRatingX }) => {
                   
               )
             }
-            <SingleRatingCurrentUser leftValue={isRatingX ? currentUserRatings?.ratingCurrentX?.percentage: currentUserRatings?.ratingCurrentY?.percentage} isRated={!!currentUserRatings?.ratingCurrentX?.percentage}/>
+            <SingleRatingCurrentUser leftValue={isRatingX ? phenomenon?.ratingCurrentX: phenomenon?.ratingCurrentY} isRated={!!phenomenon?.ratingCurrentX || !!phenomenon?.ratingCurrentX}/>
             
           </div>      
         </RatingItem>
