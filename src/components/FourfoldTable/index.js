@@ -3822,10 +3822,10 @@ const App = ({
   }
   
   const innerTexts = [
-    { x: 25, y: 25, title: axisLabel3, gutter: -margin.left / 2 },
-    { x: 75, y: 25, title: axisLabel4, gutter: margin.left / 2 },
-    { x: 25, y: 75, title: axisLabel5, gutter: -margin.top / 2 },
-    { x: 75, y: 75, title: axisLabel6, gutter: margin.top / 2 }
+    { x: 0, y: 25, title: axisLabel3, gutter: -margin.left },
+    { x: 50, y: 25, title: axisLabel4, gutter: 0 },
+    { x: 0, y: 75, title: axisLabel5, gutter: -margin.left },
+    { x: 50, y: 75, title: axisLabel6, gutter: 0 }
   ]
 
   const innerLineData = [
@@ -4066,34 +4066,18 @@ const App = ({
       .attr('fill', 'white')
 
       const innerText = scatterSvg.append('g').selectAll('foreignObject').data(innerTexts).join('foreignObject')
-
-      if (+window.innerWidth >= 1071) {
-        innerText
-          .attr('width', containerWidth / 2 - (20 * containerWidth /800))
-          .attr('height', 60)
-          .style('fill', 'rgb(224, 222, 222)')
-          .style('font-style', 'italic')
-          .style('font-weight', '700')
-          .style('font-family', 'L10')
-          .style('font-size', '18')
-          .style('color', 'rgb(224, 222, 222)')
-          // .style('text-align', 'center')
-          .append("xhtml:div")
-          .html(d => d.title)
-      } else {
-        innerText
-          .attr('width', containerWidth / 2)
-          .attr('height', 60)
-          .style('fill', 'rgb(224, 222, 222)')
-          .style('font-style', 'italic')
-          .style('font-weight', '700')
-          .style('font-family', 'L10')
-          .style('font-size', '18')
-          .style('color', 'rgb(224, 222, 222)')
-          // .style('text-align', 'center')
-          .append("xhtml:div")
-          .html(d => d.title)
-      }
+    innerText
+      .attr('width', containerWidth / 2)
+      .attr('height', 60)
+      .style('fill', 'rgb(224, 222, 222)')
+      .style('font-style', 'italic')
+      .style('font-weight', '700')
+      .style('font-family', 'L10')
+      .style('font-size', '18')
+      .style('text-align', 'center')
+      .style('color', 'rgb(224, 222, 222)')
+      .append("xhtml:div")
+      .html(d => d.title)
 
     
 
@@ -4269,21 +4253,12 @@ const App = ({
           .attr('width', d => d.width * t.k)
           .attr('height', d => d.height * t.k)
   
-          if (+window.innerWidth >= 1071) {
-            innerText
-              .transition(trans)
-              .attr('x', d => {
-                return xr(d.x) - Math.min(getTextWidth(d.title, 18), containerWidth / 2) / 2 + (d.gutter * containerWidth / 800) -(20 * containerWidth /800)
-              })
-              .attr('y', d => yr(d.y) - 22)
-          } else {
-            innerText
-              .transition(trans)
-              .attr('x', d => {
-                return xr(d.x) - Math.min(getTextWidth(d.title, 18), containerWidth / 2) / 2 + (d.gutter)
-              })
-              .attr('y', d => yr(d.y) - 22)
-          }
+          innerText
+          .transition(trans)
+          .attr('x', d => {
+            return xr(d.x) + d.gutter
+          })
+          .attr('y', d => yr(d.y) - 22)
         
   
         innerLine
