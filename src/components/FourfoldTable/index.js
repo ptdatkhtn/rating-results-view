@@ -4029,7 +4029,8 @@ const App = ({
 
   useEffect(() => {
     
-    if (phenomena.length < 1 || !scatterSvg) return
+    try {
+      if (phenomena.length < 1 || !scatterSvg) return
     let nodes = [...nodeListAsAverage, ...nodeListAsMedian]
 
     let data = nodes.map(item => [item.x, item.y])
@@ -4216,273 +4217,276 @@ const App = ({
     // active zooming
     const zoom = d3.zoom().scaleExtent([1, 8]).translateExtent([[0, 0], [containerWidth, containerHeight]]).on("zoom", function (e) {
       try {
-        const trans = d3.transition().duration(150).ease(d3.easeLinear)
-        const t = e.transform
-  
-        const k = t.k / z.k
-        const point = center(e, this)
-  
-        // is it on an axis? is the shift key pressed?
-        // const doX = point[0] > x.range()[0]
-        // const doY = point[1] < y.range()[0]
-        const shift = e.sourceEvent && e.sourceEvent.shiftKey
-  
-        if (k === 1) {
-          // pure translation?
-          gx.call(zoomX.translateBy, (t.x - z.x) / tx().k, 0)
-          gy.call(zoomY.translateBy, 0, (t.y - z.y) / ty().k)
-        } else {
-          // if not, we're zooming on a fixed point
-        gx.call(zoomX.scaleBy, shift ? 1 / k : k, point)
-          gy.call(zoomY.scaleBy, k, point)
-          // doY && gy.call(zoomY.scaleBy, k, point)
-        }
-  
-        z = t
-  
-        const xr = tx().rescaleX(x)
-        const yr = ty().rescaleY(y)
-        const radius = myCircleAvg.attr('r')
-  
-        gx.call(xAxis, xr)
-        gy.call(yAxis, yr)
-  
-        myWhiteRect
-          .attr('x', d => xr(d.x))
-          .attr('y', d => yr(d.y))
-          .attr('width', d => d.width * t.k)
-          .attr('height', d => d.height * t.k)
-  
-        innerText
-          .transition(trans)
-          .attr('x', d => {
-            return xr(d.x) - containerWidth / 4 + d.gutter
-          })
-          .attr('y', d => yr(d.y) - 22)
-  
-        innerLine
-          .transition(trans)
-          .attr("x1", d => xr(d.x1))
-          .attr("y1", d => yr(d.y1))
-          .attr("x2", d => xr(d.x2))
-          .attr("y2", d => yr(d.y2))
+          const trans = d3.transition().duration(150).ease(d3.easeLinear)
+          const t = e.transform
+    
+          const k = t.k / z.k
+          const point = center(e, this)
+    
+          // is it on an axis? is the shift key pressed?
+          // const doX = point[0] > x.range()[0]
+          // const doY = point[1] < y.range()[0]
+          const shift = e.sourceEvent && e.sourceEvent.shiftKey
+    
+          if (k === 1) {
+            // pure translation?
+            gx.call(zoomX.translateBy, (t.x - z.x) / tx().k, 0)
+            gy.call(zoomY.translateBy, 0, (t.y - z.y) / ty().k)
+          } else {
+            // if not, we're zooming on a fixed point
+          gx.call(zoomX.scaleBy, shift ? 1 / k : k, point)
+            gy.call(zoomY.scaleBy, k, point)
+            // doY && gy.call(zoomY.scaleBy, k, point)
+          }
+    
+          z = t
+    
+          const xr = tx().rescaleX(x)
+          const yr = ty().rescaleY(y)
+          const radius = myCircleAvg.attr('r')
+    
+          gx.call(xAxis, xr)
+          gy.call(yAxis, yr)
+    
+          myWhiteRect
+            .attr('x', d => xr(d.x))
+            .attr('y', d => yr(d.y))
+            .attr('width', d => d.width * t.k)
+            .attr('height', d => d.height * t.k)
+    
+          innerText
+            .transition(trans)
+            .attr('x', d => {
+              return xr(d.x) - containerWidth / 4 + d.gutter
+            })
+            .attr('y', d => yr(d.y) - 22)
+    
+          innerLine
+            .transition(trans)
+            .attr("x1", d => xr(d.x1))
+            .attr("y1", d => yr(d.y1))
+            .attr("x2", d => xr(d.x2))
+            .attr("y2", d => yr(d.y2))
 
-        outer_normal_circle
-          .transition(trans)
-          .on('end', () => {
-            try {
-              const scale = Math.min(t.k, 8)
-              const minScale = Math.max(scale, 1)
-              const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
-            //   const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
-              outer_normal_circle
-                // .transition(tran2)
-                .attr('cx', d => xr(d.x))
-                .attr('cy', d => yr(d.y))
-                .attr('r', r)
-            } catch (error) {
-              console.error(error)
-            }
-          })
-          .attr('cx', d => xr(d.x))
-          .attr('cy', d => yr(d.y))
-          .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
+          outer_normal_circle
+            .transition(trans)
+            .on('end', () => {
+              try {
+                const scale = Math.min(t.k, 8)
+                const minScale = Math.max(scale, 1)
+                const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
+              //   const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
+                outer_normal_circle
+                  // .transition(tran2)
+                  .attr('cx', d => xr(d.x))
+                  .attr('cy', d => yr(d.y))
+                  .attr('r', r)
+              } catch (error) {
+                console.error(error)
+              }
+            })
+            .attr('cx', d => xr(d.x))
+            .attr('cy', d => yr(d.y))
+            .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
 
-        outer_special_circle
-          .transition(trans)
-          .on('end', () => {
-            try {
-              const scale = Math.min(t.k, 8)
-              const minScale = Math.max(scale, 1)
-              const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
-            //   const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
-              outer_special_circle
-                // .transition(tran2)
-                .attr('cx', d => xr(d.x))
-                .attr('cy', d => yr(d.y))
-                .attr('r', r)
-            } catch (error) {
-              console.error(error)
-            }
-          })
-          .attr('cx', d => xr(d.x))
-          .attr('cy', d => yr(d.y))
-          .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
+          outer_special_circle
+            .transition(trans)
+            .on('end', () => {
+              try {
+                const scale = Math.min(t.k, 8)
+                const minScale = Math.max(scale, 1)
+                const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
+              //   const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
+                outer_special_circle
+                  // .transition(tran2)
+                  .attr('cx', d => xr(d.x))
+                  .attr('cy', d => yr(d.y))
+                  .attr('r', r)
+              } catch (error) {
+                console.error(error)
+              }
+            })
+            .attr('cx', d => xr(d.x))
+            .attr('cy', d => yr(d.y))
+            .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
 
-        inner_normal_circle
-          .transition(trans)
-          .on('end', () => {
-            try {
-              const scale = Math.min(t.k, 8)
-              const minScale = Math.max(scale, 1)
-              const r = Math.max(NODE_RADIUS - 3, Math.floor(NODE_RADIUS - 3 + minScale))
-            //   const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
-              inner_normal_circle
-                // .transition(tran2)
-                .attr('cx', d => xr(d.x))
-                .attr('cy', d => yr(d.y))
-                .attr('r', r)
-            } catch (error) {
-              console.error(error)
-            }
-          })
-          .attr('cx', d => xr(d.x))
-          .attr('cy', d => yr(d.y))
-          .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
+          inner_normal_circle
+            .transition(trans)
+            .on('end', () => {
+              try {
+                const scale = Math.min(t.k, 8)
+                const minScale = Math.max(scale, 1)
+                const r = Math.max(NODE_RADIUS - 3, Math.floor(NODE_RADIUS - 3 + minScale))
+              //   const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
+                inner_normal_circle
+                  // .transition(tran2)
+                  .attr('cx', d => xr(d.x))
+                  .attr('cy', d => yr(d.y))
+                  .attr('r', r)
+              } catch (error) {
+                console.error(error)
+              }
+            })
+            .attr('cx', d => xr(d.x))
+            .attr('cy', d => yr(d.y))
+            .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
 
-        inner_special_circle
-          .transition(trans)
-          .on('end', () => {
-            try {
-              const scale = Math.min(t.k, 8)
-              const minScale = Math.max(scale, 1)
-              const r = Math.max(SPECIAL_NODE_RADIUS - 3, Math.floor(SPECIAL_NODE_RADIUS - 3 + minScale))
-            //   const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
-              inner_special_circle
-                // .transition(tran2)
-                .attr('cx', d => xr(d.x))
-                .attr('cy', d => yr(d.y))
-                .attr('r', r)
-            } catch (error) {
-              console.error(error)
-            }
-          })
-          .attr('cx', d => xr(d.x))
-          .attr('cy', d => yr(d.y))
-          .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
-  
-        outer_normal_circle_median
-          .transition(trans)
-          .on('end', () => {
-            try {
-              const scale = Math.min(t.k, 8)
-              const minScale = Math.max(scale, 1)
-              const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
-            //   const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
-              outer_normal_circle_median
-                // .transition(tran2)
-                .attr('cx', d => xr(d.x))
-                .attr('cy', d => yr(d.y))
-                .attr('r', r)
-            } catch (error) {
-              console.error(error)
-            }
-          })
-          .attr('cx', d => xr(d.x))
-          .attr('cy', d => yr(d.y))
-          .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
+          inner_special_circle
+            .transition(trans)
+            .on('end', () => {
+              try {
+                const scale = Math.min(t.k, 8)
+                const minScale = Math.max(scale, 1)
+                const r = Math.max(SPECIAL_NODE_RADIUS - 3, Math.floor(SPECIAL_NODE_RADIUS - 3 + minScale))
+              //   const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
+                inner_special_circle
+                  // .transition(tran2)
+                  .attr('cx', d => xr(d.x))
+                  .attr('cy', d => yr(d.y))
+                  .attr('r', r)
+              } catch (error) {
+                console.error(error)
+              }
+            })
+            .attr('cx', d => xr(d.x))
+            .attr('cy', d => yr(d.y))
+            .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
+    
+          outer_normal_circle_median
+            .transition(trans)
+            .on('end', () => {
+              try {
+                const scale = Math.min(t.k, 8)
+                const minScale = Math.max(scale, 1)
+                const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
+              //   const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
+                outer_normal_circle_median
+                  // .transition(tran2)
+                  .attr('cx', d => xr(d.x))
+                  .attr('cy', d => yr(d.y))
+                  .attr('r', r)
+              } catch (error) {
+                console.error(error)
+              }
+            })
+            .attr('cx', d => xr(d.x))
+            .attr('cy', d => yr(d.y))
+            .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
 
-        outer_special_circle_median
-          .transition(trans)
-          .on('end', () => {
-            try {
-              const scale = Math.min(t.k, 8)
-              const minScale = Math.max(scale, 1)
-              const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
-            //   const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
-              outer_special_circle_median
-                // .transition(tran2)
-                .attr('cx', d => xr(d.x))
-                .attr('cy', d => yr(d.y))
-                .attr('r', r)
-            } catch (error) {
-              console.error(error)
-            }
-          })
-          .attr('cx', d => xr(d.x))
-          .attr('cy', d => yr(d.y))
-          .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
+          outer_special_circle_median
+            .transition(trans)
+            .on('end', () => {
+              try {
+                const scale = Math.min(t.k, 8)
+                const minScale = Math.max(scale, 1)
+                const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
+              //   const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
+                outer_special_circle_median
+                  // .transition(tran2)
+                  .attr('cx', d => xr(d.x))
+                  .attr('cy', d => yr(d.y))
+                  .attr('r', r)
+              } catch (error) {
+                console.error(error)
+              }
+            })
+            .attr('cx', d => xr(d.x))
+            .attr('cy', d => yr(d.y))
+            .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
 
-  
-        inner_normal_circle_median
-          .transition(trans)
-          .on('end', () => {
-            try {
-              const scale = Math.min(t.k, 8)
-              const minScale = Math.max(scale, 1)
-              const r = Math.max(NODE_RADIUS - 3, Math.floor(NODE_RADIUS - 3 + minScale))
-            //   const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
-              inner_normal_circle_median
-                // .transition(tran2)
-                .attr('cx', d => xr(d.x))
-                .attr('cy', d => yr(d.y))
-                .attr('r', r)
-            } catch (error) {
-              console.error(error)
-            }
-          })
-          .attr('cx', d => xr(d.x))
-          .attr('cy', d => yr(d.y))
-          .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
+    
+          inner_normal_circle_median
+            .transition(trans)
+            .on('end', () => {
+              try {
+                const scale = Math.min(t.k, 8)
+                const minScale = Math.max(scale, 1)
+                const r = Math.max(NODE_RADIUS - 3, Math.floor(NODE_RADIUS - 3 + minScale))
+              //   const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
+                inner_normal_circle_median
+                  // .transition(tran2)
+                  .attr('cx', d => xr(d.x))
+                  .attr('cy', d => yr(d.y))
+                  .attr('r', r)
+              } catch (error) {
+                console.error(error)
+              }
+            })
+            .attr('cx', d => xr(d.x))
+            .attr('cy', d => yr(d.y))
+            .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
 
-        inner_special_circle_median
-          .transition(trans)
-          .on('end', () => {
-            try {
-              const scale = Math.min(t.k, 8)
-              const minScale = Math.max(scale, 1)
-              const r = Math.max(SPECIAL_NODE_RADIUS - 3, Math.floor(SPECIAL_NODE_RADIUS - 3 + minScale))
-            //   const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
-              inner_special_circle_median
-                // .transition(tran2)
-                .attr('cx', d => xr(d.x))
-                .attr('cy', d => yr(d.y))
-                .attr('r', r)
-            } catch (error) {
-              console.error(error)
-            }
-          })
-          .attr('cx', d => xr(d.x))
-          .attr('cy', d => yr(d.y))
-          .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
+          inner_special_circle_median
+            .transition(trans)
+            .on('end', () => {
+              try {
+                const scale = Math.min(t.k, 8)
+                const minScale = Math.max(scale, 1)
+                const r = Math.max(SPECIAL_NODE_RADIUS - 3, Math.floor(SPECIAL_NODE_RADIUS - 3 + minScale))
+              //   const tran2 = d3.transition().duration(200).ease(d3.easeLinear)
+                inner_special_circle_median
+                  // .transition(tran2)
+                  .attr('cx', d => xr(d.x))
+                  .attr('cy', d => yr(d.y))
+                  .attr('r', r)
+              } catch (error) {
+                console.error(error)
+              }
+            })
+            .attr('cx', d => xr(d.x))
+            .attr('cy', d => yr(d.y))
+            .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
 
-        myForeignObjectsAvg
-          .transition(trans)
-          .on('end', () => {
-            try {
-              const scale = Math.min(t.k, 8)
-              const minScale = Math.max(scale, 1)
-              const r = Math.max(10, Math.floor(10 + minScale))
-              const fonts = Math.max(10, Math.floor(9 + minScale))
-              myNewTextsAvgID.style('font-size', fonts).attr('y', d => yr(d.y) + r / 1 - 3)
-            } catch (err) {
-              console.log('error', err)
-            }
+          myForeignObjectsAvg
+            .transition(trans)
+            .on('end', () => {
+              try {
+                const scale = Math.min(t.k, 8)
+                const minScale = Math.max(scale, 1)
+                const r = Math.max(10, Math.floor(10 + minScale))
+                const fonts = Math.max(10, Math.floor(9 + minScale))
+                myNewTextsAvgID.style('font-size', fonts).attr('y', d => yr(d.y) + r / 1 - 3)
+              } catch (err) {
+                console.log('error', err)
+              }
+              
+            })
+            .attr('x', d => {
+              return xr(d.x) - maxTextWidth / 2
+            })
+            .attr('y', d => yr(d.y) + radius / 1)
+
+          myForeignObjectsMedian
+            .transition(trans)
+            .on('end', () => {
+              try {
+                const scale = Math.min(t.k, 8)
+                const minScale = Math.max(scale, 1)
+                const r = Math.max(10, Math.floor(10 + minScale))
+                const fonts = Math.max(10, Math.floor(9 + minScale))
+                myNewTextsMedianID.style('font-size', fonts).attr('y', d => yr(d.y) + r / 1 - 3)
+              } catch (err) {
+                console.log('error', err)
+              }
+            })
+            .attr('x', d => {
+              return xr(d.x) - maxTextWidth / 2
+            })
+            .attr('y', d => yr(d.y) + radius / 1)
             
-          })
-          .attr('x', d => {
-            return xr(d.x) - maxTextWidth / 2
-          })
-          .attr('y', d => yr(d.y) + radius / 1)
-
-        myForeignObjectsMedian
-          .transition(trans)
-          .on('end', () => {
-            try {
-              const scale = Math.min(t.k, 8)
-              const minScale = Math.max(scale, 1)
-              const r = Math.max(10, Math.floor(10 + minScale))
-              const fonts = Math.max(10, Math.floor(9 + minScale))
-              myNewTextsMedianID.style('font-size', fonts).attr('y', d => yr(d.y) + r / 1 - 3)
-            } catch (err) {
-              console.log('error', err)
-            }
-          })
-          .attr('x', d => {
-            return xr(d.x) - maxTextWidth / 2
-          })
-          .attr('y', d => yr(d.y) + radius / 1)
-          
-      } catch (error) {
-        console.error(error)
+        } catch (error) {
+          console.error(error)
+        }
+      })
+      d3.selectAll('circle').on('click', d => onClickNode(d.id))
+      scatterSvg.call(zoom)
+        .call(zoom.transform, d3.zoomIdentity.scale(1))
+        .node()
+      return () => {
+        scatterSvg.selectAll("*").remove()
       }
-    })
-    d3.selectAll('circle').on('click', d => onClickNode(d.id))
-    scatterSvg.call(zoom)
-      .call(zoom.transform, d3.zoomIdentity.scale(1))
-      .node()
-    return () => {
-      scatterSvg.selectAll("*").remove()
+    } catch (error) {
+      console.error(error)
     }
   }, [phenomena, scatterSvg, containerHeight, containerWidth])
 
