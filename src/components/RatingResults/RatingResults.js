@@ -20,27 +20,26 @@ const RatingResults = ({phenomena, radar, isFlip}) => {
       /* eslint-disable */
       sortedPhena.length > 0 && sortedPhena.map((pheX) => {
         if (String(currentPhenId) === String(pheX?.id)) {
-          // console.log('pheX', pheX)
-          // if (!isFlip) {
-          //   if (String(rating[0]?.split('/')[6]) === 'x') {
-          //     pheX['ratingCurrentX'] = rating[1]?.percentage
-          //   } else if (String(rating[0]?.split('/')[6]) === 'y') {
-          //     pheX['ratingCurrentY'] = rating[1]?.percentage
-          //   }
-          // } else {
-          //   if (String(rating[0]?.split('/')[6]) === 'x') {
-          //     pheX['ratingCurrentY'] = rating[1]?.percentage
-          //   } else if (String(rating[0]?.split('/')[6]) === 'y') {
-          //     pheX['ratingCurrentX'] = rating[1]?.percentage
-          //   }
-          // }
-
-          // workaround before finding the solution
-          if (String(rating[0]?.split('/')[6]) === 'x') {
-                pheX['ratingCurrentX'] = rating[1]?.percentage
-          } else if (String(rating[0]?.split('/')[6]) === 'y') {
-                pheX['ratingCurrentY'] = rating[1]?.percentage
+          if (!isFlip) {
+            if (String(rating[0]?.split('/')[6]) === 'x') {
+              pheX['ratingCurrentX'] = rating[1]?.percentage
+            } else if (String(rating[0]?.split('/')[6]) === 'y') {
+              pheX['ratingCurrentY'] = rating[1]?.percentage
+            }
+          } else {
+            if (String(rating[0]?.split('/')[6]) === 'x') {
+              pheX['ratingCurrentY'] = rating[1]?.percentage
+            } else if (String(rating[0]?.split('/')[6]) === 'y') {
+              pheX['ratingCurrentX'] = rating[1]?.percentage
+            }
           }
+
+          // // workaround before finding the solution
+          // if (String(rating[0]?.split('/')[6]) === 'x') {
+          //       pheX['ratingCurrentX'] = rating[1]?.percentage
+          // } else if (String(rating[0]?.split('/')[6]) === 'y') {
+          //       pheX['ratingCurrentY'] = rating[1]?.percentage
+          // }
         }
       })
     })

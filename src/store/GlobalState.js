@@ -62,17 +62,6 @@ export const DataProvider = ({children, node}) => {
                         ,
                         ratingApi.getAllRatings(groups[1] || 0, node),
                         ratingApi.getFlipAxisAfterSaved(groups[1], node)
-                            // .then(async (res) => {
-                            // console.log('aaaaa12222', res)
-                            
-                            // // const cloneRadar = radar
-                            // // radar['isFlip'] = data.data.isFlip || false
-                            // // console.log('radar222', radar)
-                            // await dispatch({
-                            //     type: ACTIONS.ISFLIP,
-                            //     payload: res.data.isFlip
-                            // })
-                        // })
                     ]
                 )
                 // console.log('radar222', radar)
