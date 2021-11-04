@@ -9,7 +9,7 @@ export const currentUserRatings = {
   rating_y: 30
 }
 
-const RatingResults = ({phenomena, radar}) => {
+const RatingResults = ({phenomena, radar, isFlip}) => {
   const [ratingsCurrentUser, setRatingsCurrentUser] = useState([])
 
   const SortedPhenomenaX = React.useMemo( () => {
@@ -21,10 +21,25 @@ const RatingResults = ({phenomena, radar}) => {
       sortedPhena.length > 0 && sortedPhena.map((pheX) => {
         if (String(currentPhenId) === String(pheX?.id)) {
           // console.log('pheX', pheX)
+          // if (!isFlip) {
+          //   if (String(rating[0]?.split('/')[6]) === 'x') {
+          //     pheX['ratingCurrentX'] = rating[1]?.percentage
+          //   } else if (String(rating[0]?.split('/')[6]) === 'y') {
+          //     pheX['ratingCurrentY'] = rating[1]?.percentage
+          //   }
+          // } else {
+          //   if (String(rating[0]?.split('/')[6]) === 'x') {
+          //     pheX['ratingCurrentY'] = rating[1]?.percentage
+          //   } else if (String(rating[0]?.split('/')[6]) === 'y') {
+          //     pheX['ratingCurrentX'] = rating[1]?.percentage
+          //   }
+          // }
+
+          // workaround before finding the solution
           if (String(rating[0]?.split('/')[6]) === 'x') {
-            pheX['ratingCurrentX'] = rating[1]?.percentage
-          } else if (String(rating[0]?.split('/')[6]) === 'y') {
             pheX['ratingCurrentY'] = rating[1]?.percentage
+          } else if (String(rating[0]?.split('/')[6]) === 'y') {
+            pheX['ratingCurrentX'] = rating[1]?.percentage
           }
         }
       })

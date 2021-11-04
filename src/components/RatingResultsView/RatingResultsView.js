@@ -20,24 +20,27 @@ const RatingResultsView = () => {
   const [openConfirmModal, setOpenConfirmModal]= useState(false)
 
   let phenomenaFlip = [];
-  if ( !!phenomenaData?.length && isFlip) {
-    /* eslint-enable */
-    phenomenaData.map((p) => {
-      const rating_x = p && p['rating_y']
-      const rating_y = p && p['rating_x']
-      const ratingCurrentX = p && p['ratingCurrentY']
-      const ratingCurrentY = p && p['ratingCurrentX']
-      const phenCLone = {...p}
-      phenCLone['rating_x'] = rating_x
-      phenCLone['rating_y'] = rating_y
-      phenCLone['ratingCurrentX'] = ratingCurrentX
-      phenCLone['ratingCurrentY'] = ratingCurrentY
+  // if ( !!phenomenaData?.length && isFlip) {
+  //   /* eslint-enable */
+  //   phenomenaData.map((p) => {
+  //     const rating_x = p && p['rating_y']
+  //     const rating_y = p && p['rating_x']
+  //     const ratingCurrentX = p && p['ratingCurrentY']
+  //     const ratingCurrentY = p && p['ratingCurrentX']
+  //     const phenCLone = {...p}
+  //     phenCLone['rating_x'] = rating_x
+  //     phenCLone['rating_y'] = rating_y
+  //     phenCLone['ratingCurrentX'] = ratingCurrentX
+  //     phenCLone['ratingCurrentY'] = ratingCurrentY
 
-      phenomenaFlip.push(phenCLone)
-    })
-  } else {
-    phenomenaFlip = phenomenaData
-  }
+  //     phenomenaFlip.push(phenCLone)
+  //   })
+  // } else {
+  //   phenomenaFlip = phenomenaData
+  // }
+
+  // workaround before finding the solution
+  phenomenaFlip = phenomenaData
 
   const inVisiblePhenonmena = useMemo(() => {
     return phenomenaFlip ? phenomenaFlip?.filter(phenomenon => hiddenPhenomena?.includes(phenomenon?.id)) : []
@@ -139,10 +142,10 @@ const RatingResultsView = () => {
         />
       }
       {visiblePhenonmena.length > 0 && radar && (
-        <RatingResults phenomena={visiblePhenonmena} radar={radar}/>
+        <RatingResults phenomena={visiblePhenonmena} radar={radar} isFlip={isFlip}/>
       )}
       {inVisiblePhenonmena.length > 0 && (
-        <HiddenResults phenomena={inVisiblePhenonmena}/>
+        <HiddenResults phenomena={inVisiblePhenonmena} isFlip ={isFlip}/>
       )}
       <>
         { canBeEditAndClearResults && 
