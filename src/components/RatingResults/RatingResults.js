@@ -37,9 +37,9 @@ const RatingResults = ({phenomena, radar, isFlip}) => {
 
           // workaround before finding the solution
           if (String(rating[0]?.split('/')[6]) === 'x') {
-            pheX['ratingCurrentY'] = rating[1]?.percentage
+                pheX['ratingCurrentX'] = rating[1]?.percentage
           } else if (String(rating[0]?.split('/')[6]) === 'y') {
-            pheX['ratingCurrentX'] = rating[1]?.percentage
+                pheX['ratingCurrentY'] = rating[1]?.percentage
           }
         }
       })
