@@ -3923,6 +3923,33 @@ const App = ({
 
   const nodeListAsAverage = React.useMemo(() => {
     let nodes = []
+    const rangeRandom = 5
+    const rangeNeaby = 0.4
+    const rangePlus = 5
+    const rangeSubtract = 5
+    const isModify = true
+    const modifyValueNodes = (nodes) => {
+        if (!isModify) return nodes
+
+        const result = nodes.map(node => {
+            let newNode = node
+            for (let i = 0; i < nodes.length; ++i) {
+                if (nodes[i].id !== node.id) {
+                    const rangeX = Math.abs(nodes[i].x - node.x)
+                    const rangeY = Math.abs(nodes[i].y - node.y)
+                    if (rangeX <= rangeNeaby && rangeY <= rangeNeaby) {
+                        const newX = +node.x > 100 - rangeRandom ? + node.x - (d3.randomUniform(rangeRandom - rangeSubtract, rangeRandom + rangePlus)()) : +node.x + (d3.randomUniform(rangeRandom - rangeSubtract, rangeRandom + rangePlus)())
+                        const newY = +node.y > 100 - rangeRandom ? + node.y - (d3.randomUniform(rangeRandom - rangeSubtract, rangeRandom + rangePlus)()) : +node.y + (d3.randomUniform(rangeRandom - rangeSubtract, rangeRandom + rangePlus)())
+                        newNode = { ...node, x: newX, y: newY }
+                        break
+                    }
+                }
+            }
+            return newNode
+        })
+        return result
+    }
+
 
     !!phenomena?.length && phenomena.map((phen) => {
       if (phen['rating_x']['avg'] && phen['rating_y']['avg']) {
@@ -3953,7 +3980,7 @@ const App = ({
         nodes.push(node)
       }
     })
-    return nodes
+    return modifyValueNodes(nodes)
   }, [phenomena])
 
   function center(event, target) {
@@ -4196,8 +4223,8 @@ const App = ({
     let z = d3.zoomIdentity
 
     // set up the ancillary zooms and an accessor for their transforms
-    const zoomX = d3.zoom().scaleExtent([1, 8]).translateExtent([[0, 0], [containerWidth, containerHeight]])
-    const zoomY = d3.zoom().scaleExtent([1, 8]).translateExtent([[0, 0], [containerWidth, containerHeight]])
+    const zoomX = d3.zoom().scaleExtent([1, 28]).translateExtent([[0, 0], [containerWidth, containerHeight]])
+    const zoomY = d3.zoom().scaleExtent([1, 28]).translateExtent([[0, 0], [containerWidth, containerHeight]])
     const tx = () => d3.zoomTransform(gx.node())
     const ty = () => d3.zoomTransform(gy.node())
     gx.call(zoomX).attr("pointer-events", "none")
@@ -4215,7 +4242,7 @@ const App = ({
     const myNewTextsAvgID = d3.selectAll('#myNewTextsAvg')
     
     // active zooming
-    const zoom = d3.zoom().scaleExtent([1, 8]).translateExtent([[0, 0], [containerWidth, containerHeight]]).on("zoom", function (e) {
+    const zoom = d3.zoom().scaleExtent([1, 28]).translateExtent([[0, 0], [containerWidth, containerHeight]]).on("zoom", function (e) {
       try {
           const trans = d3.transition().duration(150).ease(d3.easeLinear)
           const t = e.transform
