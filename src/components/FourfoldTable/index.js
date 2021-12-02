@@ -48,7 +48,7 @@ const App = ({
   const [appContext, setAppContext] = useState({})
   const { axis, scatterSvg } = appContext
   const [isAverage, setIsAverage] = useState(true)
-  const [isAbsoluteMode, setIsAbsoluteMode] = useState(false)
+  const [isRelative, setIsRelative] = useState(false)
 
   const margin = {
     top: 50,
@@ -124,7 +124,7 @@ const App = ({
 
     const modifyValueNodes = React.useCallback((nodes) => {
       if (!nodes || nodes.length < 1) return nodes
-      if (!isAbsoluteMode) return nodes
+      if (!isRelative) return nodes
 
       const result = nodes?.length > 0 && nodes.map(node => {
           let newNode = node
@@ -143,7 +143,7 @@ const App = ({
           return newNode
       })
       return result
-  }, [isAbsoluteMode])
+  }, [isRelative])
 
   const nodeListAsMedian = React.useMemo(() => {
     let nodes = []
@@ -179,7 +179,7 @@ const App = ({
       }
     })
     return modifyValueNodes(nodes)
-  }, [phenomena, isAbsoluteMode])
+  }, [phenomena, isRelative])
 
   const nodeListAsAverage = React.useMemo(() => {
     let nodes = []
@@ -214,7 +214,7 @@ const App = ({
       }
     })
     return modifyValueNodes(nodes)
-  }, [phenomena, isAbsoluteMode])
+  }, [phenomena, isRelative])
 
   function center(event, target) {
     if (event.sourceEvent) {
@@ -748,7 +748,7 @@ const App = ({
     } catch (error) {
       console.error(error)
     }
-  }, [phenomena, scatterSvg, containerHeight, containerWidth, isAbsoluteMode])
+  }, [phenomena, scatterSvg, containerHeight, containerWidth, isRelative])
 
   const onClickNode = (id) => {
     setVisibleDialog(true)
@@ -771,11 +771,11 @@ const App = ({
   }
 
   const onToggleIsAbsoluteMode = (event) => {
-    setIsAbsoluteMode(() => true)
+    setIsRelative(() => false)
   }
 
   const onToggleIsRelativeMode = (event) => {
-    setIsAbsoluteMode(() =>false)
+    setIsRelative(() =>true)
   }
 
   return (
@@ -801,7 +801,7 @@ const App = ({
               id="customRadioInline_AsAbsoluteMode" 
               name="customRadioInline_AsAbsoluteMode" 
               className="custom-control-input" 
-              checked={!!isAbsoluteMode} 
+              checked={!isRelative} 
               onChange={onToggleIsAbsoluteMode} 
             />
               <label className="custom-control-label" for="customRadioInline_AsAbsoluteMode" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Absolute Mode' : 'Absolute Mode') || requestTranslation('Average_RatingResults')}</label>
@@ -812,7 +812,7 @@ const App = ({
               id="customRadioInline_AsRelativeMode" 
               name="customRadioInline_AsRelativeMode" 
               className="custom-control-input" 
-              checked={!isAbsoluteMode} 
+              checked={!!isRelative} 
               onChange={onToggleIsRelativeMode} 
             />
               <label className="custom-control-label" for="customRadioInline_AsRelativeMode" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Relative Mode' : 'Relative Mode') || requestTranslation('Median_RatingResults')}</label>
