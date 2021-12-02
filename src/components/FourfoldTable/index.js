@@ -3923,10 +3923,19 @@ const App = ({
 
   const nodeListAsAverage = React.useMemo(() => {
     let nodes = []
-    const rangeRandom = 5
+    // random là nó sẽ thực hiện lấy ngẫu nhiên 1 giá trị nào đó trong vùng: 5 - rangeSubtract và vùng 5 + rangePlus
+    // theo như thông số e chỉnh này: thì nó sẽ lấy từ 5 - 5 => 5 + 5 la` [0,10]
+    // sau đó nó lấy giá trị x, y của node gốc + random từ 0 - 10
+    // cỏn rangeNeaby, là với 1 node bất kỳ, nó sẽ tìm toàn bộ node còn lại, xem node nào gần với nó, trong phạm vi rangeNearby
+    // trong trường hợp e điều chỉnh này là 1 giá trị
+    // 1 giá trị này tương đương với 1 của node.x, node.y
+    // nó phải có sự cân bằng giữa scaleExtend nữa
+    // để mục tiêu là khi zoom to lên, nó sẽ đảm bảo các node không đè lên nhau
+    
+    const rangeRandom = 1
     const rangeNeaby = 0.4
-    const rangePlus = 5
-    const rangeSubtract = 5
+    const rangePlus = 2
+    const rangeSubtract = 1
     const isModify = true
     const modifyValueNodes = (nodes) => {
         if (!isModify) return nodes
