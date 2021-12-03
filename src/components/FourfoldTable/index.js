@@ -79,7 +79,7 @@ const App = ({
     }
   ]
 
-  const maxTextWidth = 90
+  const maxTextWidth = 100
 
   const rectNodes = React.useMemo(() => {
     return [
@@ -358,6 +358,7 @@ const App = ({
       .attr('id', 'myNewTextsAvg')
       .attr('width', maxTextWidth)
       .attr('height', 200)
+      .attr('style', "overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; hyphens: auto;")
       .style('transition', 'font-size 0.2s')
       .style('transition-timing-function', 'linear')
       .style('text-align', 'center')
@@ -369,6 +370,7 @@ const App = ({
         .attr('id', 'myNewTextsMedian')
         .attr('width', maxTextWidth)
         .attr('height', 200)
+        .attr('style', "overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; hyphens: auto;")
         .style('transition', 'font-size 0.2s')
         .style('transition-timing-function', 'linear')
         .style('text-align', 'center')
