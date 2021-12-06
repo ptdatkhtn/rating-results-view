@@ -8,20 +8,6 @@ import { requestTranslation } from '@sangre-fp/i18n'
 const NODE_RADIUS = 10
 const SPECIAL_NODE_RADIUS = 6
 
-// random là nó sẽ thực hiện lấy ngẫu nhiên 1 giá trị nào đó trong vùng: 5 - rangeSubtract và vùng 5 + rangePlus
-    // theo như thông số e chỉnh này: thì nó sẽ lấy từ 5 - 5 => 5 + 5 la` [0,10]
-    // sau đó nó lấy giá trị x, y của node gốc + random từ 0 - 10
-    // cỏn rangeNeaby, là với 1 node bất kỳ, nó sẽ tìm toàn bộ node còn lại, xem node nào gần với nó, trong phạm vi rangeNearby
-    // trong trường hợp e điều chỉnh này là 1 giá trị
-    // 1 giá trị này tương đương với 1 của node.x, node.y
-    // nó phải có sự cân bằng giữa scaleExtend nữa
-    // để mục tiêu là khi zoom to lên, nó sẽ đảm bảo các node không đè lên nhau
-    
-    const rangeRandom = 1
-    const rangeNeaby = 0.4
-    const rangePlus = 2
-    const rangeSubtract = 1
-
 // const requestTranslation = () => 'request Translation'
 // const getPhenomenonUrl = (a, b) => 'http://google.com'
 
@@ -122,20 +108,51 @@ const App = ({
     return { innerStroke, outerStroke, fillSymbol }
   }
 
+  // random là nó sẽ thực hiện lấy ngẫu nhiên 1 giá trị nào đó trong vùng: 5 - rangeSubtract và vùng 5 + rangePlus
+    // theo như thông số e chỉnh này: thì nó sẽ lấy từ 5 - 5 => 5 + 5 la` [0,10]
+    // sau đó nó lấy giá trị x, y của node gốc + random từ 0 - 10
+    // cỏn rangeNeaby, là với 1 node bất kỳ, nó sẽ tìm toàn bộ node còn lại, xem node nào gần với nó, trong phạm vi rangeNearby
+    // trong trường hợp e điều chỉnh này là 1 giá trị
+    // 1 giá trị này tương đương với 1 của node.x, node.y
+    // nó phải có sự cân bằng giữa scaleExtend nữa
+    // để mục tiêu là khi zoom to lên, nó sẽ đảm bảo các node không đè lên nhau
+  const rangeRandom = 1.5
+    const rangeNeaby = 0.4
+    const rangePlus = 1
+    const rangeSubtract = 1
+
+    const randomX = (node) => {
+        return +node.x > 100 - rangeRandom ? +node.x - (d3.randomUniform(rangeRandom - rangeSubtract, rangeRandom + rangePlus)()) : +node.x + (d3.randomUniform(rangeRandom - rangeSubtract, rangeRandom + rangePlus)())
+    }
+
+    const randomY = (node) => {
+        return +node.y > 100 - rangeRandom ? +node.y - (d3.randomUniform(rangeRandom - rangeSubtract, rangeRandom + rangePlus)()) : +node.y + (d3.randomUniform(rangeRandom - rangeSubtract, rangeRandom + rangePlus)())
+    }
+
     const modifyValueNodes = React.useCallback((nodes) => {
-      if (!nodes || nodes.length < 1) return nodes
       if (!isRelative) return nodes
 
-      const result = nodes?.length > 0 && nodes.map(node => {
+      let duplicates = {}
+      const modifiedNodes = nodes.map(node => {
           let newNode = node
-          for (let i = 0; i < nodes.length; ++i) {
-              if (nodes[i].id !== node.id) {
-                  const rangeX = Math.abs(nodes[i].x - node.x)
-                  const rangeY = Math.abs(nodes[i].y - node.y)
+          const key = `${node.x}${node.y}`
+          if (duplicates[key]) {
+              newNode = { ...node, x: randomX(node), y: randomY(node), locked: true }
+          }
+          duplicates[key] = key
+          return newNode
+      })
+
+      const result = modifiedNodes.map(node => {
+          let newNode = node
+          for (let i = 0; i < modifiedNodes.length; ++i) {
+              if (modifiedNodes[i].id !== node.id) {
+                  const rangeX = Math.abs(modifiedNodes[i].x - node.x)
+                  const rangeY = Math.abs(modifiedNodes[i].y - node.y)
                   if (rangeX <= rangeNeaby && rangeY <= rangeNeaby) {
-                      const newX = +node.x > 100 - rangeRandom ? + node.x - (d3.randomUniform(rangeRandom - rangeSubtract, rangeRandom + rangePlus)()) : +node.x + (d3.randomUniform(rangeRandom - rangeSubtract, rangeRandom + rangePlus)())
-                      const newY = +node.y > 100 - rangeRandom ? + node.y - (d3.randomUniform(rangeRandom - rangeSubtract, rangeRandom + rangePlus)()) : +node.y + (d3.randomUniform(rangeRandom - rangeSubtract, rangeRandom + rangePlus)())
-                      newNode = { ...node, x: newX, y: newY }
+                      const ranX = rangeNeaby < rangeX * 2 ? -0.2 : 0.2
+                      const ranY = rangeNeaby < rangeY * 2 ? -0.2 : 0.2
+                      newNode = { ...node, x: randomX(node) + ranX, y: randomY(node) + ranY }
                       break
                   }
               }
