@@ -65,7 +65,13 @@ const App = ({
     }
   ]
 
-  const maxTextWidth = 100
+  const maxTextWidth = 90
+
+  const truncateLongString = (myString) => {
+    const maxStrLength = 70
+    const truncatedString = myString.length > maxStrLength ? `${myString.substring(0, maxStrLength)}...` : myString
+    return truncatedString
+  }
 
   const rectNodes = React.useMemo(() => {
     return [
@@ -187,7 +193,7 @@ const App = ({
           node['type'] = [].concat({ innerStroke, outerStroke: 'transparent', fillSymbol: phen.color })
         }
 
-        node['title'] = String(phen['content']['short_title']) || String(phen['content']['title'])
+        node['title'] = truncateLongString(String(phen['content']['short_title']) || String(phen['content']['title']))
         node['x'] = phen['rating_x']['median']
         node['y'] = phen['rating_y']['median']
         node['avg'] = false
@@ -224,7 +230,7 @@ const App = ({
           node['type'] = [].concat({ innerStroke, outerStroke: 'transparent', fillSymbol: phen.color })
         }
 
-        node['title'] = String(phen['content']['short_title']) || String(phen['content']['title'])
+        node['title'] = truncateLongString(String(phen['content']['short_title']) || String(phen['content']['title']))
         node['x'] = phen['rating_x']['median']
         node['y'] = phen['rating_y']['median']
         node['avg'] = false
@@ -259,7 +265,7 @@ const App = ({
           // customer custom types
           node['type'] = [].concat({ innerStroke, outerStroke: 'transparent', fillSymbol: phen.color })
         }
-        node['title'] = String(phen['content']['short_title']) || String(phen['content']['title'])
+        node['title'] = truncateLongString(String(phen['content']['short_title']) || String(phen['content']['title']))
         node['x'] = phen['rating_x']['avg']
         node['y'] = phen['rating_y']['avg']
         node['avg'] = true
@@ -295,7 +301,7 @@ const App = ({
           // customer custom types
           node['type'] = [].concat({ innerStroke, outerStroke: 'transparent', fillSymbol: phen.color })
         }
-        node['title'] = String(phen['content']['short_title']) || String(phen['content']['title'])
+        node['title'] = truncateLongString(String(phen['content']['short_title']) || String(phen['content']['title']))
         node['x'] = phen['rating_x']['avg']
         node['y'] = phen['rating_y']['avg']
         node['avg'] = true
