@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import * as d3 from 'd3'
 import AxisX from './AxisX'
 import AxisY from './AxisY'
 import {getPhenomenonUrl} from '../../helpers/contentCard'
 import { requestTranslation } from '@sangre-fp/i18n'
+import CustomDropdown from '../CustomDropdown/CustomDropdown'
+import { DataContext } from '../../store/GlobalState';
 
 const NODE_RADIUS = 10
 const SPECIAL_NODE_RADIUS = 6
@@ -28,13 +30,20 @@ const App = ({
   radar
 }) => {
 
-
+  const {state: {keyAvgMedian, keyMode} } = useContext(DataContext)
+  
   const [visibleDialog, setVisibleDialog] = useState(false)
   const [visibleText, setVisibleText] = useState(true)
   const [appContext, setAppContext] = useState({})
   const { axis, scatterSvg } = appContext
-  const [isAverage, setIsAverage] = useState(true)
   const [isRelative, setIsRelative] = useState(false)
+  const [isAverage, setIsAverage] = useState(true)
+  //handle select dropdown
+  const [menuIsOpen, setMenuIsOpen] = useState(false)
+  const [menuModeIsOpen, setMenuModeIsOpen] = useState(false)
+
+  const openMenuHandle = () => setMenuIsOpen(!menuIsOpen)
+  const openMenuModeHandle = () => setMenuModeIsOpen(!menuModeIsOpen)
 
   const margin = {
     top: 50,
@@ -345,34 +354,34 @@ const App = ({
     d3.selectAll('#myNewTextsMedian').style('opacity', 0)
     d3.selectAll('#myNewTextsAvgInRelativeMode').style('opacity', 0)
     d3.selectAll('#myNewTextsMedianInRelativeMode').style('opacity', 0)
-    if (!isRelative) {
-      if (isAverage) {
+    if (keyMode === 1) {
+      if (keyAvgMedian === 1) {
         d3.selectAll('#myNewTextsAvg').style('opacity', visibleText ? 1 : 0)
         d3.selectAll('#myNewTextsMedian').style('opacity', 0)
         d3.selectAll('#circleAvg').style('opacity', 1)
         d3.selectAll('#circleMedian').style('opacity', 0)
       }
-      else if (!isAverage) {
+      else if (keyAvgMedian === 2) {
         d3.selectAll('#myNewTextsMedian').style('opacity', visibleText ? 1 : 0)
         d3.selectAll('#myNewTextsAvg').style('opacity', 0)
         d3.selectAll('#circleMedian').style('opacity', 1)
         d3.selectAll('#circleAvg').style('opacity', 0)
       }
-    } else {
-      if (isAverage) {
+    } else if ( keyMode === 2) {
+      if (keyAvgMedian === 1) {
         d3.selectAll('#myNewTextsAvgInRelativeMode').style('opacity', visibleText ? 1 : 0)
         d3.selectAll('#myNewTextsMedianInRelativeMode').style('opacity', 0)
         d3.selectAll('#circleAvgInRelativeMode').style('opacity', 1)
         d3.selectAll('#circleMedianInRelativeMode').style('opacity', 0)
       }
-      else if (!isAverage) {
+      else if (keyAvgMedian === 2) {
         d3.selectAll('#myNewTextsMedianInRelativeMode').style('opacity', visibleText ? 1 : 0)
         d3.selectAll('#myNewTextsAvgInRelativeMode').style('opacity', 0)
         d3.selectAll('#circleMedianInRelativeMode').style('opacity', 1)
         d3.selectAll('#circleAvgInRelativeMode').style('opacity', 0)
       }
     }
-  }, [scatterSvg, visibleText, isRelative])
+  }, [scatterSvg, visibleText, keyMode])
 
   useEffect(() => {
     if (!scatterSvg) return
@@ -385,34 +394,34 @@ const App = ({
     d3.selectAll('#myNewTextsMedian').style('opacity', 0)
     d3.selectAll('#myNewTextsAvgInRelativeMode').style('opacity', 0)
     d3.selectAll('#myNewTextsMedianInRelativeMode').style('opacity', 0)
-    if (!isRelative) {
-      if (isAverage) {
+    if (keyMode === 1) {
+      if (keyAvgMedian === 1) {
         d3.selectAll('#myNewTextsAvg').style('opacity', visibleText ? 1 : 0)
         d3.selectAll('#myNewTextsMedian').style('opacity', 0)
         d3.selectAll('#circleAvg').style('opacity', 1)
         d3.selectAll('#circleMedian').style('opacity', 0)
       }
-      else if (!isAverage) {
+      else if (keyAvgMedian === 2) {
         d3.selectAll('#myNewTextsMedian').style('opacity', visibleText ? 1 : 0)
         d3.selectAll('#myNewTextsAvg').style('opacity', 0)
         d3.selectAll('#circleMedian').style('opacity', 1)
         d3.selectAll('#circleAvg').style('opacity', 0)
       }
-    } else {
-      if (isAverage) {
+    } else if (keyMode === 2) {
+      if (keyAvgMedian === 1) {
         d3.selectAll('#myNewTextsAvgInRelativeMode').style('opacity', visibleText ? 1 : 0)
         d3.selectAll('#myNewTextsMedianInRelativeMode').style('opacity', 0)
         d3.selectAll('#circleAvgInRelativeMode').style('opacity', 1)
         d3.selectAll('#circleMedianInRelativeMode').style('opacity', 0)
       }
-      else if (!isAverage) {
+      else if (keyAvgMedian === 2) {
         d3.selectAll('#myNewTextsMedianInRelativeMode').style('opacity', visibleText ? 1 : 0)
         d3.selectAll('#myNewTextsAvgInRelativeMode').style('opacity', 0)
         d3.selectAll('#circleMedianInRelativeMode').style('opacity', 1)
         d3.selectAll('#circleAvgInRelativeMode').style('opacity', 0)
       }
     }
-  }, [scatterSvg, isAverage, isRelative])
+  }, [scatterSvg, keyAvgMedian, keyMode])
 
   useEffect(() => {
     const svg = d3.select('#svg-app').attr("viewBox", [0, 0, containerWidth, containerHeight])
@@ -667,28 +676,27 @@ const App = ({
       d3.selectAll('#myNewTextsMedian').style('opacity', 0)
       d3.selectAll('#myNewTextsAvgInRelativeMode').style('opacity', 0)
       d3.selectAll('#myNewTextsMedianInRelativeMode').style('opacity', 0)
-    if (!isRelative) {
-      
-      if (isAverage) {
+    if (keyMode === 1) {
+      if (keyAvgMedian === 1) {
         d3.selectAll('#myNewTextsAvg').style('opacity', visibleText ? 1 : 0)
         d3.selectAll('#myNewTextsMedian').style('opacity', 0)
         d3.selectAll('#circleAvg').style('opacity', 1)
         d3.selectAll('#circleMedian').style('opacity', 0)
       }
-      else if (!isAverage) {
+      else if (keyAvgMedian === 2) {
         d3.selectAll('#myNewTextsMedian').style('opacity', visibleText ? 1 : 0)
         d3.selectAll('#myNewTextsAvg').style('opacity', 0)
         d3.selectAll('#circleMedian').style('opacity', 1)
         d3.selectAll('#circleAvg').style('opacity', 0)
       }
-    } else {
-      if (isAverage) {
+    } else if ( keyMode === 2 ) {
+      if (keyAvgMedian === 1) {
         d3.selectAll('#myNewTextsAvgInRelativeMode').style('opacity', visibleText ? 1 : 0)
         d3.selectAll('#myNewTextsMedianInRelativeMode').style('opacity', 0)
         d3.selectAll('#circleAvgInRelativeMode').style('opacity', 1)
         d3.selectAll('#circleMedianInRelativeMode').style('opacity', 0)
       }
-      else if (!isAverage) {
+      else if ( keyAvgMedian === 2) {
         d3.selectAll('#myNewTextsMedianInRelativeMode').style('opacity', visibleText ? 1 : 0)
         d3.selectAll('#myNewTextsAvgInRelativeMode').style('opacity', 0)
         d3.selectAll('#circleMedianInRelativeMode').style('opacity', 1)
@@ -1046,14 +1054,6 @@ const App = ({
     setVisibleText(!visibleText)
   }
 
-  const onToggleIsAverage = (event) => {
-    setIsAverage(true)
-  }
-
-  const onToggleIsMedian = (event) => {
-    setIsAverage(false)
-  }
-
   const onToggleIsAbsoluteMode = (event) => {
     setIsRelative(() => false)
   }
@@ -1077,9 +1077,9 @@ const App = ({
         </div>
 
         <div> 
-        <div style={{display: 'flex', alignItems: 'center', marginRight: '-12px', marginBottom: '10px' }}>
+        <div style={{display: 'flex', alignItems: 'center', marginRight: '-12px', marginBottom: '10px', justifyContent: 'space-between', width: '480px' }}>
           <p style={{ fontSize: "13px", margin: 0, fontWeight: 400}}>{ (radar?.radarLanguage === "en" ? 'Show results as:' : 'Näytä tulokset muodossa:') || requestTranslation('ShowResultsAs_RatingResults')} </p>
-          <div className="custom-control custom-radio custom-control-inline" style={{marginLeft: '16px', width: '120px'}}>
+          {/* <div className="custom-control custom-radio custom-control-inline" style={{marginLeft: '16px', width: '120px'}}>
             <input 
               type="radio" 
               id="customRadioInline_AsAbsoluteMode" 
@@ -1100,10 +1100,55 @@ const App = ({
               onChange={onToggleIsRelativeMode} 
             />
               <label className="custom-control-label" for="customRadioInline_AsRelativeMode" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Relative Mode' : 'Relative Mode') || requestTranslation('Median_RatingResults')}</label>
-          </div>
+          </div> */}
+          <CustomDropdown
+            name='modes'
+            options={[
+              {
+                labelEn: "Absolute Mode",
+                labelFin: "Absolute Mode Fin",
+                value: 1,
+              },
+              {
+                labelEn: "Disperse Mode",
+                labelFin: "Disperse Mode Fin",
+                value: 2,
+              },
+              {
+                labelEn: "Relative Mode",
+                labelFin: "Relative Mode Fin",
+                value: 3,
+              },
+            ]}
+            openDropdownHandle={openMenuModeHandle}
+            dropdownIsOpen={menuModeIsOpen}
+            closeDropdownHandle={() => setMenuModeIsOpen(false)}
+            defaultOptionsProps={1}
+            selectedOptionsProps={keyMode}
+          />
+          <CustomDropdown
+            name='AvgMedian'
+            options={[
+              {
+                labelEn: "Average",
+                labelFin: "Average Fin",
+                value: 1,
+              },
+              {
+                labelEn: "Median",
+                labelFin: "Median Fin",
+                value: 2,
+              },
+            ]}
+            openDropdownHandle={openMenuHandle}
+            dropdownIsOpen={menuIsOpen}
+            closeDropdownHandle={() => setMenuIsOpen(false)}
+            defaultOptionsProps={1}
+            selectedOptionsProps={keyAvgMedian}
+          />   
         </div>
         
-        <div style={{display: 'flex', alignItems: 'center', marginRight: '-12px' }}>
+        {/* <div style={{display: 'flex', alignItems: 'center', marginRight: '-12px', marginTop: '24px', justifyContent: 'space-between', width: '375px' }}>
           <p style={{ fontSize: "13px", margin: 0, fontWeight: 400}}>{ (radar?.radarLanguage === "en" ? 'Show results as:' : 'Näytä tulokset muodossa:') || requestTranslation('ShowResultsAs_RatingResults')} </p>
           <div className="custom-control custom-radio custom-control-inline" style={{marginLeft: '16px', width: '120px'}}>
             <input 
@@ -1127,8 +1172,9 @@ const App = ({
             />
               <label className="custom-control-label" for="customRadioInline_AsMedian" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Median' : 'Mediaani') || requestTranslation('Median_RatingResults')}</label>
           </div>
-        </div>
-        </div>
+          
+        </div> */}
+      </div>
     </div>
     <div className='rating-results-diagram' style={{ display: 'flex', paddingTop: '60px', paddingRight: '60px' }}>
       <AxisY originalHeight={containerHeight} axisHeight={containerHeight} axisLabel2={axisLabel2} axisLabel2a={axisLabel2a} axisLabel2b={axisLabel2b} />

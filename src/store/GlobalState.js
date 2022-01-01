@@ -11,7 +11,9 @@ const initialState = {
     radar: {},
     error: {},
     hiddenPhenomena: [],
-    isFlip: false
+    isFlip: false,
+    keyMode: 1,
+    keyAvgMedian: 1 
 }
 
 export const DataContext = createContext(initialState) 

@@ -5,7 +5,7 @@ import RatingResultsView from './components/RatingResultsView/RatingResultsView'
 import './scss/global-styles.scss';
 import './translations'
 import { startSession } from '@sangre-fp/connectors/session'
-
+import './index.css'
 //http://localhost:3010/?node=194688
 const renderApp = (nid) => {
     return (

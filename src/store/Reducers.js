@@ -28,6 +28,17 @@ const reducers = (state, action) => {
                 ...state,
                 isFlip: action.payload
             }
+        case ACTIONS.MODE:
+            return {
+                ...state,
+                keyMode: action.payload
+            }
+            
+            case ACTIONS.AVGMEDIAN:
+        return {
+            ...state,
+            keyAvgMedian: action.payload
+        }
         default:
             return state
         }
