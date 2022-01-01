@@ -45,6 +45,8 @@ const App = ({
   const openMenuHandle = () => setMenuIsOpen(!menuIsOpen)
   const openMenuModeHandle = () => setMenuModeIsOpen(!menuModeIsOpen)
 
+  const fpIconSize = 30
+
   const margin = {
     top: 50,
     right: 50,
@@ -196,10 +198,12 @@ const App = ({
              // undefined types
           node['type'] = [].concat({ innerStroke , outerStroke, fillSymbol })
           }
+          node['isFP'] = true
         } 
         else {
           // customer custom types
           node['type'] = [].concat({ innerStroke, outerStroke: 'transparent', fillSymbol: phen.color })
+          node['isFP'] = false
         }
 
         node['title'] = truncateLongString(String(phen['content']['short_title']) || String(phen['content']['title']))
@@ -233,10 +237,12 @@ const App = ({
              // undefined types
           node['type'] = [].concat({ innerStroke , outerStroke, fillSymbol })
           }
+          node['isFP'] = true
         } 
         else {
           // customer custom types
           node['type'] = [].concat({ innerStroke, outerStroke: 'transparent', fillSymbol: phen.color })
+          node['isFP'] = false
         }
 
         node['title'] = truncateLongString(String(phen['content']['short_title']) || String(phen['content']['title']))
@@ -269,10 +275,12 @@ const App = ({
              // undefined types
           node['type'] = [].concat({ innerStroke , outerStroke, fillSymbol })
           }
+          node['isFP'] = true
         } 
         else {
           // customer custom types
           node['type'] = [].concat({ innerStroke, outerStroke: 'transparent', fillSymbol: phen.color })
+          node['isFP'] = false
         }
         node['title'] = truncateLongString(String(phen['content']['short_title']) || String(phen['content']['title']))
         node['x'] = phen['rating_x']['avg']
@@ -305,10 +313,12 @@ const App = ({
              // undefined types
           node['type'] = [].concat({ innerStroke , outerStroke, fillSymbol })
           }
+          node['isFP'] = true
         } 
         else {
           // customer custom types
           node['type'] = [].concat({ innerStroke, outerStroke: 'transparent', fillSymbol: phen.color })
+          node['isFP'] = false
         }
         node['title'] = truncateLongString(String(phen['content']['short_title']) || String(phen['content']['title']))
         node['x'] = phen['rating_x']['avg']
@@ -668,6 +678,62 @@ const App = ({
       })
       .attr('cursor', 'pointer')
 
+      const fpIconMedian = scatterSvg.append('g')
+            .selectAll('image')
+            .data(nodeListAsMedian)
+            .join('image')
+            .attr('xlink:href', (d) => {
+              return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
+            })
+            .attr('height', (d) => {
+              return !!d?.['isFP'] ? fpIconSize : null
+            })
+            .attr('width', (d) => {
+              return !!d?.['isFP'] ? fpIconSize : null
+            })
+
+      const fpIconAverage = scatterSvg.append('g')
+          .selectAll('image')
+          .data(nodeListAsAverage)
+          .join('image')
+          .attr('xlink:href', (d) => {
+            return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
+          })
+          .attr('height', (d) => {
+            return !!d?.['isFP'] ? fpIconSize : null
+          })
+          .attr('width', (d) => {
+            return !!d?.['isFP'] ? fpIconSize : null
+          })
+
+        const fpIconMedianInRelativeMode = scatterSvg.append('g')
+          .selectAll('image')
+          .data(nodeListAsMedianInRelativeMode)
+          .join('image')
+          .attr('xlink:href', (d) => {
+            return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
+          })
+          .attr('height', (d) => {
+            return !!d?.['isFP'] ? fpIconSize : null
+          })
+          .attr('width', (d) => {
+            return !!d?.['isFP'] ? fpIconSize : null
+          })
+
+      const fpIconAverageInRelativeMode = scatterSvg.append('g')
+          .selectAll('image')
+          .data(nodeListAsAverageInRelativeMode)
+          .join('image')
+          .attr('xlink:href', (d) => {
+            return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
+          })
+          .attr('height', (d) => {
+            return !!d?.['isFP'] ? fpIconSize : null
+          })
+          .attr('width', (d) => {
+            return !!d?.['isFP'] ? fpIconSize : null
+          })
+
       d3.selectAll('#circleAvg').style('opacity', 0)
       d3.selectAll('#circleMedian').style('opacity', 0)
       d3.selectAll('#circleAvgInRelativeMode').style('opacity', 0)
@@ -703,8 +769,7 @@ const App = ({
         d3.selectAll('#circleAvgInRelativeMode').style('opacity', 0)
       }
     }
-      
-
+    
     // z holds a copy of the previous transform, so we can track its changes
     let z = d3.zoomIdentity
 
@@ -1026,6 +1091,27 @@ const App = ({
             })
             .attr('y', d => yr(d.y) + radius / 1)
             
+
+            fpIconMedian
+            .transition(trans)
+            .attr('x', d => xr(d.x) - fpIconSize / 2)
+            .attr('y', d => yr(d.y) - fpIconSize / 2)
+
+            fpIconAverage
+                .transition(trans)
+                .attr('x', d => xr(d.x) - fpIconSize / 2)
+                .attr('y', d => yr(d.y) - fpIconSize / 2)
+
+                fpIconMedianInRelativeMode
+            .transition(trans)
+            .attr('x', d => xr(d.x) - fpIconSize / 2)
+            .attr('y', d => yr(d.y) - fpIconSize / 2)
+
+            fpIconAverageInRelativeMode
+                .transition(trans)
+                .attr('x', d => xr(d.x) - fpIconSize / 2)
+                .attr('y', d => yr(d.y) - fpIconSize / 2)
+
         } catch (error) {
           console.error(error)
         }
