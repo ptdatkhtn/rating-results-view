@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, useMemo } from 'react'
 import * as d3 from 'd3'
 import AxisX from './AxisX'
 import AxisY from './AxisY'
@@ -36,64 +36,22 @@ const App = ({
   const [visibleText, setVisibleText] = useState(true)
   const [appContext, setAppContext] = useState({})
   const { axis, scatterSvg } = appContext
-  const [isRelative, setIsRelative] = useState(false)
+  const [isRelative, setIsRelative] = useState(true)
   const [isAverage, setIsAverage] = useState(true)
   //handle select dropdown
   const [menuIsOpen, setMenuIsOpen] = useState(false)
   const [menuModeIsOpen, setMenuModeIsOpen] = useState(false)
+  const [decreaseLevel, setDecreaseLevel] = useState(1)
 
   const openMenuHandle = () => setMenuIsOpen(!menuIsOpen)
   const openMenuModeHandle = () => setMenuModeIsOpen(!menuModeIsOpen)
 
-  const fpIconSize = 30
-
-  const margin = {
-    top: 50,
-    right: 50,
-    bottom: 50,
-    left: 50
-  }
-  
-  const innerTexts = [
-    { x: 25, y: 25, title: axisLabel3, gutter: -margin.left / 2 },
-    { x: 75, y: 25, title: axisLabel4, gutter: margin.left / 2 },
-    { x: 25, y: 75, title: axisLabel5, gutter: -margin.left / 2 },
-    { x: 75, y: 75, title: axisLabel6, gutter: margin.left / 2 }
-  ]
-
-  const innerLineData = [
-    {
-      x1: -1500,
-      y1: 50,
-      x2: 1500,
-      y2: 50
-    },
-    {
-      x1: 50,
-      y1: -1500,
-      x2: 50,
-      y2: 1500
-    }
-  ]
-
-  const maxTextWidth = 90
 
   const truncateLongString = (myString) => {
     const maxStrLength = 70
     const truncatedString = myString.length > maxStrLength ? `${myString.substring(0, maxStrLength)}...` : myString
     return truncatedString
   }
-
-  const rectNodes = React.useMemo(() => {
-    return [
-      {
-        x: 0,
-        y: 100,
-        width: containerWidth,
-        height: containerHeight
-      }
-    ]
-  }, [containerWidth, containerHeight])
 
   const setNodeColor = (phenomenon) => {
     let innerStroke = 'transparent'
@@ -125,15 +83,58 @@ const App = ({
     return { innerStroke, outerStroke, fillSymbol }
   }
 
-  // random là nó sẽ thực hiện lấy ngẫu nhiên 1 giá trị nào đó trong vùng: 5 - rangeSubtract và vùng 5 + rangePlus
-    // theo như thông số e chỉnh này: thì nó sẽ lấy từ 5 - 5 => 5 + 5 la` [0,10]
-    // sau đó nó lấy giá trị x, y của node gốc + random từ 0 - 10
-    // cỏn rangeNeaby, là với 1 node bất kỳ, nó sẽ tìm toàn bộ node còn lại, xem node nào gần với nó, trong phạm vi rangeNearby
-    // trong trường hợp e điều chỉnh này là 1 giá trị
-    // 1 giá trị này tương đương với 1 của node.x, node.y
-    // nó phải có sự cân bằng giữa scaleExtend nữa
-    // để mục tiêu là khi zoom to lên, nó sẽ đảm bảo các node không đè lên nhau
-  const rangeRandom = 1.5
+  const nodeSpacing = useMemo(() => {
+        return 10
+    }, [])
+
+    const relativeSpace = useMemo(() => {
+        return nodeSpacing * decreaseLevel
+    }, [decreaseLevel, nodeSpacing])
+
+    const margin = {
+        top: 40,
+        right: 40,
+        bottom: 40,
+        left: 40
+    }
+
+    const fpIconSize = 30
+    const innerTexts = [
+        { x: 25, y: 25, title: axisLabel3, gutter: -margin.left / 2 },
+        { x: 75, y: 25, title: axisLabel4, gutter: margin.left / 2 },
+        { x: 25, y: 75, title: axisLabel5, gutter: -margin.left / 2 },
+        { x: 75, y: 75, title: axisLabel6, gutter: margin.left / 2 }
+    ]
+    const innerLineData = [
+        {
+            x1: -1500,
+            y1: 50,
+            x2: 1500,
+            y2: 50
+        },
+        {
+            x1: 50,
+            y1: -1500,
+            x2: 50,
+            y2: 1500
+        }
+    ]
+
+    const maxTextWidth = 90
+
+    const rectNodes = React.useMemo(() => {
+        return [
+            {
+                x: 0,
+                y: 100,
+                width: containerWidth,
+                height: containerHeight
+            }
+        ]
+    }, [containerWidth, containerHeight])
+
+    const isModify = false
+    const rangeRandom = 1.5
     const rangeNeaby = 0.4
     const rangePlus = 1
     const rangeSubtract = 1
@@ -145,6 +146,133 @@ const App = ({
     const randomY = (node) => {
         return +node.y > 100 - rangeRandom ? +node.y - (d3.randomUniform(rangeRandom - rangeSubtract, rangeRandom + rangePlus)()) : +node.y + (d3.randomUniform(rangeRandom - rangeSubtract, rangeRandom + rangePlus)())
     }
+
+
+    const listPoint = () => {
+      const points = []
+      const stepsX = (containerWidth / (nodeSpacing * 10)) * (1 / decreaseLevel)
+      const stepsY = (containerHeight / (nodeSpacing * 10)) * (1 / decreaseLevel)
+      for (let i = 0; i < stepsX; i++) {
+          for (let j = 0; j < stepsY; j++) {
+              points.push({ x: i * (nodeSpacing * 10 / stepsX) + 5, y: j * (nodeSpacing * 10 / stepsY) + 5, isOccupied: false })
+          }
+      }
+      return points
+  }
+
+  const getPointAreaFirst = (p) => {
+      const x = Number(p.x)
+      const y = Number(p.y)
+      if (x < 25 && y <= 25) return 1
+      if (x >= 25 && x < 50 && y <= 25) return 2
+      if (x >= 50 && x < 75 && y <= 25) return 3
+      if (x >= 75 && y <= 25) return 4
+
+      if (x <= 25 && y <= 50) return 5
+      if (x >= 25 && x < 50 && y <= 50) return 6
+      if (x >= 50 && x < 75 && y <= 50) return 7
+      if (x >= 75 && y <= 50) return 8
+
+      if (x <= 25 && y <= 75) return 9
+      if (x >= 25 && x < 50 && y <= 75) return 10
+      if (x >= 50 && x < 75 && y <= 75) return 11
+      if (x >= 75 && y <= 75) return 12
+
+      if (x <= 25 && y <= 100) return 13
+      if (x >= 25 && x < 50 && y <= 100) return 14
+      if (x >= 50 && x < 75 && y <= 100) return 15
+      if (x >= 75 && y <= 100) return 16
+      return 17
+  }
+
+  const getPointAreaSecond = (p) => {
+      const x = p.x
+      const y = p.y
+      if (x < 50 && y < 50) return 1
+      if (x >= 50 && y <= 50) return 2
+      if (x < 50 && y > 50) return 3
+      return 4
+  }
+
+  const detectSameAreaFirst = (p1, p2) => {
+      return getPointAreaFirst(p1) === getPointAreaFirst(p2)
+  }
+
+  const detectSameAreaSecond = (p1, p2) => {
+      return getPointAreaSecond(p1) === getPointAreaSecond(p2)
+  }
+
+  const findRelativePointByNodeFirst = (node, list) => {
+      let point = { x: node.x, y: node.y, moved: false }
+      for (let i = 0; i < list.length; i++) {
+          if (!list[i].isOccupied) {
+              const isSameArea = detectSameAreaFirst(node, list[i])
+              if (isSameArea) {
+                  point = { ...node, x: list[i].x, y: list[i].y, moved: true }
+                  list[i].isOccupied = true
+                  break
+              }
+          }
+      }
+      return point
+  }
+
+  const findRelativePointByNodeSecond = (node, list) => {
+      let point = { ...node }
+      for (let i = 0; i < list.length; i++) {
+          if (!list[i].isOccupied && !node.moved) {
+              const isSameArea = detectSameAreaSecond(node, list[i])
+              if (isSameArea) {
+                  point = { ...node, x: list[i].x, y: list[i].y, moved: true }
+                  list[i].isOccupied = true
+                  break
+              }
+          }
+      }
+      return point
+  }
+
+  const findRelativePointByNodeThird = (node, list) => {
+      let point = { ...node }
+      for (let i = 0; i < list.length; i++) {
+          if (!list[i].isOccupied && !node.moved) {
+              point = { ...node, x: list[i].x, y: list[i].y, moved: true }
+              list[i].isOccupied = true
+              break
+          }
+      }
+      return point
+  }
+
+  const modifyRelativeNodes = (nodes, list) => {
+      // return nodes
+      const sortFn = (a, b) => {
+          return Number(a.x) - Number(b.x)
+      }
+      const sortedNodes = nodes.sort(sortFn)
+      let result = sortedNodes.map(node => {
+          const newPos = findRelativePointByNodeFirst(node, list)
+          return { ...node, ...newPos }
+      })
+
+      let notMovedList = result.filter(item => !item.moved)
+      if (notMovedList.length > 0) {
+          result = result.map(node => {
+              const newPos = findRelativePointByNodeSecond(node, list)
+              return { ...node, ...newPos }
+          })
+      }
+
+      notMovedList = result.filter(item => !item.moved)
+      if (notMovedList.length > 0) {
+          return result.map(node => {
+              const newPos = findRelativePointByNodeThird(node, list)
+              return { ...node, ...newPos }
+          })
+      }
+
+      return result
+  }
 
     const modifyValueNodesInRelativeMode = React.useCallback((nodes) => {
       // if (!isRelative) return nodes
@@ -177,7 +305,7 @@ const App = ({
           return newNode
       })
       return result
-  }, [phenomena])
+  }, [phenomena, decreaseLevel])
 
   const nodeListAsMedian = React.useMemo(() => {
     let nodes = []
@@ -216,7 +344,7 @@ const App = ({
     })
     // return modifyValueNodes(nodes)
     return nodes
-  }, [phenomena])
+  }, [phenomena, decreaseLevel])
 
   const nodeListAsMedianInRelativeMode = React.useMemo(() => {
     let nodes = []
@@ -254,7 +382,7 @@ const App = ({
       }
     })
     return modifyValueNodesInRelativeMode(nodes)
-  }, [phenomena])
+  }, [phenomena, decreaseLevel])
 
   const nodeListAsAverage = React.useMemo(() => {
     let nodes = []
@@ -292,7 +420,7 @@ const App = ({
     })
     // return modifyValueNodes(nodes)
     return nodes
-  }, [phenomena])
+  }, [phenomena, decreaseLevel])
 
   const nodeListAsAverageInRelativeMode = React.useMemo(() => {
     let nodes = []
@@ -329,7 +457,85 @@ const App = ({
       }
     })
     return modifyValueNodesInRelativeMode(nodes)
-  }, [phenomena])
+  }, [phenomena, decreaseLevel])
+
+
+  const nodeListAsAverageInThirdMode = React.useMemo(() => {
+    let nodes = []
+    
+    !!phenomena?.length && phenomena.map((phen) => {
+      if (phen['rating_x']['avg'] && phen['rating_y']['avg']) {
+        
+        const { innerStroke, outerStroke, fillSymbol } = setNodeColor(phen)
+        let node = {}
+        node['id'] = phen['id']
+        node['color'] = phen['color']
+        node['content-type-alias'] = phen['content-type-alias']
+        if (phen?.color === 'none') {
+          if ((node['content-type-alias'] !== undefined) || node['content-type-alias'] !== 'undefined') {
+            // normal nodes
+            node['type'] = [].concat({ innerStroke, outerStroke, fillSymbol })
+          } else {
+             // undefined types
+          node['type'] = [].concat({ innerStroke , outerStroke, fillSymbol })
+          }
+          node['isFP'] = true
+        } 
+        else {
+          // customer custom types
+          node['type'] = [].concat({ innerStroke, outerStroke: 'transparent', fillSymbol: phen.color })
+          node['isFP'] = false
+        }
+        node['title'] = truncateLongString(String(phen['content']['short_title']) || String(phen['content']['title']))
+        node['x'] = phen['rating_x']['avg']
+        node['y'] = phen['rating_y']['avg']
+        node['avg'] = true
+
+        nodes.push(node)
+      }
+    })
+    // return modifyValueNodes(nodes)
+    return modifyRelativeNodes(nodes, listPoint())
+  }, [phenomena, decreaseLevel])
+
+  const nodeListAsMedianInThirdMode = React.useMemo(() => {
+    let nodes = []
+
+    !!phenomena?.length && phenomena.map((phen) => {
+      if (phen['rating_x']['median'] !== null && phen['rating_y']['median'] !== null) {
+        const { innerStroke, outerStroke, fillSymbol } = setNodeColor(phen)
+        let node = {}
+        node['id'] = phen['id']
+        node['color'] = phen['color']
+        node['content-type-alias'] = phen['content-type-alias']
+
+        if (phen?.color === 'none') {
+          if ((node['content-type-alias'] !== undefined) || node['content-type-alias'] !== 'undefined') {
+            // normal nodes
+            node['type'] = [].concat({ innerStroke, outerStroke, fillSymbol })
+          } else {
+             // undefined types
+          node['type'] = [].concat({ innerStroke , outerStroke, fillSymbol })
+          }
+          node['isFP'] = true
+        } 
+        else {
+          // customer custom types
+          node['type'] = [].concat({ innerStroke, outerStroke: 'transparent', fillSymbol: phen.color })
+          node['isFP'] = false
+        }
+
+        node['title'] = truncateLongString(String(phen['content']['short_title']) || String(phen['content']['title']))
+        node['x'] = phen['rating_x']['median']
+        node['y'] = phen['rating_y']['median']
+        node['avg'] = false
+
+        nodes.push(node)
+      }
+    })
+    // return modifyValueNodes(nodes)
+    return modifyRelativeNodes(nodes, listPoint())
+  }, [phenomena, decreaseLevel])
 
   function center(event, target) {
     if (event.sourceEvent) {
@@ -360,22 +566,37 @@ const App = ({
     d3.selectAll('#circleMedian').style('opacity', 0)
     d3.selectAll('#circleAvgInRelativeMode').style('opacity', 0)
     d3.selectAll('#circleMedianInRelativeMode').style('opacity', 0)
+    d3.selectAll('#circleAvgInThirdMode').style('opacity', 0)
+    d3.selectAll('#circleMedianInThirdMode').style('opacity', 0)
+
     d3.selectAll('#myNewTextsAvg').style('opacity', 0)
     d3.selectAll('#myNewTextsMedian').style('opacity', 0)
     d3.selectAll('#myNewTextsAvgInRelativeMode').style('opacity', 0)
     d3.selectAll('#myNewTextsMedianInRelativeMode').style('opacity', 0)
+    d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', 0)
+    d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', 0)
+
+    d3.selectAll('#fpIconMedian').style('opacity', 0)
+    d3.selectAll('#fpIconAverage').style('opacity', 0)
+    d3.selectAll('#fpIconMedianInRelativeMode').style('opacity', 0)
+    d3.selectAll('#fpIconAverageInRelativeMode').style('opacity', 0)
+    d3.selectAll('#fpIconMedianInThirdMode').style('opacity', 0)
+    d3.selectAll('#fpIconAverageInThirdMode').style('opacity', 0)
+
     if (keyMode === 1) {
       if (keyAvgMedian === 1) {
         d3.selectAll('#myNewTextsAvg').style('opacity', visibleText ? 1 : 0)
         d3.selectAll('#myNewTextsMedian').style('opacity', 0)
         d3.selectAll('#circleAvg').style('opacity', 1)
         d3.selectAll('#circleMedian').style('opacity', 0)
+        d3.selectAll('#fpIconAverage').style('opacity', 1)
       }
       else if (keyAvgMedian === 2) {
         d3.selectAll('#myNewTextsMedian').style('opacity', visibleText ? 1 : 0)
         d3.selectAll('#myNewTextsAvg').style('opacity', 0)
         d3.selectAll('#circleMedian').style('opacity', 1)
         d3.selectAll('#circleAvg').style('opacity', 0)
+        d3.selectAll('#fpIconMedian').style('opacity', 1)
       }
     } else if ( keyMode === 2) {
       if (keyAvgMedian === 1) {
@@ -383,12 +604,29 @@ const App = ({
         d3.selectAll('#myNewTextsMedianInRelativeMode').style('opacity', 0)
         d3.selectAll('#circleAvgInRelativeMode').style('opacity', 1)
         d3.selectAll('#circleMedianInRelativeMode').style('opacity', 0)
+        d3.selectAll('#fpIconAverageInRelativeMode').style('opacity', 1)
       }
       else if (keyAvgMedian === 2) {
         d3.selectAll('#myNewTextsMedianInRelativeMode').style('opacity', visibleText ? 1 : 0)
         d3.selectAll('#myNewTextsAvgInRelativeMode').style('opacity', 0)
         d3.selectAll('#circleMedianInRelativeMode').style('opacity', 1)
         d3.selectAll('#circleAvgInRelativeMode').style('opacity', 0)
+        d3.selectAll('#fpIconMedianInRelativeMode').style('opacity', 1)
+      }
+    } else {
+      if (keyAvgMedian === 1) {
+        d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', visibleText ? 1 : 0)
+        d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', 0)
+        d3.selectAll('#circleAvgInThirdMode').style('opacity', 1)
+        d3.selectAll('#circleMedianInThirdMode').style('opacity', 0)
+        d3.selectAll('#fpIconAverageInThirdMode').style('opacity', 1)
+      }
+      else if (keyAvgMedian === 2) {
+        d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', visibleText ? 1 : 0)
+        d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', 0)
+        d3.selectAll('#circleMedianInThirdMode').style('opacity', 1)
+        d3.selectAll('#circleAvgInThirdMode').style('opacity', 0)
+        d3.selectAll('#fpIconMedianInThirdMode').style('opacity', 1)
       }
     }
   }, [scatterSvg, visibleText, keyMode])
@@ -400,22 +638,38 @@ const App = ({
     d3.selectAll('#circleMedian').style('opacity', 0)
     d3.selectAll('#circleAvgInRelativeMode').style('opacity', 0)
     d3.selectAll('#circleMedianInRelativeMode').style('opacity', 0)
+    d3.selectAll('#circleAvgInThirdMode').style('opacity', 0)
+    d3.selectAll('#circleMedianInThirdMode').style('opacity', 0)
+
     d3.selectAll('#myNewTextsAvg').style('opacity', 0)
     d3.selectAll('#myNewTextsMedian').style('opacity', 0)
     d3.selectAll('#myNewTextsAvgInRelativeMode').style('opacity', 0)
     d3.selectAll('#myNewTextsMedianInRelativeMode').style('opacity', 0)
+
+    d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', 0)
+    d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', 0)
+
+    d3.selectAll('#fpIconMedian').style('opacity', 0)
+    d3.selectAll('#fpIconAverage').style('opacity', 0)
+    d3.selectAll('#fpIconMedianInRelativeMode').style('opacity', 0)
+    d3.selectAll('#fpIconAverageInRelativeMode').style('opacity', 0)
+    d3.selectAll('#fpIconMedianInThirdMode').style('opacity', 0)
+    d3.selectAll('#fpIconAverageInThirdMode').style('opacity', 0)
+
     if (keyMode === 1) {
       if (keyAvgMedian === 1) {
         d3.selectAll('#myNewTextsAvg').style('opacity', visibleText ? 1 : 0)
         d3.selectAll('#myNewTextsMedian').style('opacity', 0)
         d3.selectAll('#circleAvg').style('opacity', 1)
         d3.selectAll('#circleMedian').style('opacity', 0)
+        d3.selectAll('#fpIconAverage').style('opacity', 1)
       }
       else if (keyAvgMedian === 2) {
         d3.selectAll('#myNewTextsMedian').style('opacity', visibleText ? 1 : 0)
         d3.selectAll('#myNewTextsAvg').style('opacity', 0)
         d3.selectAll('#circleMedian').style('opacity', 1)
         d3.selectAll('#circleAvg').style('opacity', 0)
+        d3.selectAll('#fpIconMedian').style('opacity', 1)
       }
     } else if (keyMode === 2) {
       if (keyAvgMedian === 1) {
@@ -423,12 +677,29 @@ const App = ({
         d3.selectAll('#myNewTextsMedianInRelativeMode').style('opacity', 0)
         d3.selectAll('#circleAvgInRelativeMode').style('opacity', 1)
         d3.selectAll('#circleMedianInRelativeMode').style('opacity', 0)
+        d3.selectAll('#fpIconAverageInRelativeMode').style('opacity', 1)
       }
       else if (keyAvgMedian === 2) {
         d3.selectAll('#myNewTextsMedianInRelativeMode').style('opacity', visibleText ? 1 : 0)
         d3.selectAll('#myNewTextsAvgInRelativeMode').style('opacity', 0)
         d3.selectAll('#circleMedianInRelativeMode').style('opacity', 1)
         d3.selectAll('#circleAvgInRelativeMode').style('opacity', 0)
+        d3.selectAll('#fpIconMedianInRelativeMode').style('opacity', 1)
+      }
+    } else {
+      if (keyAvgMedian === 1) {
+        d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', visibleText ? 1 : 0)
+        d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', 0)
+        d3.selectAll('#circleAvgInThirdMode').style('opacity', 1)
+        d3.selectAll('#circleMedianInThirdMode').style('opacity', 0)
+        d3.selectAll('#fpIconAverageInThirdMode').style('opacity', 1)
+      }
+      else if (keyAvgMedian === 2) {
+        d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', visibleText ? 1 : 0)
+        d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', 0)
+        d3.selectAll('#circleMedianInThirdMode').style('opacity', 1)
+        d3.selectAll('#circleAvgInThirdMode').style('opacity', 0)
+        d3.selectAll('#fpIconMedianInThirdMode').style('opacity', 1)
       }
     }
   }, [scatterSvg, keyAvgMedian, keyMode])
@@ -511,7 +782,7 @@ const App = ({
     const myForeignObjectsAvg = scatterSvg.append('g').selectAll('foreignObject').data(nodeListAsAverage).join('foreignObject')
     myForeignObjectsAvg
       .attr('id', 'myNewTextsAvg')
-      .attr('width', maxTextWidth)
+      .attr('width', maxTextWidth * decreaseLevel)
       .attr('height', 200)
       .attr('style', "overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; hyphens: auto;")
       .style('transition', 'font-size 0.2s')
@@ -522,8 +793,8 @@ const App = ({
     const myForeignObjectsAvgInRelativeMode = scatterSvg.append('g').selectAll('foreignObject').data(nodeListAsAverageInRelativeMode).join('foreignObject')
     myForeignObjectsAvgInRelativeMode
       .attr('id', 'myNewTextsAvgInRelativeMode')
-      .attr('width', maxTextWidth)
-      .attr('height', 200)
+      .attr('width', maxTextWidth * decreaseLevel)
+      .attr('height', 200 )
       .attr('style', "overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; hyphens: auto;")
       .style('transition', 'font-size 0.2s')
       .style('transition-timing-function', 'linear')
@@ -534,7 +805,7 @@ const App = ({
     const myForeignObjectsMedian = scatterSvg.append('g').selectAll('foreignObject').data(nodeListAsMedian).join('foreignObject')
       myForeignObjectsMedian
         .attr('id', 'myNewTextsMedian')
-        .attr('width', maxTextWidth)
+        .attr('width', maxTextWidth * decreaseLevel)
         .attr('height', 200)
         .attr('style', "overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; hyphens: auto;")
         .style('transition', 'font-size 0.2s')
@@ -545,8 +816,32 @@ const App = ({
     const myForeignObjectsMedianInRelativeMode = scatterSvg.append('g').selectAll('foreignObject').data(nodeListAsMedianInRelativeMode).join('foreignObject')
     myForeignObjectsMedianInRelativeMode
         .attr('id', 'myNewTextsMedianInRelativeMode')
-        .attr('width', maxTextWidth)
+        .attr('width', maxTextWidth * decreaseLevel)
         .attr('height', 200)
+        .attr('style', "overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; hyphens: auto;")
+        .style('transition', 'font-size 0.2s')
+        .style('transition-timing-function', 'linear')
+        .style('text-align', 'center')
+        .append("xhtml:div")
+        .html(d => d.title)
+
+        const myForeignObjectsMedianInThirdMode = scatterSvg.append('g').selectAll('foreignObject').data(nodeListAsMedianInThirdMode).join('foreignObject')
+    myForeignObjectsMedianInThirdMode
+        .attr('id', 'myNewTextsMedianInThirdMode')
+        .attr('width', maxTextWidth * decreaseLevel)
+        .attr('height', 200)
+        .attr('style', "overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; hyphens: auto;")
+        .style('transition', 'font-size 0.2s')
+        .style('transition-timing-function', 'linear')
+        .style('text-align', 'center')
+        .append("xhtml:div")
+        .html(d => d.title)
+
+      const myForeignObjectsAverageInThirdMode = scatterSvg.append('g').selectAll('foreignObject').data(nodeListAsAverageInThirdMode).join('foreignObject')
+      myForeignObjectsAverageInThirdMode
+        .attr('id', 'myNewTextsAvgInThirdMode')
+        .attr('width', maxTextWidth * decreaseLevel)
+        .attr('height', 200 )
         .attr('style', "overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; hyphens: auto;")
         .style('transition', 'font-size 0.2s')
         .style('transition-timing-function', 'linear')
@@ -585,6 +880,22 @@ const App = ({
         return d.type[0].fillSymbol
       })
 
+      const myCircleAvg1InThirdMode = scatterSvg.append('g')
+      .selectAll('circle')
+      .data(nodeListAsAverageInThirdMode)
+      .join('circle')
+      .attr('stroke', d => {
+        return d.type[0].outerStroke
+      })
+      .attr('cursor', 'pointer')
+      .attr('class', d => {
+        return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'outer_special_circle left' : 'outer_normal_circle left'
+      })
+      .attr('id', 'circleAvgInThirdMode')
+      .style('fill', d => {
+        return d.type[0].fillSymbol
+      })
+
     const myCircleAvg = scatterSvg.append('g')
       .selectAll('circle')
       .data(nodeListAsAverage)
@@ -603,6 +914,7 @@ const App = ({
         return d.type[0].fillSymbol
       })
       .attr('cursor', 'pointer')
+
     const myCircleAvgInRelativeMode = scatterSvg.append('g')
       .selectAll('circle')
       .data(nodeListAsAverageInRelativeMode)
@@ -613,6 +925,25 @@ const App = ({
       .attr('cursor', 'pointer')
       .attr('class', d => {return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'inner_special_circle left' : 'inner_normal_circle left'})
       .attr('id', 'circleAvgInRelativeMode')
+      .style('fill', d => {
+        if (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) {
+          return 'white'
+        }
+
+        return d.type[0].fillSymbol
+      })
+      .attr('cursor', 'pointer')
+
+      const myCircleAvgInThirdMode = scatterSvg.append('g')
+      .selectAll('circle')
+      .data(nodeListAsAverageInThirdMode)
+      .join('circle')
+      .attr('stroke', d => {
+        return d.type[0].innerStroke
+      })
+      .attr('cursor', 'pointer')
+      .attr('class', d => {return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'inner_special_circle left' : 'inner_normal_circle left'})
+      .attr('id', 'circleAvgInThirdMode')
       .style('fill', d => {
         if (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) {
           return 'white'
@@ -633,6 +964,7 @@ const App = ({
         return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'outer_special_circle_median left' : 'outer_normal_circle_median left'
       })
       .style('fill', d => d.type[0].fillSymbol)
+
     const myCircleMedian1InRelativeMode = scatterSvg.append('g')
       .selectAll('circle')
       .data(nodeListAsMedianInRelativeMode)
@@ -644,6 +976,19 @@ const App = ({
         return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'outer_special_circle_median left' : 'outer_normal_circle_median left'
       })
       .style('fill', d => d.type[0].fillSymbol)
+
+      const myCircleMedian1InThirdMode = scatterSvg.append('g')
+      .selectAll('circle')
+      .data(nodeListAsMedianInThirdMode)
+      .join('circle')
+      .attr('stroke', d => d.type[0].outerStroke)
+      .attr('cursor', 'pointer')
+      .attr('id', 'circleMedianInThirdMode')
+      .attr('class', d => {
+        return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'outer_special_circle_median left' : 'outer_normal_circle_median left'
+      })
+      .style('fill', d => d.type[0].fillSymbol)
+
 
     const myCircleMedian = scatterSvg.append('g')
       .selectAll('circle')
@@ -661,6 +1006,7 @@ const App = ({
         return d.type[0].fillSymbol
       })
       .attr('cursor', 'pointer')
+
     const myCircleMedianInRelativeMode = scatterSvg.append('g')
       .selectAll('circle')
       .data(nodeListAsMedianInRelativeMode)
@@ -678,10 +1024,28 @@ const App = ({
       })
       .attr('cursor', 'pointer')
 
+      const myCircleMedianInThirdMode = scatterSvg.append('g')
+      .selectAll('circle')
+      .data(nodeListAsMedianInThirdMode)
+      .join('circle')
+      .attr('stroke', d => d.type[0].innerStroke)
+      .attr('cursor', 'pointer')
+      .attr('id', 'circleMedianInThirdMode')
+      .attr('class', d => {return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'inner_special_circle_median left' : 'inner_normal_circle_median left'})
+      .style('fill', d => {
+        if (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) {
+          return 'white'
+        }
+
+        return d.type[0].fillSymbol
+      })
+      .attr('cursor', 'pointer')
+      
       const fpIconMedian = scatterSvg.append('g')
             .selectAll('image')
             .data(nodeListAsMedian)
             .join('image')
+            .attr('id', 'fpIconMedian')
             .attr('xlink:href', (d) => {
               return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
             })
@@ -696,6 +1060,7 @@ const App = ({
           .selectAll('image')
           .data(nodeListAsAverage)
           .join('image')
+          .attr('id', 'fpIconAverage')
           .attr('xlink:href', (d) => {
             return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
           })
@@ -710,6 +1075,7 @@ const App = ({
           .selectAll('image')
           .data(nodeListAsMedianInRelativeMode)
           .join('image')
+          .attr('id', 'fpIconMedianInRelativeMode')
           .attr('xlink:href', (d) => {
             return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
           })
@@ -724,6 +1090,37 @@ const App = ({
           .selectAll('image')
           .data(nodeListAsAverageInRelativeMode)
           .join('image')
+          .attr('id', 'fpIconAverageInRelativeMode')
+          .attr('xlink:href', (d) => {
+            return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
+          })
+          .attr('height', (d) => {
+            return !!d?.['isFP'] ? fpIconSize : null
+          })
+          .attr('width', (d) => {
+            return !!d?.['isFP'] ? fpIconSize : null
+          })
+
+          const fpIconMedianInThirdMode = scatterSvg.append('g')
+          .selectAll('image')
+          .data(nodeListAsMedianInThirdMode)
+          .join('image')
+          .attr('id', 'fpIconMedianInThirdMode')
+          .attr('xlink:href', (d) => {
+            return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
+          })
+          .attr('height', (d) => {
+            return !!d?.['isFP'] ? fpIconSize : null
+          })
+          .attr('width', (d) => {
+            return !!d?.['isFP'] ? fpIconSize : null
+          })
+
+      const fpIconAverageInThirdMode = scatterSvg.append('g')
+          .selectAll('image')
+          .data(nodeListAsAverageInThirdMode)
+          .join('image')
+          .attr('id', 'fpIconAverageInThirdMode')
           .attr('xlink:href', (d) => {
             return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
           })
@@ -738,22 +1135,40 @@ const App = ({
       d3.selectAll('#circleMedian').style('opacity', 0)
       d3.selectAll('#circleAvgInRelativeMode').style('opacity', 0)
       d3.selectAll('#circleMedianInRelativeMode').style('opacity', 0)
+      d3.selectAll('#circleAvgInThirdMode').style('opacity', 0)
+      d3.selectAll('#circleMedianInThirdMode').style('opacity', 0)
+
       d3.selectAll('#myNewTextsAvg').style('opacity', 0)
       d3.selectAll('#myNewTextsMedian').style('opacity', 0)
       d3.selectAll('#myNewTextsAvgInRelativeMode').style('opacity', 0)
       d3.selectAll('#myNewTextsMedianInRelativeMode').style('opacity', 0)
+      d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', 0)
+      d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', 0)
+
+      // fpIconMedian fpIconAverage  fpIconMedianInRelativeMode  
+      // fpIconAverageInRelativeMode fpIconMedianInThirdMode fpIconAverageInThirdMode
+      d3.selectAll('#fpIconMedian').style('opacity', 0)
+      d3.selectAll('#fpIconAverage').style('opacity', 0)
+      d3.selectAll('#fpIconMedianInRelativeMode').style('opacity', 0)
+      d3.selectAll('#fpIconAverageInRelativeMode').style('opacity', 0)
+      d3.selectAll('#fpIconMedianInThirdMode').style('opacity', 0)
+      d3.selectAll('#fpIconAverageInThirdMode').style('opacity', 0)
+
     if (keyMode === 1) {
       if (keyAvgMedian === 1) {
         d3.selectAll('#myNewTextsAvg').style('opacity', visibleText ? 1 : 0)
         d3.selectAll('#myNewTextsMedian').style('opacity', 0)
         d3.selectAll('#circleAvg').style('opacity', 1)
         d3.selectAll('#circleMedian').style('opacity', 0)
+        d3.selectAll('#fpIconAverage').style('opacity', 1)
       }
       else if (keyAvgMedian === 2) {
         d3.selectAll('#myNewTextsMedian').style('opacity', visibleText ? 1 : 0)
         d3.selectAll('#myNewTextsAvg').style('opacity', 0)
         d3.selectAll('#circleMedian').style('opacity', 1)
         d3.selectAll('#circleAvg').style('opacity', 0)
+        
+        d3.selectAll('#fpIconMedian').style('opacity', 1)
       }
     } else if ( keyMode === 2 ) {
       if (keyAvgMedian === 1) {
@@ -761,12 +1176,29 @@ const App = ({
         d3.selectAll('#myNewTextsMedianInRelativeMode').style('opacity', 0)
         d3.selectAll('#circleAvgInRelativeMode').style('opacity', 1)
         d3.selectAll('#circleMedianInRelativeMode').style('opacity', 0)
+        d3.selectAll('#fpIconAverageInRelativeMode').style('opacity', 1)
       }
       else if ( keyAvgMedian === 2) {
         d3.selectAll('#myNewTextsMedianInRelativeMode').style('opacity', visibleText ? 1 : 0)
         d3.selectAll('#myNewTextsAvgInRelativeMode').style('opacity', 0)
         d3.selectAll('#circleMedianInRelativeMode').style('opacity', 1)
         d3.selectAll('#circleAvgInRelativeMode').style('opacity', 0)
+        d3.selectAll('#fpIconMedianInRelativeMode').style('opacity', 1)
+      }
+    } else {
+      if (keyAvgMedian === 1) {
+        d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', visibleText ? 1 : 0)
+        d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', 0)
+        d3.selectAll('#circleAvgInThirdMode').style('opacity', 1)
+        d3.selectAll('#circleMedianInThirdMode').style('opacity', 0)
+        d3.selectAll('#fpIconAverageInThirdMode').style('opacity', 1)
+      }
+      else if ( keyAvgMedian === 2) {
+        d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', visibleText ? 1 : 0)
+        d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', 0)
+        d3.selectAll('#circleMedianInThirdMode').style('opacity', 1)
+        d3.selectAll('#circleAvgInThirdMode').style('opacity', 0)
+        d3.selectAll('#fpIconMedianInThirdMode').style('opacity', 1)
       }
     }
     
@@ -794,6 +1226,9 @@ const App = ({
     const myNewTextsAvgID = d3.selectAll('#myNewTextsAvg')
     const myNewTextsMedianIDInRelativeMode = d3.selectAll('#myNewTextsMedianInRelativeMode')
     const myNewTextsAvgIDInRelativeMode = d3.selectAll('#myNewTextsAvgInRelativeMode')
+    const myNewTextsMedianIDInThirdMode = d3.selectAll('#myNewTextsMedianInThirdMode')
+    const myNewTextsAvgIDInThirdMode = d3.selectAll('#myNewTextsAvgInThirdMode')
+
     // active zooming
     const zoom = d3.zoom().scaleExtent([1, 100]).translateExtent([[0, 0], [containerWidth, containerHeight]]).on("zoom", function (e) {
       try {
@@ -860,7 +1295,7 @@ const App = ({
                   // .transition(tran2)
                   .attr('cx', d => xr(d.x))
                   .attr('cy', d => yr(d.y))
-                  .attr('r', r)
+                  .attr('r', r * decreaseLevel)
               } catch (error) {
                 console.error(error)
               }
@@ -881,7 +1316,7 @@ const App = ({
                   // .transition(tran2)
                   .attr('cx', d => xr(d.x))
                   .attr('cy', d => yr(d.y))
-                  .attr('r', r)
+                  .attr('r', r * decreaseLevel)
               } catch (error) {
                 console.error(error)
               }
@@ -902,7 +1337,7 @@ const App = ({
                   // .transition(tran2)
                   .attr('cx', d => xr(d.x))
                   .attr('cy', d => yr(d.y))
-                  .attr('r', r)
+                  .attr('r', r * decreaseLevel)
               } catch (error) {
                 console.error(error)
               }
@@ -923,7 +1358,7 @@ const App = ({
                   // .transition(tran2)
                   .attr('cx', d => xr(d.x))
                   .attr('cy', d => yr(d.y))
-                  .attr('r', r)
+                  .attr('r', r * decreaseLevel)
               } catch (error) {
                 console.error(error)
               }
@@ -944,7 +1379,7 @@ const App = ({
                   // .transition(tran2)
                   .attr('cx', d => xr(d.x))
                   .attr('cy', d => yr(d.y))
-                  .attr('r', r)
+                  .attr('r', r * decreaseLevel)
               } catch (error) {
                 console.error(error)
               }
@@ -965,7 +1400,7 @@ const App = ({
                   // .transition(tran2)
                   .attr('cx', d => xr(d.x))
                   .attr('cy', d => yr(d.y))
-                  .attr('r', r)
+                  .attr('r', r * decreaseLevel)
               } catch (error) {
                 console.error(error)
               }
@@ -987,7 +1422,7 @@ const App = ({
                   // .transition(tran2)
                   .attr('cx', d => xr(d.x))
                   .attr('cy', d => yr(d.y))
-                  .attr('r', r)
+                  .attr('r', r * decreaseLevel)
               } catch (error) {
                 console.error(error)
               }
@@ -1008,7 +1443,7 @@ const App = ({
                   // .transition(tran2)
                   .attr('cx', d => xr(d.x))
                   .attr('cy', d => yr(d.y))
-                  .attr('r', r)
+                  .attr('r', r * decreaseLevel)
               } catch (error) {
                 console.error(error)
               }
@@ -1025,16 +1460,16 @@ const App = ({
                 const minScale = Math.max(scale, 1)
                 const r = Math.max(10, Math.floor(10 + minScale))
                 const fonts = Math.max(10, Math.floor(9 + minScale))
-                myNewTextsAvgID.style('font-size', fonts).attr('y', d => yr(d.y) + r / 1 - 3)
+                myNewTextsAvgID.style('font-size', fonts * decreaseLevel).attr('y', d => yr(d.y) + r / 1)
               } catch (err) {
                 console.log('error', err)
               }
               
             })
             .attr('x', d => {
-              return xr(d.x) - maxTextWidth / 2
+              return xr(d.x) - (maxTextWidth * decreaseLevel) / 2
             })
-            .attr('y', d => yr(d.y) + radius / 1)
+            .attr('y', d => yr(d.y) + radius / 1 +3)
 
           myForeignObjectsAvgInRelativeMode
             .transition(trans)
@@ -1044,16 +1479,35 @@ const App = ({
                 const minScale = Math.max(scale, 1)
                 const r = Math.max(10, Math.floor(10 + minScale))
                 const fonts = Math.max(10, Math.floor(9 + minScale))
-                myNewTextsAvgIDInRelativeMode.style('font-size', fonts).attr('y', d => yr(d.y) + r / 1 - 3)
+                myNewTextsAvgIDInRelativeMode.style('font-size', fonts * decreaseLevel).attr('y', d => yr(d.y) + r / 1)
               } catch (err) {
                 console.log('error', err)
               }
               
             })
             .attr('x', d => {
-              return xr(d.x) - maxTextWidth / 2
+              return xr(d.x) - (maxTextWidth * decreaseLevel) / 2
             })
-            .attr('y', d => yr(d.y) + radius / 1)
+            .attr('y', d => yr(d.y) + radius / 1 + 3)
+
+          myForeignObjectsAverageInThirdMode
+            .transition(trans)
+            .on('end', () => {
+              try {
+                const scale = Math.min(t.k, 8)
+                const minScale = Math.max(scale, 1)
+                const r = Math.max(10, Math.floor(10 + minScale))
+                const fonts = Math.max(10, Math.floor(9 + minScale))
+                myNewTextsAvgIDInThirdMode.style('font-size', fonts * decreaseLevel).attr('y', d => yr(d.y) + r / 1)
+              } catch (err) {
+                console.log('error', err)
+              }
+              
+            })
+            .attr('x', d => {
+              return xr(d.x) - (maxTextWidth * decreaseLevel) / 2
+            })
+            .attr('y', d => yr(d.y) + radius / 1 + 3)
 
           myForeignObjectsMedian
             .transition(trans)
@@ -1063,15 +1517,15 @@ const App = ({
                 const minScale = Math.max(scale, 1)
                 const r = Math.max(10, Math.floor(10 + minScale))
                 const fonts = Math.max(10, Math.floor(9 + minScale))
-                myNewTextsMedianID.style('font-size', fonts).attr('y', d => yr(d.y) + r / 1 - 3)
+                myNewTextsMedianID.style('font-size', fonts * decreaseLevel).attr('y', d => yr(d.y) + r / 1 )
               } catch (err) {
                 console.log('error', err)
               }
             })
             .attr('x', d => {
-              return xr(d.x) - maxTextWidth / 2
+              return xr(d.x) - (maxTextWidth * decreaseLevel) / 2
             })
-            .attr('y', d => yr(d.y) + radius / 1)
+            .attr('y', d => yr(d.y) + radius / 1 + 3)
           
           myForeignObjectsMedianInRelativeMode
             .transition(trans)
@@ -1081,33 +1535,60 @@ const App = ({
                 const minScale = Math.max(scale, 1)
                 const r = Math.max(10, Math.floor(10 + minScale))
                 const fonts = Math.max(10, Math.floor(9 + minScale))
-                myNewTextsMedianIDInRelativeMode.style('font-size', fonts).attr('y', d => yr(d.y) + r / 1 - 3)
+                myNewTextsMedianIDInRelativeMode.style('font-size', fonts * decreaseLevel).attr('y', d => yr(d.y) + r / 1 )
               } catch (err) {
                 console.log('error', err)
               }
             })
             .attr('x', d => {
-              return xr(d.x) - maxTextWidth / 2
+              return xr(d.x) - (maxTextWidth * decreaseLevel) / 2
             })
-            .attr('y', d => yr(d.y) + radius / 1)
+            .attr('y', d => yr(d.y) + radius / 1 + 3)
             
+          myForeignObjectsMedianInThirdMode
+            .transition(trans)
+            .on('end', () => {
+              try {
+                const scale = Math.min(t.k, 8)
+                const minScale = Math.max(scale, 1)
+                const r = Math.max(10, Math.floor(10 + minScale))
+                const fonts = Math.max(10, Math.floor(9 + minScale))
+                myNewTextsMedianIDInThirdMode.style('font-size', fonts * decreaseLevel).attr('y', d => yr(d.y) + r / 1)
+              } catch (err) {
+                console.log('error', err)
+              }
+            })
+            .attr('x', d => {
+              return xr(d.x) - (maxTextWidth * decreaseLevel) / 2
+            })
+            .attr('y', d => yr(d.y) + radius / 1 + 3)
 
             fpIconMedian
-            .transition(trans)
-            .attr('x', d => xr(d.x) - fpIconSize / 2)
-            .attr('y', d => yr(d.y) - fpIconSize / 2)
+              .transition(trans)
+              .attr('x', d => xr(d.x) - fpIconSize / 2)
+              .attr('y', d => yr(d.y) - fpIconSize / 2)
 
             fpIconAverage
                 .transition(trans)
                 .attr('x', d => xr(d.x) - fpIconSize / 2)
                 .attr('y', d => yr(d.y) - fpIconSize / 2)
 
-                fpIconMedianInRelativeMode
-            .transition(trans)
-            .attr('x', d => xr(d.x) - fpIconSize / 2)
-            .attr('y', d => yr(d.y) - fpIconSize / 2)
+            fpIconMedianInRelativeMode
+              .transition(trans)
+              .attr('x', d => xr(d.x) - fpIconSize / 2)
+              .attr('y', d => yr(d.y) - fpIconSize / 2)
 
             fpIconAverageInRelativeMode
+                .transition(trans)
+                .attr('x', d => xr(d.x) - fpIconSize / 2)
+                .attr('y', d => yr(d.y) - fpIconSize / 2)
+
+            fpIconMedianInThirdMode
+              .transition(trans)
+              .attr('x', d => xr(d.x) - fpIconSize / 2)
+              .attr('y', d => yr(d.y) - fpIconSize / 2)
+
+            fpIconAverageInThirdMode
                 .transition(trans)
                 .attr('x', d => xr(d.x) - fpIconSize / 2)
                 .attr('y', d => yr(d.y) - fpIconSize / 2)
@@ -1126,7 +1607,7 @@ const App = ({
     } catch (error) {
       console.error(error)
     }
-  }, [phenomena, scatterSvg, containerHeight, containerWidth])
+  }, [phenomena, scatterSvg, containerHeight, containerWidth, decreaseLevel])
 
   const onClickNode = (id) => {
     setVisibleDialog(true)
@@ -1146,6 +1627,14 @@ const App = ({
 
   const onToggleIsRelativeMode = (event) => {
     setIsRelative(() =>true)
+  }
+
+  const handleIncreaseNodes = () => {
+    setDecreaseLevel(value => (value + 0.1))
+  }
+
+  const handleDecreaseNodes = () => {
+    setDecreaseLevel(value => (value - 0.1))
   }
 
   return (
@@ -1262,6 +1751,11 @@ const App = ({
         </div> */}
       </div>
     </div>
+    <div style={{display: 'flex'}}>
+      <button disabled={decreaseLevel === 1} onClick={handleIncreaseNodes}> + Increase </button>
+      <div> {' / '}</div>
+      <button disabled={decreaseLevel <= 0.6} onClick={handleDecreaseNodes}> - Decrease</button>
+    </div>
     <div className='rating-results-diagram' style={{ display: 'flex', paddingTop: '60px', paddingRight: '60px' }}>
       <AxisY originalHeight={containerHeight} axisHeight={containerHeight} axisLabel2={axisLabel2} axisLabel2a={axisLabel2a} axisLabel2b={axisLabel2b} />
       <div style={{
@@ -1278,6 +1772,7 @@ const App = ({
         <AxisX originalWidth={containerWidth} axisWidth={containerWidth} axisLabel1={axisLabel1} axisLabel1a={axisLabel1a} axisLabel1b={axisLabel1b} />
       </div>
     </div>
+    
   </div>
 
   )
