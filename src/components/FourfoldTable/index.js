@@ -719,7 +719,7 @@ const App = ({
     
     try {
       if (phenomena.length < 1 || !scatterSvg) return
-    let nodes = [...nodeListAsAverage, ...nodeListAsAverageInRelativeMode,  ...nodeListAsMedian, ...nodeListAsMedianInRelativeMode]
+    let nodes = [...nodeListAsAverage, ...nodeListAsAverageInRelativeMode,  ...nodeListAsMedian, ...nodeListAsMedianInRelativeMode, ...nodeListAsAverageInThirdMode, ...nodeListAsMedianInThirdMode]
 
     let data = nodes.map(item => [item.x, item.y])
     data = [...data, ...Array.from({ length: 50 }, () => [100 * Math.random(), 100 * Math.random()])]
