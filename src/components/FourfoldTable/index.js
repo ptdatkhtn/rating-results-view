@@ -863,7 +863,7 @@ const App = ({
       })
       .attr('cursor', 'pointer')
       .attr('class', d => {
-        return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'outer_special_circle left' : 'outer_normal_circle left'
+        return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'outer_special_circle_rating_result left' : 'outer_normal_circle_rating_result left'
       })
       .attr('id', 'circleAvg')
       .style('fill', d => {
@@ -878,7 +878,7 @@ const App = ({
       })
       .attr('cursor', 'pointer')
       .attr('class', d => {
-        return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'outer_special_circle left' : 'outer_normal_circle left'
+        return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'outer_special_circle_rating_result left' : 'outer_normal_circle_rating_result left'
       })
       .attr('id', 'circleAvgInRelativeMode')
       .style('fill', d => {
@@ -894,7 +894,7 @@ const App = ({
       })
       .attr('cursor', 'pointer')
       .attr('class', d => {
-        return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'outer_special_circle left' : 'outer_normal_circle left'
+        return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'outer_special_circle_rating_result left' : 'outer_normal_circle_rating_result left'
       })
       .attr('id', 'circleAvgInThirdMode')
       .style('fill', d => {
@@ -909,7 +909,7 @@ const App = ({
         return d.type[0].innerStroke
       })
       .attr('cursor', 'pointer')
-      .attr('class', d => {return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'inner_special_circle left' : 'inner_normal_circle left'})
+      .attr('class', d => {return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'inner_special_circle_rating_result left' : 'inner_normal_circle_rating_result left'})
       .attr('id', 'circleAvg')
       .style('fill', d => {
         if (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) {
@@ -928,7 +928,7 @@ const App = ({
         return d.type[0].innerStroke
       })
       .attr('cursor', 'pointer')
-      .attr('class', d => {return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'inner_special_circle left' : 'inner_normal_circle left'})
+      .attr('class', d => {return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'inner_special_circle_rating_result left' : 'inner_normal_circle_rating_result left'})
       .attr('id', 'circleAvgInRelativeMode')
       .style('fill', d => {
         if (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) {
@@ -947,7 +947,7 @@ const App = ({
         return d.type[0].innerStroke
       })
       .attr('cursor', 'pointer')
-      .attr('class', d => {return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'inner_special_circle left' : 'inner_normal_circle left'})
+      .attr('class', d => {return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'inner_special_circle_rating_result left' : 'inner_normal_circle_rating_result left'})
       .attr('id', 'circleAvgInThirdMode')
       .style('fill', d => {
         if (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) {
@@ -966,7 +966,7 @@ const App = ({
       .attr('cursor', 'pointer')
       .attr('id', 'circleMedian')
       .attr('class', d => {
-        return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'outer_special_circle_median left' : 'outer_normal_circle_median left'
+        return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'outer_special_circle_median_rating_result left' : 'outer_normal_circle_median_rating_result left'
       })
       .style('fill', d => d.type[0].fillSymbol)
 
@@ -978,7 +978,7 @@ const App = ({
       .attr('cursor', 'pointer')
       .attr('id', 'circleMedianInRelativeMode')
       .attr('class', d => {
-        return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'outer_special_circle_median left' : 'outer_normal_circle_median left'
+        return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'outer_special_circle_median_rating_result left' : 'outer_normal_circle_median_rating_result left'
       })
       .style('fill', d => d.type[0].fillSymbol)
 
@@ -990,7 +990,7 @@ const App = ({
       .attr('cursor', 'pointer')
       .attr('id', 'circleMedianInThirdMode')
       .attr('class', d => {
-        return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'outer_special_circle_median left' : 'outer_normal_circle_median left'
+        return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'outer_special_circle_median_rating_result left' : 'outer_normal_circle_median_rating_result left'
       })
       .style('fill', d => d.type[0].fillSymbol)
 
@@ -1002,7 +1002,7 @@ const App = ({
       .attr('stroke', d => d.type[0].innerStroke)
       .attr('cursor', 'pointer')
       .attr('id', 'circleMedian')
-      .attr('class', d => {return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'inner_special_circle_median left' : 'inner_normal_circle_median left'})
+      .attr('class', d => {return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'inner_special_circle_median_rating_result left' : 'inner_normal_circle_median_rating_result left'})
       .style('fill', d => {
         if (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) {
           return 'white'
@@ -1019,7 +1019,7 @@ const App = ({
       .attr('stroke', d => d.type[0].innerStroke)
       .attr('cursor', 'pointer')
       .attr('id', 'circleMedianInRelativeMode')
-      .attr('class', d => {return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'inner_special_circle_median left' : 'inner_normal_circle_median left'})
+      .attr('class', d => {return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'inner_special_circle_median_rating_result left' : 'inner_normal_circle_median_rating_result left'})
       .style('fill', d => {
         if (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) {
           return 'white'
@@ -1036,7 +1036,7 @@ const App = ({
       .attr('stroke', d => d.type[0].innerStroke)
       .attr('cursor', 'pointer')
       .attr('id', 'circleMedianInThirdMode')
-      .attr('class', d => {return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'inner_special_circle_median left' : 'inner_normal_circle_median left'})
+      .attr('class', d => {return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'inner_special_circle_median_rating_result left' : 'inner_normal_circle_median_rating_result left'})
       .style('fill', d => {
         if (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) {
           return 'white'
@@ -1218,14 +1218,14 @@ const App = ({
     gx.call(zoomX).attr("pointer-events", "none")
     gy.call(zoomY).attr("pointer-events", "none")
 
-    const inner_normal_circle = d3.selectAll('.inner_normal_circle')
-    const outer_normal_circle = d3.selectAll('.outer_normal_circle')
-    const outer_special_circle = d3.selectAll('.outer_special_circle')
-    const inner_special_circle = d3.selectAll('.inner_special_circle')
-    const outer_normal_circle_median = d3.selectAll('.outer_normal_circle_median')
-    const outer_special_circle_median= d3.selectAll('.outer_special_circle_median')
-    const inner_normal_circle_median = d3.selectAll('.inner_normal_circle_median')
-    const inner_special_circle_median = d3.selectAll('.inner_special_circle_median')
+    const inner_normal_circle = d3.selectAll('.inner_normal_circle_rating_result')
+    const outer_normal_circle = d3.selectAll('.outer_normal_circle_rating_result')
+    const outer_special_circle = d3.selectAll('.outer_special_circle_rating_result')
+    const inner_special_circle = d3.selectAll('.inner_special_circle_rating_result')
+    const outer_normal_circle_median = d3.selectAll('.outer_normal_circle_median_rating_result')
+    const outer_special_circle_median= d3.selectAll('.outer_special_circle_median_rating_result')
+    const inner_normal_circle_median = d3.selectAll('.inner_normal_circle_median_rating_result')
+    const inner_special_circle_median = d3.selectAll('.inner_special_circle_median_rating_result')
 
     const myNewTextsMedianID = d3.selectAll('#myNewTextsMedian')
     const myNewTextsAvgID = d3.selectAll('#myNewTextsAvg')
