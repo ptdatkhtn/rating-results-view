@@ -151,11 +151,15 @@ const App = ({
 
     const listPoint = () => {
       const points = []
-      const stepsX = (containerWidth / (nodeSpacing * 10)) * (1 / decreaseLevel)
-      const stepsY = (containerHeight / (nodeSpacing * 10)) * (1 / decreaseLevel)
+      let stepsX = (containerWidth / (nodeSpacing * 10)) * (1 / decreaseLevel)
+      let stepsY = (containerHeight / (nodeSpacing * 10)) * (1 / decreaseLevel)
+      if (decreaseLevel <= 0.7) stepsX = stepsX + 2
+      if (decreaseLevel <= 0.7) stepsY = stepsY + 2
       for (let i = 0; i < stepsX; i++) {
           for (let j = 0; j < stepsY; j++) {
-              points.push({ x: i * (nodeSpacing * 10 / stepsX) + 5, y: j * (nodeSpacing * 10 / stepsY) + 5, isOccupied: false })
+              const x = i * (nodeSpacing * 10 / stepsX) + 5
+              const y = j * (nodeSpacing * 10 / stepsY) + 5
+              points.push({ x, y, isOccupied: false })
           }
       }
       return points
