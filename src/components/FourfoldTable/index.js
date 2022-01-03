@@ -6,6 +6,7 @@ import {getPhenomenonUrl} from '../../helpers/contentCard'
 import { requestTranslation } from '@sangre-fp/i18n'
 import CustomDropdown from '../CustomDropdown/CustomDropdown'
 import { DataContext } from '../../store/GlobalState';
+import {Add, Remove} from '@mui/icons-material'
 
 const NODE_RADIUS = 10
 const SPECIAL_NODE_RADIUS = 6
@@ -1643,11 +1644,17 @@ const App = ({
         // alignItems: 'center', 
         justifyContent: 'space-between', paddingLeft: '56px', paddingRight: '60px', paddingTop: '8px', paddingBottom: '8px' }}>
         <div style={{display: 'flex', 
-            // alignItems: 'center'
+            // alignItems: 'center',
+            flexDirection: 'column'
         }}>
           <div className="custom-control custom-checkbox">
             <input type="checkbox" className="custom-control-input" id="customCheckbox_hideTitles_ratings" checked={!visibleText} onChange={onToggleTitle} />
               <label className="custom-control-label" for="customCheckbox_hideTitles_ratings" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Hide titles' : 'Piilota otsikot') || requestTranslation('HideTitles_RatingResults')}</label>
+          </div>
+          <div style={{display: 'flex', marginTop: '20px'}}>
+            <button disabled={decreaseLevel === 1} onClick={handleIncreaseNodes}> <Add /> </button>
+            <div> {' / '}</div>
+            <button disabled={decreaseLevel <= 0.6} onClick={handleDecreaseNodes}> <Remove /></button>
           </div>
         </div>
 
@@ -1750,12 +1757,9 @@ const App = ({
           
         </div> */}
       </div>
+      
     </div>
-    <div style={{display: 'flex'}}>
-      <button disabled={decreaseLevel === 1} onClick={handleIncreaseNodes}> + Increase </button>
-      <div> {' / '}</div>
-      <button disabled={decreaseLevel <= 0.6} onClick={handleDecreaseNodes}> - Decrease</button>
-    </div>
+
     <div className='rating-results-diagram' style={{ display: 'flex', paddingTop: '60px', paddingRight: '60px' }}>
       <AxisY originalHeight={containerHeight} axisHeight={containerHeight} axisLabel2={axisLabel2} axisLabel2a={axisLabel2a} axisLabel2b={axisLabel2b} />
       <div style={{
