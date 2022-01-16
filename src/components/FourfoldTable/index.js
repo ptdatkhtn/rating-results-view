@@ -1075,6 +1075,9 @@ const getPointAreaSecond = (p) => {
             .attr('width', (d) => {
               return !!d?.['isFP'] ? fpIconSize : null
             })
+            .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
+            .attr('cursor', 'pointer')
+            .attr('class', 'left')
 
       const fpIconAverage = scatterSvg.append('g')
           .selectAll('image')
@@ -1090,6 +1093,9 @@ const getPointAreaSecond = (p) => {
           .attr('width', (d) => {
             return !!d?.['isFP'] ? fpIconSize : null
           })
+          .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
+          .attr('cursor', 'pointer')
+            .attr('class', 'left')
 
         const fpIconMedianInRelativeMode = scatterSvg.append('g')
           .selectAll('image')
@@ -1105,6 +1111,9 @@ const getPointAreaSecond = (p) => {
           .attr('width', (d) => {
             return !!d?.['isFP'] ? fpIconSize : null
           })
+          .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
+          .attr('cursor', 'pointer')
+            .attr('class', 'left')
 
       const fpIconAverageInRelativeMode = scatterSvg.append('g')
           .selectAll('image')
@@ -1120,6 +1129,9 @@ const getPointAreaSecond = (p) => {
           .attr('width', (d) => {
             return !!d?.['isFP'] ? fpIconSize : null
           })
+          .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
+          .attr('cursor', 'pointer')
+            .attr('class', 'left')
 
           const fpIconMedianInThirdMode = scatterSvg.append('g')
           .selectAll('image')
@@ -1135,6 +1147,9 @@ const getPointAreaSecond = (p) => {
           .attr('width', (d) => {
             return !!d?.['isFP'] ? fpIconSize : null
           })
+          .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
+          .attr('cursor', 'pointer')
+            .attr('class', 'left')
 
       const fpIconAverageInThirdMode = scatterSvg.append('g')
           .selectAll('image')
@@ -1150,6 +1165,9 @@ const getPointAreaSecond = (p) => {
           .attr('width', (d) => {
             return !!d?.['isFP'] ? fpIconSize : null
           })
+          .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
+          .attr('cursor', 'pointer')
+            .attr('class', 'left')
 
       d3.selectAll('#circleAvg').style('opacity', 0)
       d3.selectAll('#circleMedian').style('opacity', 0)
