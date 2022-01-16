@@ -31,6 +31,7 @@ const App = ({
   radar
 }) => {
 
+  console.log('1111', phenomena)
   const {state: {keyAvgMedian, keyMode} } = useContext(DataContext)
   
   const [visibleDialog, setVisibleDialog] = useState(false)
@@ -151,53 +152,67 @@ const App = ({
 
     const listPoint = () => {
       const points = []
-      let stepsX = (containerWidth / (nodeSpacing * 10)) * (1 / decreaseLevel)
-      let stepsY = (containerHeight / (nodeSpacing * 10)) * (1 / decreaseLevel)
+      let stepsX = (containerWidth / ((NODE_RADIUS + 2) * 2)) * (1 / decreaseLevel)
+      let stepsY = (containerHeight / ((NODE_RADIUS + 2) * 2)) * (1 / decreaseLevel)
+      const nodeValueX = 100 / stepsX
+      const nodeValueY = 100 / stepsY
       if (decreaseLevel <= 0.7) stepsX = stepsX + 2
       if (decreaseLevel <= 0.7) stepsY = stepsY + 2
       for (let i = 0; i < stepsX; i++) {
           for (let j = 0; j < stepsY; j++) {
-              const x = i * (nodeSpacing * 10 / stepsX) + 5
-              const y = j * (nodeSpacing * 10 / stepsY) + 5
-              points.push({ x, y, isOccupied: false })
+              const x = i * nodeValueX + 5
+              const y = j * nodeValueY + 5
+              if (x <= 100 && y <= 100) {
+                  points.push({ x, y, isOccupied: false })
+              }
           }
       }
       return points
   }
 
   const getPointAreaFirst = (p) => {
-      const x = Number(p.x)
-      const y = Number(p.y)
-      if (x < 25 && y <= 25) return 1
-      if (x >= 25 && x < 50 && y <= 25) return 2
-      if (x >= 50 && x < 75 && y <= 25) return 3
-      if (x >= 75 && y <= 25) return 4
+    const x = Number(p.x)
+    const y = Number(p.y)
+    const rectPx = 42
+    const numberRangeX = Math.ceil(containerWidth / rectPx) * (1 / decreaseLevel)
+    const numberRangeY = Math.ceil(containerHeight / rectPx) * (1 / decreaseLevel)
+    const nodeValueX = 100 / numberRangeX
+    const nodeValueY = 100 / numberRangeY
+    for (let i = 0; i < numberRangeX; i++) {
+        for (let j = 0; j < numberRangeY; j++) {
+            const x1 = Math.min(i * nodeValueX, 100)
+            const y1 = Math.min(j * nodeValueY, 100)
+            const x2 = Math.min((i + 1) * nodeValueX, 100)
+            const y2 = Math.min((j + 1) * nodeValueY, 100)
+            if (x <= x2 && x >= x1 && y >= y1 && y <= y2) {
+                return `${i}${j}`
+            }
+        }
+    }
+    return numberRangeX + numberRangeX + 2
+}
 
-      if (x <= 25 && y <= 50) return 5
-      if (x >= 25 && x < 50 && y <= 50) return 6
-      if (x >= 50 && x < 75 && y <= 50) return 7
-      if (x >= 75 && y <= 50) return 8
-
-      if (x <= 25 && y <= 75) return 9
-      if (x >= 25 && x < 50 && y <= 75) return 10
-      if (x >= 50 && x < 75 && y <= 75) return 11
-      if (x >= 75 && y <= 75) return 12
-
-      if (x <= 25 && y <= 100) return 13
-      if (x >= 25 && x < 50 && y <= 100) return 14
-      if (x >= 50 && x < 75 && y <= 100) return 15
-      if (x >= 75 && y <= 100) return 16
-      return 17
+const getPointAreaSecond = (p) => {
+  const x = Number(p.x)
+  const y = Number(p.y)
+  const rectPx = 42
+  const numberRangeX = Math.ceil(containerWidth / rectPx) * (1 / decreaseLevel)
+  const numberRangeY = Math.ceil(containerHeight / rectPx) * (1 / decreaseLevel)
+  const nodeValueX = (100 / numberRangeX) * 2
+  const nodeValueY = (100 / numberRangeY) * 2
+  for (let i = 0; i < numberRangeX; i++) {
+      for (let j = 0; j < numberRangeY; j++) {
+          const x1 = Math.min(i * nodeValueX, 100)
+          const y1 = Math.min(j * nodeValueY, 100)
+          const x2 = Math.min((i + 1) * nodeValueX, 100)
+          const y2 = Math.min((j + 1) * nodeValueY, 100)
+          if (x <= x2 && x >= x1 && y >= y1 && y <= y2) {
+              return `${i}${j}`
+          }
+      }
   }
-
-  const getPointAreaSecond = (p) => {
-      const x = p.x
-      const y = p.y
-      if (x < 50 && y < 50) return 1
-      if (x >= 50 && y <= 50) return 2
-      if (x < 50 && y > 50) return 3
-      return 4
-  }
+  return numberRangeX + numberRangeX + 2
+}
 
   const detectSameAreaFirst = (p1, p2) => {
       return getPointAreaFirst(p1) === getPointAreaFirst(p2)
