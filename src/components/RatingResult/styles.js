@@ -129,7 +129,7 @@ export const SingleRating= styled.span `
 export const SingleRatingCurrentUser= styled.span `
     height: 12px;
     width: 12px;
-    background-color: ${props => props.isRated ? 'rgb(0, 195, 255)' : 'transparent'};
+    background-color: ${props => props.isRated ? 'rgb(0, 195, 255) !important' : 'rgb(132, 132, 132) !important'};
     border-radius: 50%;
     display: inline-block;
     position: absolute;

@@ -74,6 +74,7 @@ const Rating = ({ phenomenon, radar, isRatingX }) => {
 
   const canBeEditAndClearResults = String(radar?.account?.role) !== 'visitor' && String(radar?.account?.role) !== 'user'
 
+  console.log(2222, phenomenon)
   return (
     phenomenon && (
       <RatingWidget >
@@ -123,7 +124,7 @@ const Rating = ({ phenomenon, radar, isRatingX }) => {
                   
               )
             }
-            <SingleRatingCurrentUser leftValue={isRatingX ? phenomenon?.ratingCurrentX: phenomenon?.ratingCurrentY} isRated={!!phenomenon?.ratingCurrentX || !!phenomenon?.ratingCurrentX}/>
+            <SingleRatingCurrentUser leftValue={isRatingX ? phenomenon?.ratingCurrentX: phenomenon?.ratingCurrentY} isRated={!!phenomenon?.ratingCurrentX ?? !!phenomenon?.ratingCurrentY}/>
             
           </div>      
         </RatingItem>
