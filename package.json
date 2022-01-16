@@ -1,6 +1,6 @@
 {
   "name": "rating-results",
-  "version": "1.1.48",
+  "version": "1.1.49",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.4.1",
