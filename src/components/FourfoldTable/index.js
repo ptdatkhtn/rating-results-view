@@ -150,202 +150,202 @@ const App = ({
     }
 
 
-    const listPoint = () => {
-      const points = []
-      let stepsX = (containerWidth / ((NODE_RADIUS + 2) * 2)) * (1 / decreaseLevel)
-      let stepsY = (containerHeight / ((NODE_RADIUS + 2) * 2)) * (1 / decreaseLevel)
-      const nodeValueX = 100 / stepsX
-      const nodeValueY = 100 / stepsY
-      if (decreaseLevel <= 0.7) stepsX = stepsX + 2
-      if (decreaseLevel <= 0.7) stepsY = stepsY + 2
-      for (let i = 0; i < stepsX; i++) {
-          for (let j = 0; j < stepsY; j++) {
-              const x = i * nodeValueX + 5
-              const y = j * nodeValueY + 5
-              if (x <= 100 && y <= 100) {
-                  points.push({ x, y, isOccupied: false })
-              }
-          }
-      }
-      return points
-  }
+//     const listPoint = () => {
+//       const points = []
+//       let stepsX = (containerWidth / ((NODE_RADIUS + 2) * 2)) * (1 / decreaseLevel)
+//       let stepsY = (containerHeight / ((NODE_RADIUS + 2) * 2)) * (1 / decreaseLevel)
+//       const nodeValueX = 100 / stepsX
+//       const nodeValueY = 100 / stepsY
+//       if (decreaseLevel <= 0.7) stepsX = stepsX + 2
+//       if (decreaseLevel <= 0.7) stepsY = stepsY + 2
+//       for (let i = 0; i < stepsX; i++) {
+//           for (let j = 0; j < stepsY; j++) {
+//               const x = i * nodeValueX + 5
+//               const y = j * nodeValueY + 5
+//               if (x <= 100 && y <= 100) {
+//                   points.push({ x, y, isOccupied: false })
+//               }
+//           }
+//       }
+//       return points
+//   }
 
-  const getPointArea = (p, expandedArea = 1) => {
-    const x = Number(p.x)
-    const y = Number(p.y)
-    const rectPx = 42
-    const numberRangeX = Math.ceil(containerWidth / rectPx) * (1 / decreaseLevel)
-    const numberRangeY = Math.ceil(containerHeight / rectPx) * (1 / decreaseLevel)
-    const nodeValueX = (100 / numberRangeX) * expandedArea
-    const nodeValueY = (100 / numberRangeY) * expandedArea
-    for (let i = 0; i < numberRangeX; i++) {
-        for (let j = 0; j < numberRangeY; j++) {
-            const x1 = Math.min(i * nodeValueX, 100)
-            const y1 = Math.min(j * nodeValueY, 100)
-            const x2 = Math.min((i + 1) * nodeValueX, 100)
-            const y2 = Math.min((j + 1) * nodeValueY, 100)
-            if (x <= x2 && x >= x1 && y >= y1 && y <= y2) {
-                return `${i}${j}`
-            }
-        }
-    }
-    return numberRangeX + numberRangeX + 2
-}
+//   const getPointArea = (p, expandedArea = 1) => {
+//     const x = Number(p.x)
+//     const y = Number(p.y)
+//     const rectPx = 42
+//     const numberRangeX = Math.ceil(containerWidth / rectPx) * (1 / decreaseLevel)
+//     const numberRangeY = Math.ceil(containerHeight / rectPx) * (1 / decreaseLevel)
+//     const nodeValueX = (100 / numberRangeX) * expandedArea
+//     const nodeValueY = (100 / numberRangeY) * expandedArea
+//     for (let i = 0; i < numberRangeX; i++) {
+//         for (let j = 0; j < numberRangeY; j++) {
+//             const x1 = Math.min(i * nodeValueX, 100)
+//             const y1 = Math.min(j * nodeValueY, 100)
+//             const x2 = Math.min((i + 1) * nodeValueX, 100)
+//             const y2 = Math.min((j + 1) * nodeValueY, 100)
+//             if (x <= x2 && x >= x1 && y >= y1 && y <= y2) {
+//                 return `${i}${j}`
+//             }
+//         }
+//     }
+//     return numberRangeX + numberRangeX + 2
+// }
 
 
 
-const detectSameAreaFirst = (p1, p2) => {
-  return getPointArea(p1) === getPointArea(p2)
-}
+// const detectSameAreaFirst = (p1, p2) => {
+//   return getPointArea(p1) === getPointArea(p2)
+// }
 
-const detectSameAreaSecond = (p1, p2) => {
-  return getPointArea(p1, 2) === getPointArea(p2, 2)
-}
+// const detectSameAreaSecond = (p1, p2) => {
+//   return getPointArea(p1, 2) === getPointArea(p2, 2)
+// }
 
-const detectSameAreaThird = (p1, p2) => {
-  return getPointArea(p1, 4) === getPointArea(p2, 4)
-}
+// const detectSameAreaThird = (p1, p2) => {
+//   return getPointArea(p1, 4) === getPointArea(p2, 4)
+// }
 
-  const findRelativePointByNodeFirst = (node, list) => {
-      let point = { x: node.x, y: node.y, moved: false }
-      for (let i = 0; i < list.length; i++) {
-          if (!list[i].isOccupied) {
-              const isSameArea = detectSameAreaFirst(node, list[i])
-              if (isSameArea) {
-                  point = { ...node, x: list[i].x, y: list[i].y, moved: true }
-                  list[i].isOccupied = true
-                  break
-              }
-          }
-      }
-      return point
-  }
+//   const findRelativePointByNodeFirst = (node, list) => {
+//       let point = { x: node.x, y: node.y, moved: false }
+//       for (let i = 0; i < list.length; i++) {
+//           if (!list[i].isOccupied) {
+//               const isSameArea = detectSameAreaFirst(node, list[i])
+//               if (isSameArea) {
+//                   point = { ...node, x: list[i].x, y: list[i].y, moved: true }
+//                   list[i].isOccupied = true
+//                   break
+//               }
+//           }
+//       }
+//       return point
+//   }
 
-  const findRelativePointByNodeSecond = (node, list) => {
-      let point = { ...node }
-      for (let i = 0; i < list.length; i++) {
-          if (!list[i].isOccupied && !node.moved) {
-              const isSameArea = detectSameAreaSecond(node, list[i])
-              if (isSameArea) {
-                  point = { ...node, x: list[i].x, y: list[i].y, moved: true }
-                  list[i].isOccupied = true
-                  break
-              }
-          }
-      }
-      return point
-  }
+//   const findRelativePointByNodeSecond = (node, list) => {
+//       let point = { ...node }
+//       for (let i = 0; i < list.length; i++) {
+//           if (!list[i].isOccupied && !node.moved) {
+//               const isSameArea = detectSameAreaSecond(node, list[i])
+//               if (isSameArea) {
+//                   point = { ...node, x: list[i].x, y: list[i].y, moved: true }
+//                   list[i].isOccupied = true
+//                   break
+//               }
+//           }
+//       }
+//       return point
+//   }
 
-  const findRelativePointByNodeThird = (node, list) => {
-    let point = { ...node }
-    for (let i = 0; i < list.length; i++) {
-        if (!list[i].isOccupied && !node.moved) {
-            const isSameArea = detectSameAreaThird(node, list[i])
-            if (isSameArea) {
-                point = { ...node, x: list[i].x, y: list[i].y, moved: true }
-                list[i].isOccupied = true
-                break
-            }
-        }
-    }
-    return point
-}
+//   const findRelativePointByNodeThird = (node, list) => {
+//     let point = { ...node }
+//     for (let i = 0; i < list.length; i++) {
+//         if (!list[i].isOccupied && !node.moved) {
+//             const isSameArea = detectSameAreaThird(node, list[i])
+//             if (isSameArea) {
+//                 point = { ...node, x: list[i].x, y: list[i].y, moved: true }
+//                 list[i].isOccupied = true
+//                 break
+//             }
+//         }
+//     }
+//     return point
+// }
 
-const modifyRelativeNodesFinal = (nodes, list) => {
-  let result = nodes.map(node => {
-      const newPos = findRelativePointByNodeFirst(node, list)
-      return { ...node, ...newPos }
-  })
+// const modifyRelativeNodesFinal = (nodes, list) => {
+//   let result = nodes.map(node => {
+//       const newPos = findRelativePointByNodeFirst(node, list)
+//       return { ...node, ...newPos }
+//   })
 
-  let notMovedList = result.filter(item => !item.moved)
-  if (notMovedList.length > 0) {
-      result = result.map(node => {
-          const newPos = findRelativePointByNodeSecond(node, list)
-          return { ...node, ...newPos }
-      })
-  }
+//   let notMovedList = result.filter(item => !item.moved)
+//   if (notMovedList.length > 0) {
+//       result = result.map(node => {
+//           const newPos = findRelativePointByNodeSecond(node, list)
+//           return { ...node, ...newPos }
+//       })
+//   }
 
-  notMovedList = result.filter(item => !item.moved)
-  if (notMovedList.length > 0) {
-      return result.map(node => {
-          const newPos = findRelativePointByNodeThird(node, list)
-          return { ...node, ...newPos }
-      })
-  }
+//   notMovedList = result.filter(item => !item.moved)
+//   if (notMovedList.length > 0) {
+//       return result.map(node => {
+//           const newPos = findRelativePointByNodeThird(node, list)
+//           return { ...node, ...newPos }
+//       })
+//   }
 
-  return result
-}
-const modifyRelativeNodes = (nodes, list) => {
-  // return nodes
-  const sortFn = (a, b) => {
-      return Number(a.x) - Number(b.x)
-  }
-  const sortedNodes = nodes.sort(sortFn)
-  let result = sortedNodes.map(node => {
-      let isOverlap = false
-      sortedNodes.forEach(item => {
-          const distanceX = containerWidth / 100
-          const distanceY = containerHeight / 100
-          if (item.id !== node.id && Math.abs(item.x - node.x) * distanceX < (NODE_RADIUS + 1) * 2 && Math.abs(item.y - node.y) * distanceY < (NODE_RADIUS + 1) * 2) {
-              isOverlap = true
-              return
-          }
-      })
-      let newPos = {}
-      if (isOverlap) {
-          newPos = findRelativePointByNodeFirst(node, list)
-      }
-      return { ...node, ...newPos }
-  })
+//   return result
+// }
+// const modifyRelativeNodes = (nodes, list) => {
+//   // return nodes
+//   const sortFn = (a, b) => {
+//       return Number(a.x) - Number(b.x)
+//   }
+//   const sortedNodes = nodes.sort(sortFn)
+//   let result = sortedNodes.map(node => {
+//       let isOverlap = false
+//       sortedNodes.forEach(item => {
+//           const distanceX = containerWidth / 100
+//           const distanceY = containerHeight / 100
+//           if (item.id !== node.id && Math.abs(item.x - node.x) * distanceX < (NODE_RADIUS + 1) * 2 && Math.abs(item.y - node.y) * distanceY < (NODE_RADIUS + 1) * 2) {
+//               isOverlap = true
+//               return
+//           }
+//       })
+//       let newPos = {}
+//       if (isOverlap) {
+//           newPos = findRelativePointByNodeFirst(node, list)
+//       }
+//       return { ...node, ...newPos }
+//   })
 
-  let notMovedList = result.filter(item => !item.moved)
-  console.error('notMovedList', notMovedList)
-  if (notMovedList.length > 0) {
-      result = result.map(node => {
-          let isOverlap = false
-          sortedNodes.forEach(item => {
-              const distanceX = containerWidth / 100
-              const distanceY = containerHeight / 100
-              if (item.id !== node.id && Math.abs(item.x - node.x) * distanceX < (NODE_RADIUS + 1) * 2 && Math.abs(item.y - node.y) * distanceY < (NODE_RADIUS + 1) * 2) {
-                  isOverlap = true
-                  return
-              }
-          })
-          let newPos = {}
-          if (isOverlap) {
-              newPos = findRelativePointByNodeSecond(node, list)
-          }
-          return { ...node, ...newPos }
-      })
-  }
+//   let notMovedList = result.filter(item => !item.moved)
+//   console.error('notMovedList', notMovedList)
+//   if (notMovedList.length > 0) {
+//       result = result.map(node => {
+//           let isOverlap = false
+//           sortedNodes.forEach(item => {
+//               const distanceX = containerWidth / 100
+//               const distanceY = containerHeight / 100
+//               if (item.id !== node.id && Math.abs(item.x - node.x) * distanceX < (NODE_RADIUS + 1) * 2 && Math.abs(item.y - node.y) * distanceY < (NODE_RADIUS + 1) * 2) {
+//                   isOverlap = true
+//                   return
+//               }
+//           })
+//           let newPos = {}
+//           if (isOverlap) {
+//               newPos = findRelativePointByNodeSecond(node, list)
+//           }
+//           return { ...node, ...newPos }
+//       })
+//   }
 
-  notMovedList = result.filter(item => !item.moved)
-  if (notMovedList.length > 0) {
-      return result.map(node => {
-          let isOverlap = false
-          sortedNodes.forEach(item => {
-              const distanceX = containerWidth / 100
-              const distanceY = containerHeight / 100
-              if (item.id !== node.id && Math.abs(item.x - node.x) * distanceX < (NODE_RADIUS + 1) * 2 && Math.abs(item.y - node.y) * distanceY < (NODE_RADIUS + 1) * 2) {
-                  isOverlap = true
-                  return
-              }
-          })
-          let newPos = {}
-          if (isOverlap) {
-              newPos = findRelativePointByNodeThird(node, list)
-          }
-          return { ...node, ...newPos }
-      })
-  }
+//   notMovedList = result.filter(item => !item.moved)
+//   if (notMovedList.length > 0) {
+//       return result.map(node => {
+//           let isOverlap = false
+//           sortedNodes.forEach(item => {
+//               const distanceX = containerWidth / 100
+//               const distanceY = containerHeight / 100
+//               if (item.id !== node.id && Math.abs(item.x - node.x) * distanceX < (NODE_RADIUS + 1) * 2 && Math.abs(item.y - node.y) * distanceY < (NODE_RADIUS + 1) * 2) {
+//                   isOverlap = true
+//                   return
+//               }
+//           })
+//           let newPos = {}
+//           if (isOverlap) {
+//               newPos = findRelativePointByNodeThird(node, list)
+//           }
+//           return { ...node, ...newPos }
+//       })
+//   }
 
-  notMovedList = result.filter(item => !item.moved)
-  if (notMovedList.length > 0) {
-      return modifyRelativeNodesFinal(result, list)
-  }
+//   notMovedList = result.filter(item => !item.moved)
+//   if (notMovedList.length > 0) {
+//       return modifyRelativeNodesFinal(result, list)
+//   }
 
-  return result
-}
+//   return result
+// }
 
     const modifyValueNodesInRelativeMode = React.useCallback((nodes) => {
       // if (!isRelative) return nodes
@@ -533,82 +533,82 @@ const modifyRelativeNodes = (nodes, list) => {
   }, [phenomena, decreaseLevel])
 
 
-  const nodeListAsAverageInThirdMode = React.useMemo(() => {
-    let nodes = []
+//   const nodeListAsAverageInThirdMode = React.useMemo(() => {
+//     let nodes = []
     
-    !!phenomena?.length && phenomena.map((phen) => {
-      if (phen['rating_x']['avg'] && phen['rating_y']['avg']) {
+//     !!phenomena?.length && phenomena.map((phen) => {
+//       if (phen['rating_x']['avg'] && phen['rating_y']['avg']) {
         
-        const { innerStroke, outerStroke, fillSymbol } = setNodeColor(phen)
-        let node = {}
-        node['id'] = phen['id']
-        node['color'] = phen['color']
-        node['content-type-alias'] = phen['content-type-alias']
-        if (phen?.color === 'none') {
-          if ((node['content-type-alias'] !== undefined) || node['content-type-alias'] !== 'undefined') {
-            // normal nodes
-            node['type'] = [].concat({ innerStroke, outerStroke, fillSymbol })
-          } else {
-             // undefined types
-          node['type'] = [].concat({ innerStroke , outerStroke, fillSymbol })
-          }
-          node['isFP'] = true
-        } 
-        else {
-          // customer custom types
-          node['type'] = [].concat({ innerStroke, outerStroke: 'transparent', fillSymbol: phen.color })
-          node['isFP'] = false
-        }
-        node['title'] = truncateLongString(String(phen['content']['short_title']) || String(phen['content']['title']))
-        node['x'] = phen['rating_x']['avg']
-        node['y'] = phen['rating_y']['avg']
-        node['avg'] = true
+//         const { innerStroke, outerStroke, fillSymbol } = setNodeColor(phen)
+//         let node = {}
+//         node['id'] = phen['id']
+//         node['color'] = phen['color']
+//         node['content-type-alias'] = phen['content-type-alias']
+//         if (phen?.color === 'none') {
+//           if ((node['content-type-alias'] !== undefined) || node['content-type-alias'] !== 'undefined') {
+//             // normal nodes
+//             node['type'] = [].concat({ innerStroke, outerStroke, fillSymbol })
+//           } else {
+//              // undefined types
+//           node['type'] = [].concat({ innerStroke , outerStroke, fillSymbol })
+//           }
+//           node['isFP'] = true
+//         } 
+//         else {
+//           // customer custom types
+//           node['type'] = [].concat({ innerStroke, outerStroke: 'transparent', fillSymbol: phen.color })
+//           node['isFP'] = false
+//         }
+//         node['title'] = truncateLongString(String(phen['content']['short_title']) || String(phen['content']['title']))
+//         node['x'] = phen['rating_x']['avg']
+//         node['y'] = phen['rating_y']['avg']
+//         node['avg'] = true
 
-        nodes.push(node)
-      }
-    })
-    // return modifyValueNodes(nodes)
-    return modifyRelativeNodes(nodes, listPoint())
-  }, [phenomena, decreaseLevel])
+//         nodes.push(node)
+//       }
+//     })
+//     // return modifyValueNodes(nodes)
+//     return modifyRelativeNodes(nodes, listPoint())
+//   }, [phenomena, decreaseLevel])
 
-  const nodeListAsMedianInThirdMode = React.useMemo(() => {
-    let nodes = []
+//   const nodeListAsMedianInThirdMode = React.useMemo(() => {
+//     let nodes = []
 
-    !!phenomena?.length && phenomena.map((phen) => {
-      if (phen['rating_x']['median'] !== null && phen['rating_y']['median'] !== null) {
-        const { innerStroke, outerStroke, fillSymbol } = setNodeColor(phen)
-        let node = {}
-        node['id'] = phen['id']
-        node['color'] = phen['color']
-        node['content-type-alias'] = phen['content-type-alias']
+//     !!phenomena?.length && phenomena.map((phen) => {
+//       if (phen['rating_x']['median'] !== null && phen['rating_y']['median'] !== null) {
+//         const { innerStroke, outerStroke, fillSymbol } = setNodeColor(phen)
+//         let node = {}
+//         node['id'] = phen['id']
+//         node['color'] = phen['color']
+//         node['content-type-alias'] = phen['content-type-alias']
 
-        if (phen?.color === 'none') {
-          if ((node['content-type-alias'] !== undefined) || node['content-type-alias'] !== 'undefined') {
-            // normal nodes
-            node['type'] = [].concat({ innerStroke, outerStroke, fillSymbol })
-          } else {
-             // undefined types
-          node['type'] = [].concat({ innerStroke , outerStroke, fillSymbol })
-          }
-          node['isFP'] = true
-        } 
-        else {
-          // customer custom types
-          node['type'] = [].concat({ innerStroke, outerStroke: 'transparent', fillSymbol: phen.color })
-          node['isFP'] = false
-        }
+//         if (phen?.color === 'none') {
+//           if ((node['content-type-alias'] !== undefined) || node['content-type-alias'] !== 'undefined') {
+//             // normal nodes
+//             node['type'] = [].concat({ innerStroke, outerStroke, fillSymbol })
+//           } else {
+//              // undefined types
+//           node['type'] = [].concat({ innerStroke , outerStroke, fillSymbol })
+//           }
+//           node['isFP'] = true
+//         } 
+//         else {
+//           // customer custom types
+//           node['type'] = [].concat({ innerStroke, outerStroke: 'transparent', fillSymbol: phen.color })
+//           node['isFP'] = false
+//         }
 
-        node['title'] = truncateLongString(String(phen['content']['short_title']) || String(phen['content']['title']))
-        node['x'] = phen['rating_x']['median']
-        node['y'] = phen['rating_y']['median']
-        node['avg'] = false
+//         node['title'] = truncateLongString(String(phen['content']['short_title']) || String(phen['content']['title']))
+//         node['x'] = phen['rating_x']['median']
+//         node['y'] = phen['rating_y']['median']
+//         node['avg'] = false
 
-        nodes.push(node)
-      }
-    })
-    // return modifyValueNodes(nodes)
-    return modifyRelativeNodes(nodes, listPoint())
-  }, [phenomena, decreaseLevel])
+//         nodes.push(node)
+//       }
+//     })
+//     // return modifyValueNodes(nodes)
+//     return modifyRelativeNodes(nodes, listPoint())
+//   }, [phenomena, decreaseLevel])
 
   function center(event, target) {
     if (event.sourceEvent) {
@@ -639,22 +639,22 @@ const modifyRelativeNodes = (nodes, list) => {
     d3.selectAll('#circleMedian').style('opacity', 0)
     d3.selectAll('#circleAvgInRelativeMode').style('opacity', 0)
     d3.selectAll('#circleMedianInRelativeMode').style('opacity', 0)
-    d3.selectAll('#circleAvgInThirdMode').style('opacity', 0)
-    d3.selectAll('#circleMedianInThirdMode').style('opacity', 0)
+    // d3.selectAll('#circleAvgInThirdMode').style('opacity', 0)
+    // d3.selectAll('#circleMedianInThirdMode').style('opacity', 0)
 
     d3.selectAll('#myNewTextsAvg').style('opacity', 0)
     d3.selectAll('#myNewTextsMedian').style('opacity', 0)
     d3.selectAll('#myNewTextsAvgInRelativeMode').style('opacity', 0)
     d3.selectAll('#myNewTextsMedianInRelativeMode').style('opacity', 0)
-    d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', 0)
-    d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', 0)
+    // d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', 0)
+    // d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', 0)
 
     d3.selectAll('#fpIconMedian').style('opacity', 0)
     d3.selectAll('#fpIconAverage').style('opacity', 0)
     d3.selectAll('#fpIconMedianInRelativeMode').style('opacity', 0)
     d3.selectAll('#fpIconAverageInRelativeMode').style('opacity', 0)
-    d3.selectAll('#fpIconMedianInThirdMode').style('opacity', 0)
-    d3.selectAll('#fpIconAverageInThirdMode').style('opacity', 0)
+    // d3.selectAll('#fpIconMedianInThirdMode').style('opacity', 0)
+    // d3.selectAll('#fpIconAverageInThirdMode').style('opacity', 0)
 
     if (keyMode === 1) {
       if (keyAvgMedian === 1) {
@@ -686,22 +686,23 @@ const modifyRelativeNodes = (nodes, list) => {
         d3.selectAll('#circleAvgInRelativeMode').style('opacity', 0)
         d3.selectAll('#fpIconMedianInRelativeMode').style('opacity', 1)
       }
-    } else {
-      if (keyAvgMedian === 1) {
-        d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', visibleText ? 1 : 0)
-        d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', 0)
-        d3.selectAll('#circleAvgInThirdMode').style('opacity', 1)
-        d3.selectAll('#circleMedianInThirdMode').style('opacity', 0)
-        d3.selectAll('#fpIconAverageInThirdMode').style('opacity', 1)
-      }
-      else if (keyAvgMedian === 2) {
-        d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', visibleText ? 1 : 0)
-        d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', 0)
-        d3.selectAll('#circleMedianInThirdMode').style('opacity', 1)
-        d3.selectAll('#circleAvgInThirdMode').style('opacity', 0)
-        d3.selectAll('#fpIconMedianInThirdMode').style('opacity', 1)
-      }
-    }
+    } 
+    // else {
+    //   if (keyAvgMedian === 1) {
+    //     d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', visibleText ? 1 : 0)
+    //     d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', 0)
+    //     d3.selectAll('#circleAvgInThirdMode').style('opacity', 1)
+    //     d3.selectAll('#circleMedianInThirdMode').style('opacity', 0)
+    //     d3.selectAll('#fpIconAverageInThirdMode').style('opacity', 1)
+    //   }
+    //   else if (keyAvgMedian === 2) {
+    //     d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', visibleText ? 1 : 0)
+    //     d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', 0)
+    //     d3.selectAll('#circleMedianInThirdMode').style('opacity', 1)
+    //     d3.selectAll('#circleAvgInThirdMode').style('opacity', 0)
+    //     d3.selectAll('#fpIconMedianInThirdMode').style('opacity', 1)
+    //   }
+    // }
   }, [scatterSvg, visibleText, keyMode])
 
   useEffect(() => {
@@ -711,23 +712,23 @@ const modifyRelativeNodes = (nodes, list) => {
     d3.selectAll('#circleMedian').style('opacity', 0)
     d3.selectAll('#circleAvgInRelativeMode').style('opacity', 0)
     d3.selectAll('#circleMedianInRelativeMode').style('opacity', 0)
-    d3.selectAll('#circleAvgInThirdMode').style('opacity', 0)
-    d3.selectAll('#circleMedianInThirdMode').style('opacity', 0)
+    // d3.selectAll('#circleAvgInThirdMode').style('opacity', 0)
+    // d3.selectAll('#circleMedianInThirdMode').style('opacity', 0)
 
     d3.selectAll('#myNewTextsAvg').style('opacity', 0)
     d3.selectAll('#myNewTextsMedian').style('opacity', 0)
     d3.selectAll('#myNewTextsAvgInRelativeMode').style('opacity', 0)
     d3.selectAll('#myNewTextsMedianInRelativeMode').style('opacity', 0)
 
-    d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', 0)
-    d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', 0)
+    // d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', 0)
+    // d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', 0)
 
     d3.selectAll('#fpIconMedian').style('opacity', 0)
     d3.selectAll('#fpIconAverage').style('opacity', 0)
     d3.selectAll('#fpIconMedianInRelativeMode').style('opacity', 0)
     d3.selectAll('#fpIconAverageInRelativeMode').style('opacity', 0)
-    d3.selectAll('#fpIconMedianInThirdMode').style('opacity', 0)
-    d3.selectAll('#fpIconAverageInThirdMode').style('opacity', 0)
+    // d3.selectAll('#fpIconMedianInThirdMode').style('opacity', 0)
+    // d3.selectAll('#fpIconAverageInThirdMode').style('opacity', 0)
 
     if (keyMode === 1) {
       if (keyAvgMedian === 1) {
@@ -759,22 +760,23 @@ const modifyRelativeNodes = (nodes, list) => {
         d3.selectAll('#circleAvgInRelativeMode').style('opacity', 0)
         d3.selectAll('#fpIconMedianInRelativeMode').style('opacity', 1)
       }
-    } else {
-      if (keyAvgMedian === 1) {
-        d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', visibleText ? 1 : 0)
-        d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', 0)
-        d3.selectAll('#circleAvgInThirdMode').style('opacity', 1)
-        d3.selectAll('#circleMedianInThirdMode').style('opacity', 0)
-        d3.selectAll('#fpIconAverageInThirdMode').style('opacity', 1)
-      }
-      else if (keyAvgMedian === 2) {
-        d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', visibleText ? 1 : 0)
-        d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', 0)
-        d3.selectAll('#circleMedianInThirdMode').style('opacity', 1)
-        d3.selectAll('#circleAvgInThirdMode').style('opacity', 0)
-        d3.selectAll('#fpIconMedianInThirdMode').style('opacity', 1)
-      }
-    }
+    } 
+    // else {
+    //   if (keyAvgMedian === 1) {
+    //     d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', visibleText ? 1 : 0)
+    //     d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', 0)
+    //     d3.selectAll('#circleAvgInThirdMode').style('opacity', 1)
+    //     d3.selectAll('#circleMedianInThirdMode').style('opacity', 0)
+    //     d3.selectAll('#fpIconAverageInThirdMode').style('opacity', 1)
+    //   }
+    //   else if (keyAvgMedian === 2) {
+    //     d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', visibleText ? 1 : 0)
+    //     d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', 0)
+    //     d3.selectAll('#circleMedianInThirdMode').style('opacity', 1)
+    //     d3.selectAll('#circleAvgInThirdMode').style('opacity', 0)
+    //     d3.selectAll('#fpIconMedianInThirdMode').style('opacity', 1)
+    //   }
+    // }
   }, [scatterSvg, keyAvgMedian, keyMode])
 
   useEffect(() => {
@@ -792,7 +794,10 @@ const modifyRelativeNodes = (nodes, list) => {
     
     try {
       if (phenomena.length < 1 || !scatterSvg) return
-    let nodes = [...nodeListAsAverage, ...nodeListAsAverageInRelativeMode,  ...nodeListAsMedian, ...nodeListAsMedianInRelativeMode, ...nodeListAsAverageInThirdMode, ...nodeListAsMedianInThirdMode]
+    let nodes = [...nodeListAsAverage, ...nodeListAsAverageInRelativeMode,  ...nodeListAsMedian, ...nodeListAsMedianInRelativeMode, 
+        // ...nodeListAsAverageInThirdMode, 
+        // ...nodeListAsMedianInThirdMode
+    ]
 
     let data = nodes.map(item => [item.x, item.y])
     data = [...data, ...Array.from({ length: 50 }, () => [100 * Math.random(), 100 * Math.random()])]
@@ -898,29 +903,29 @@ const modifyRelativeNodes = (nodes, list) => {
         .append("xhtml:div")
         .html(d => d.title)
 
-        const myForeignObjectsMedianInThirdMode = scatterSvg.append('g').selectAll('foreignObject').data(nodeListAsMedianInThirdMode).join('foreignObject')
-    myForeignObjectsMedianInThirdMode
-        .attr('id', 'myNewTextsMedianInThirdMode')
-        .attr('width', maxTextWidth * decreaseLevel)
-        .attr('height', 200)
-        .attr('style', "overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; hyphens: auto;")
-        .style('transition', 'font-size 0.2s')
-        .style('transition-timing-function', 'linear')
-        .style('text-align', 'center')
-        .append("xhtml:div")
-        .html(d => d.title)
+    //     const myForeignObjectsMedianInThirdMode = scatterSvg.append('g').selectAll('foreignObject').data(nodeListAsMedianInThirdMode).join('foreignObject')
+    // myForeignObjectsMedianInThirdMode
+    //     .attr('id', 'myNewTextsMedianInThirdMode')
+    //     .attr('width', maxTextWidth * decreaseLevel)
+    //     .attr('height', 200)
+    //     .attr('style', "overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; hyphens: auto;")
+    //     .style('transition', 'font-size 0.2s')
+    //     .style('transition-timing-function', 'linear')
+    //     .style('text-align', 'center')
+    //     .append("xhtml:div")
+    //     .html(d => d.title)
 
-      const myForeignObjectsAverageInThirdMode = scatterSvg.append('g').selectAll('foreignObject').data(nodeListAsAverageInThirdMode).join('foreignObject')
-      myForeignObjectsAverageInThirdMode
-        .attr('id', 'myNewTextsAvgInThirdMode')
-        .attr('width', maxTextWidth * decreaseLevel)
-        .attr('height', 200 )
-        .attr('style', "overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; hyphens: auto;")
-        .style('transition', 'font-size 0.2s')
-        .style('transition-timing-function', 'linear')
-        .style('text-align', 'center')
-        .append("xhtml:div")
-        .html(d => d.title)
+    //   const myForeignObjectsAverageInThirdMode = scatterSvg.append('g').selectAll('foreignObject').data(nodeListAsAverageInThirdMode).join('foreignObject')
+    //   myForeignObjectsAverageInThirdMode
+    //     .attr('id', 'myNewTextsAvgInThirdMode')
+    //     .attr('width', maxTextWidth * decreaseLevel)
+    //     .attr('height', 200 )
+    //     .attr('style', "overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; hyphens: auto;")
+    //     .style('transition', 'font-size 0.2s')
+    //     .style('transition-timing-function', 'linear')
+    //     .style('text-align', 'center')
+    //     .append("xhtml:div")
+    //     .html(d => d.title)
 
     const myCircleAvg1 = scatterSvg.append('g')
       .selectAll('circle')
@@ -953,21 +958,21 @@ const modifyRelativeNodes = (nodes, list) => {
         return d.type[0].fillSymbol
       })
 
-      const myCircleAvg1InThirdMode = scatterSvg.append('g')
-      .selectAll('circle')
-      .data(nodeListAsAverageInThirdMode)
-      .join('circle')
-      .attr('stroke', d => {
-        return d.type[0].outerStroke
-      })
-      .attr('cursor', 'pointer')
-      .attr('class', d => {
-        return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'outer_special_circle_rating_result left' : 'outer_normal_circle_rating_result left'
-      })
-      .attr('id', 'circleAvgInThirdMode')
-      .style('fill', d => {
-        return d.type[0].fillSymbol
-      })
+    //   const myCircleAvg1InThirdMode = scatterSvg.append('g')
+    //   .selectAll('circle')
+    //   .data(nodeListAsAverageInThirdMode)
+    //   .join('circle')
+    //   .attr('stroke', d => {
+    //     return d.type[0].outerStroke
+    //   })
+    //   .attr('cursor', 'pointer')
+    //   .attr('class', d => {
+    //     return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'outer_special_circle_rating_result left' : 'outer_normal_circle_rating_result left'
+    //   })
+    //   .attr('id', 'circleAvgInThirdMode')
+    //   .style('fill', d => {
+    //     return d.type[0].fillSymbol
+    //   })
 
     const myCircleAvg = scatterSvg.append('g')
       .selectAll('circle')
@@ -1007,24 +1012,24 @@ const modifyRelativeNodes = (nodes, list) => {
       })
       .attr('cursor', 'pointer')
 
-      const myCircleAvgInThirdMode = scatterSvg.append('g')
-      .selectAll('circle')
-      .data(nodeListAsAverageInThirdMode)
-      .join('circle')
-      .attr('stroke', d => {
-        return d.type[0].innerStroke
-      })
-      .attr('cursor', 'pointer')
-      .attr('class', d => {return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'inner_special_circle_rating_result left' : 'inner_normal_circle_rating_result left'})
-      .attr('id', 'circleAvgInThirdMode')
-      .style('fill', d => {
-        if (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) {
-          return 'white'
-        }
+    //   const myCircleAvgInThirdMode = scatterSvg.append('g')
+    //   .selectAll('circle')
+    //   .data(nodeListAsAverageInThirdMode)
+    //   .join('circle')
+    //   .attr('stroke', d => {
+    //     return d.type[0].innerStroke
+    //   })
+    //   .attr('cursor', 'pointer')
+    //   .attr('class', d => {return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'inner_special_circle_rating_result left' : 'inner_normal_circle_rating_result left'})
+    //   .attr('id', 'circleAvgInThirdMode')
+    //   .style('fill', d => {
+    //     if (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) {
+    //       return 'white'
+    //     }
 
-        return d.type[0].fillSymbol
-      })
-      .attr('cursor', 'pointer')
+    //     return d.type[0].fillSymbol
+    //   })
+    //   .attr('cursor', 'pointer')
 
     const myCircleMedian1 = scatterSvg.append('g')
       .selectAll('circle')
@@ -1050,17 +1055,17 @@ const modifyRelativeNodes = (nodes, list) => {
       })
       .style('fill', d => d.type[0].fillSymbol)
 
-      const myCircleMedian1InThirdMode = scatterSvg.append('g')
-      .selectAll('circle')
-      .data(nodeListAsMedianInThirdMode)
-      .join('circle')
-      .attr('stroke', d => d.type[0].outerStroke)
-      .attr('cursor', 'pointer')
-      .attr('id', 'circleMedianInThirdMode')
-      .attr('class', d => {
-        return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'outer_special_circle_median_rating_result left' : 'outer_normal_circle_median_rating_result left'
-      })
-      .style('fill', d => d.type[0].fillSymbol)
+    //   const myCircleMedian1InThirdMode = scatterSvg.append('g')
+    //   .selectAll('circle')
+    //   .data(nodeListAsMedianInThirdMode)
+    //   .join('circle')
+    //   .attr('stroke', d => d.type[0].outerStroke)
+    //   .attr('cursor', 'pointer')
+    //   .attr('id', 'circleMedianInThirdMode')
+    //   .attr('class', d => {
+    //     return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'outer_special_circle_median_rating_result left' : 'outer_normal_circle_median_rating_result left'
+    //   })
+    //   .style('fill', d => d.type[0].fillSymbol)
 
 
     const myCircleMedian = scatterSvg.append('g')
@@ -1097,22 +1102,22 @@ const modifyRelativeNodes = (nodes, list) => {
       })
       .attr('cursor', 'pointer')
 
-      const myCircleMedianInThirdMode = scatterSvg.append('g')
-      .selectAll('circle')
-      .data(nodeListAsMedianInThirdMode)
-      .join('circle')
-      .attr('stroke', d => d.type[0].innerStroke)
-      .attr('cursor', 'pointer')
-      .attr('id', 'circleMedianInThirdMode')
-      .attr('class', d => {return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'inner_special_circle_median_rating_result left' : 'inner_normal_circle_median_rating_result left'})
-      .style('fill', d => {
-        if (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) {
-          return 'white'
-        }
+    //   const myCircleMedianInThirdMode = scatterSvg.append('g')
+    //   .selectAll('circle')
+    //   .data(nodeListAsMedianInThirdMode)
+    //   .join('circle')
+    //   .attr('stroke', d => d.type[0].innerStroke)
+    //   .attr('cursor', 'pointer')
+    //   .attr('id', 'circleMedianInThirdMode')
+    //   .attr('class', d => {return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'inner_special_circle_median_rating_result left' : 'inner_normal_circle_median_rating_result left'})
+    //   .style('fill', d => {
+    //     if (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) {
+    //       return 'white'
+    //     }
 
-        return d.type[0].fillSymbol
-      })
-      .attr('cursor', 'pointer')
+    //     return d.type[0].fillSymbol
+    //   })
+    //   .attr('cursor', 'pointer')
       
       const fpIconMedian = scatterSvg.append('g')
             .selectAll('image')
@@ -1186,55 +1191,55 @@ const modifyRelativeNodes = (nodes, list) => {
           .attr('cursor', 'pointer')
             .attr('class', 'left')
 
-          const fpIconMedianInThirdMode = scatterSvg.append('g')
-          .selectAll('image')
-          .data(nodeListAsMedianInThirdMode)
-          .join('image')
-          .attr('id', 'fpIconMedianInThirdMode')
-          .attr('xlink:href', (d) => {
-            return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
-          })
-          .attr('height', (d) => {
-            return !!d?.['isFP'] ? fpIconSize : null
-          })
-          .attr('width', (d) => {
-            return !!d?.['isFP'] ? fpIconSize : null
-          })
-          .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
-          .attr('cursor', 'pointer')
-            .attr('class', 'left')
+        //   const fpIconMedianInThirdMode = scatterSvg.append('g')
+        //   .selectAll('image')
+        //   .data(nodeListAsMedianInThirdMode)
+        //   .join('image')
+        //   .attr('id', 'fpIconMedianInThirdMode')
+        //   .attr('xlink:href', (d) => {
+        //     return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
+        //   })
+        //   .attr('height', (d) => {
+        //     return !!d?.['isFP'] ? fpIconSize : null
+        //   })
+        //   .attr('width', (d) => {
+        //     return !!d?.['isFP'] ? fpIconSize : null
+        //   })
+        //   .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
+        //   .attr('cursor', 'pointer')
+        //     .attr('class', 'left')
 
-      const fpIconAverageInThirdMode = scatterSvg.append('g')
-          .selectAll('image')
-          .data(nodeListAsAverageInThirdMode)
-          .join('image')
-          .attr('id', 'fpIconAverageInThirdMode')
-          .attr('xlink:href', (d) => {
-            return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
-          })
-          .attr('height', (d) => {
-            return !!d?.['isFP'] ? fpIconSize : null
-          })
-          .attr('width', (d) => {
-            return !!d?.['isFP'] ? fpIconSize : null
-          })
-          .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
-          .attr('cursor', 'pointer')
-            .attr('class', 'left')
+    //   const fpIconAverageInThirdMode = scatterSvg.append('g')
+    //       .selectAll('image')
+    //       .data(nodeListAsAverageInThirdMode)
+    //       .join('image')
+    //       .attr('id', 'fpIconAverageInThirdMode')
+    //       .attr('xlink:href', (d) => {
+    //         return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
+    //       })
+    //       .attr('height', (d) => {
+    //         return !!d?.['isFP'] ? fpIconSize : null
+    //       })
+    //       .attr('width', (d) => {
+    //         return !!d?.['isFP'] ? fpIconSize : null
+    //       })
+    //       .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
+    //       .attr('cursor', 'pointer')
+    //         .attr('class', 'left')
 
       d3.selectAll('#circleAvg').style('opacity', 0)
       d3.selectAll('#circleMedian').style('opacity', 0)
       d3.selectAll('#circleAvgInRelativeMode').style('opacity', 0)
       d3.selectAll('#circleMedianInRelativeMode').style('opacity', 0)
-      d3.selectAll('#circleAvgInThirdMode').style('opacity', 0)
-      d3.selectAll('#circleMedianInThirdMode').style('opacity', 0)
+    //   d3.selectAll('#circleAvgInThirdMode').style('opacity', 0)
+    //   d3.selectAll('#circleMedianInThirdMode').style('opacity', 0)
 
       d3.selectAll('#myNewTextsAvg').style('opacity', 0)
       d3.selectAll('#myNewTextsMedian').style('opacity', 0)
       d3.selectAll('#myNewTextsAvgInRelativeMode').style('opacity', 0)
       d3.selectAll('#myNewTextsMedianInRelativeMode').style('opacity', 0)
-      d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', 0)
-      d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', 0)
+    //   d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', 0)
+    //   d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', 0)
 
       // fpIconMedian fpIconAverage  fpIconMedianInRelativeMode  
       // fpIconAverageInRelativeMode fpIconMedianInThirdMode fpIconAverageInThirdMode
@@ -1242,8 +1247,8 @@ const modifyRelativeNodes = (nodes, list) => {
       d3.selectAll('#fpIconAverage').style('opacity', 0)
       d3.selectAll('#fpIconMedianInRelativeMode').style('opacity', 0)
       d3.selectAll('#fpIconAverageInRelativeMode').style('opacity', 0)
-      d3.selectAll('#fpIconMedianInThirdMode').style('opacity', 0)
-      d3.selectAll('#fpIconAverageInThirdMode').style('opacity', 0)
+    //   d3.selectAll('#fpIconMedianInThirdMode').style('opacity', 0)
+    //   d3.selectAll('#fpIconAverageInThirdMode').style('opacity', 0)
 
     if (keyMode === 1) {
       if (keyAvgMedian === 1) {
@@ -1276,22 +1281,23 @@ const modifyRelativeNodes = (nodes, list) => {
         d3.selectAll('#circleAvgInRelativeMode').style('opacity', 0)
         d3.selectAll('#fpIconMedianInRelativeMode').style('opacity', 1)
       }
-    } else {
-      if (keyAvgMedian === 1) {
-        d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', visibleText ? 1 : 0)
-        d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', 0)
-        d3.selectAll('#circleAvgInThirdMode').style('opacity', 1)
-        d3.selectAll('#circleMedianInThirdMode').style('opacity', 0)
-        d3.selectAll('#fpIconAverageInThirdMode').style('opacity', 1)
-      }
-      else if ( keyAvgMedian === 2) {
-        d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', visibleText ? 1 : 0)
-        d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', 0)
-        d3.selectAll('#circleMedianInThirdMode').style('opacity', 1)
-        d3.selectAll('#circleAvgInThirdMode').style('opacity', 0)
-        d3.selectAll('#fpIconMedianInThirdMode').style('opacity', 1)
-      }
-    }
+    } 
+    // else {
+    //   if (keyAvgMedian === 1) {
+    //     d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', visibleText ? 1 : 0)
+    //     d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', 0)
+    //     d3.selectAll('#circleAvgInThirdMode').style('opacity', 1)
+    //     d3.selectAll('#circleMedianInThirdMode').style('opacity', 0)
+    //     d3.selectAll('#fpIconAverageInThirdMode').style('opacity', 1)
+    //   }
+    //   else if ( keyAvgMedian === 2) {
+    //     d3.selectAll('#myNewTextsMedianInThirdMode').style('opacity', visibleText ? 1 : 0)
+    //     d3.selectAll('#myNewTextsAvgInThirdMode').style('opacity', 0)
+    //     d3.selectAll('#circleMedianInThirdMode').style('opacity', 1)
+    //     d3.selectAll('#circleAvgInThirdMode').style('opacity', 0)
+    //     d3.selectAll('#fpIconMedianInThirdMode').style('opacity', 1)
+    //   }
+    // }
     
     // z holds a copy of the previous transform, so we can track its changes
     let z = d3.zoomIdentity
@@ -1317,8 +1323,8 @@ const modifyRelativeNodes = (nodes, list) => {
     const myNewTextsAvgID = d3.selectAll('#myNewTextsAvg')
     const myNewTextsMedianIDInRelativeMode = d3.selectAll('#myNewTextsMedianInRelativeMode')
     const myNewTextsAvgIDInRelativeMode = d3.selectAll('#myNewTextsAvgInRelativeMode')
-    const myNewTextsMedianIDInThirdMode = d3.selectAll('#myNewTextsMedianInThirdMode')
-    const myNewTextsAvgIDInThirdMode = d3.selectAll('#myNewTextsAvgInThirdMode')
+    // const myNewTextsMedianIDInThirdMode = d3.selectAll('#myNewTextsMedianInThirdMode')
+    // const myNewTextsAvgIDInThirdMode = d3.selectAll('#myNewTextsAvgInThirdMode')
 
     // active zooming
     const zoom = d3.zoom().scaleExtent([1, 100]).translateExtent([[0, 0], [containerWidth, containerHeight]]).on("zoom", function (e) {
@@ -1581,24 +1587,24 @@ const modifyRelativeNodes = (nodes, list) => {
             })
             .attr('y', d => yr(d.y) + radius / 1 + 3)
 
-          myForeignObjectsAverageInThirdMode
-            .transition(trans)
-            .on('end', () => {
-              try {
-                const scale = Math.min(t.k, 8)
-                const minScale = Math.max(scale, 1)
-                const r = Math.max(10, Math.floor(10 + minScale))
-                const fonts = Math.max(10, Math.floor(9 + minScale))
-                myNewTextsAvgIDInThirdMode.style('font-size', fonts * decreaseLevel).attr('y', d => yr(d.y) + r / 1)
-              } catch (err) {
-                console.log('error', err)
-              }
+        //   myForeignObjectsAverageInThirdMode
+        //     .transition(trans)
+        //     .on('end', () => {
+        //       try {
+        //         const scale = Math.min(t.k, 8)
+        //         const minScale = Math.max(scale, 1)
+        //         const r = Math.max(10, Math.floor(10 + minScale))
+        //         const fonts = Math.max(10, Math.floor(9 + minScale))
+        //         myNewTextsAvgIDInThirdMode.style('font-size', fonts * decreaseLevel).attr('y', d => yr(d.y) + r / 1)
+        //       } catch (err) {
+        //         console.log('error', err)
+        //       }
               
-            })
-            .attr('x', d => {
-              return xr(d.x) - (maxTextWidth * decreaseLevel) / 2
-            })
-            .attr('y', d => yr(d.y) + radius / 1 + 3)
+        //     })
+        //     .attr('x', d => {
+        //       return xr(d.x) - (maxTextWidth * decreaseLevel) / 2
+        //     })
+        //     .attr('y', d => yr(d.y) + radius / 1 + 3)
 
           myForeignObjectsMedian
             .transition(trans)
@@ -1636,23 +1642,23 @@ const modifyRelativeNodes = (nodes, list) => {
             })
             .attr('y', d => yr(d.y) + radius / 1 + 3)
             
-          myForeignObjectsMedianInThirdMode
-            .transition(trans)
-            .on('end', () => {
-              try {
-                const scale = Math.min(t.k, 8)
-                const minScale = Math.max(scale, 1)
-                const r = Math.max(10, Math.floor(10 + minScale))
-                const fonts = Math.max(10, Math.floor(9 + minScale))
-                myNewTextsMedianIDInThirdMode.style('font-size', fonts * decreaseLevel).attr('y', d => yr(d.y) + r / 1)
-              } catch (err) {
-                console.log('error', err)
-              }
-            })
-            .attr('x', d => {
-              return xr(d.x) - (maxTextWidth * decreaseLevel) / 2
-            })
-            .attr('y', d => yr(d.y) + radius / 1 + 3)
+        //   myForeignObjectsMedianInThirdMode
+        //     .transition(trans)
+        //     .on('end', () => {
+        //       try {
+        //         const scale = Math.min(t.k, 8)
+        //         const minScale = Math.max(scale, 1)
+        //         const r = Math.max(10, Math.floor(10 + minScale))
+        //         const fonts = Math.max(10, Math.floor(9 + minScale))
+        //         myNewTextsMedianIDInThirdMode.style('font-size', fonts * decreaseLevel).attr('y', d => yr(d.y) + r / 1)
+        //       } catch (err) {
+        //         console.log('error', err)
+        //       }
+        //     })
+        //     .attr('x', d => {
+        //       return xr(d.x) - (maxTextWidth * decreaseLevel) / 2
+        //     })
+        //     .attr('y', d => yr(d.y) + radius / 1 + 3)
 
             fpIconMedian
               .transition(trans)
@@ -1674,15 +1680,15 @@ const modifyRelativeNodes = (nodes, list) => {
                 .attr('x', d => xr(d.x) - fpIconSize / 2)
                 .attr('y', d => yr(d.y) - fpIconSize / 2)
 
-            fpIconMedianInThirdMode
-              .transition(trans)
-              .attr('x', d => xr(d.x) - fpIconSize / 2)
-              .attr('y', d => yr(d.y) - fpIconSize / 2)
+            // fpIconMedianInThirdMode
+            //   .transition(trans)
+            //   .attr('x', d => xr(d.x) - fpIconSize / 2)
+            //   .attr('y', d => yr(d.y) - fpIconSize / 2)
 
-            fpIconAverageInThirdMode
-                .transition(trans)
-                .attr('x', d => xr(d.x) - fpIconSize / 2)
-                .attr('y', d => yr(d.y) - fpIconSize / 2)
+            // fpIconAverageInThirdMode
+            //     .transition(trans)
+            //     .attr('x', d => xr(d.x) - fpIconSize / 2)
+            //     .attr('y', d => yr(d.y) - fpIconSize / 2)
 
         } catch (error) {
           console.error(error)
@@ -1786,11 +1792,11 @@ const modifyRelativeNodes = (nodes, list) => {
                 labelFin: "Disperse Mode Fin",
                 value: 2,
               },
-              {
-                labelEn: "Relative Mode",
-                labelFin: "Relative Mode Fin",
-                value: 3,
-              },
+            //   {
+            //     labelEn: "Relative Mode",
+            //     labelFin: "Relative Mode Fin",
+            //     value: 3,
+            //   },
             ]}
             openDropdownHandle={openMenuModeHandle}
             dropdownIsOpen={menuModeIsOpen}
