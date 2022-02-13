@@ -11,9 +11,6 @@ import {Add, Remove} from '@mui/icons-material'
 const NODE_RADIUS = 10
 const SPECIAL_NODE_RADIUS = 6
 
-// const requestTranslation = () => 'request Translation'
-// const getPhenomenonUrl = (a, b) => 'http://google.com'
-
 const App = ({
   containerWidth = 500,
   containerHeight = 500,
@@ -31,7 +28,7 @@ const App = ({
   radar
 }) => {
 
-  console.log('1111', phenomena)
+  // console.log('1111', phenomena)
   const {state: {keyAvgMedian, keyMode} } = useContext(DataContext)
   
   const [visibleDialog, setVisibleDialog] = useState(false)
@@ -347,37 +344,94 @@ const App = ({
 //   return result
 // }
 
+const checkNodesOverlap = (node1, node2) => {
+  const veryClose = NODE_RADIUS // in px
+  const distanceX = containerWidth / 100
+  const distanceY = containerHeight / 100
+  return Math.abs(node1.x - node2.x) * distanceX < veryClose && Math.abs(node1.y - node2.y) * distanceY < veryClose
+}
+
     const modifyValueNodesInRelativeMode = React.useCallback((nodes) => {
       // if (!isRelative) return nodes
 
-      let duplicates = {}
-      const modifiedNodes = nodes.map(node => {
-          let newNode = node
-          const key = `${node.x}${node.y}`
-          if (duplicates[key]) {
-              newNode = { ...node, x: randomX(node), y: randomY(node), locked: true }
+      const radius = NODE_RADIUS / 4
+      const listAround = (countAround = 16) => {
+          let result = []
+          for (let i = 0; i < countAround; i++) {
+              const angle = (i / countAround) * Math.PI * 2
+              result.push({ x: Math.cos(angle) * radius, y: Math.sin(angle) * radius })
           }
-          duplicates[key] = key
+          return result
+      }
+
+      let duplicates = []
+      let sameAreas = []
+      let groupedSameArea = []
+
+      let modifiedNodes = nodes.map(node => {
+          let newNode = node
+          for (let i = 0; i < duplicates.length; i++) {
+              const isSameArea = checkNodesOverlap(node, duplicates[i])
+              if (isSameArea) {
+                  sameAreas.push({ x: Number(node.x), y: Number(node.y), title: node.title })
+              }
+          }
+          duplicates.push({ x: node.x, y: node.y })
           return newNode
       })
-
-      const result = modifiedNodes.map(node => {
-          let newNode = node
-          for (let i = 0; i < modifiedNodes.length; ++i) {
-              if (modifiedNodes[i].id !== node.id) {
-                  const rangeX = Math.abs(modifiedNodes[i].x - node.x)
-                  const rangeY = Math.abs(modifiedNodes[i].y - node.y)
-                  if (rangeX <= rangeNeaby && rangeY <= rangeNeaby) {
-                      const ranX = rangeNeaby < rangeX * 2 ? -0.2 : 0.2
-                      const ranY = rangeNeaby < rangeY * 2 ? -0.2 : 0.2
-                      newNode = { ...node, x: randomX(node) + ranX, y: randomY(node) + ranY }
+      if (sameAreas.length > 0) {
+          groupedSameArea.push({ p: sameAreas[0], count: 0, around: listAround() })
+          let same = true
+          for (let i = 1; i < sameAreas.length; i++) {
+              for (let j = 0; j < groupedSameArea.length; j++) {
+                  const isSameArea = checkNodesOverlap(sameAreas[i], groupedSameArea[j].p)
+                  if (!isSameArea) {
+                      same = false
                       break
                   }
               }
+              if (!same) {
+                  groupedSameArea.push({ p: sameAreas[i], count: 0, around: listAround() })
+              }
           }
-          return newNode
-      })
-      return result
+      }
+
+      if (groupedSameArea.length > 0) {
+          modifiedNodes = modifiedNodes.map(node => {
+              let newNode = node
+              for (let i = 0; i < groupedSameArea.length; i++) {
+                  const isSameArea = checkNodesOverlap(node, groupedSameArea[i].p)
+                  if (isSameArea) {
+                      groupedSameArea[i].count++
+                  }
+              }
+              return newNode
+          })
+
+          groupedSameArea = groupedSameArea.map(item => {
+              return {
+                  ...item,
+                  count: 0,
+                  around: listAround(item.count)
+              }
+          })
+
+          modifiedNodes = modifiedNodes.map(node => {
+              let newNode = node
+              for (let i = 0; i < groupedSameArea.length; i++) {
+                  const isSameArea = checkNodesOverlap(node, groupedSameArea[i].p)
+                  if (isSameArea) {
+                      console.error('groupedSameArea[i]', groupedSameArea[i].around)
+                      newNode = { ...node, x: Number(node.x) + groupedSameArea[i].around[groupedSameArea[i].count].x, y: Number(node.y) + groupedSameArea[i].around[groupedSameArea[i].count].y }
+                      groupedSameArea[i].count++
+                  }
+              }
+              return newNode
+          })
+      }
+
+      return modifiedNodes
+
   }, [phenomena, decreaseLevel])
 
   const nodeListAsMedian = React.useMemo(() => {
@@ -1394,7 +1448,7 @@ const App = ({
                   .attr('cy', d => yr(d.y))
                   .attr('r', r * decreaseLevel)
               } catch (error) {
-                console.error(error)
+                // console.error(error)
               }
             })
             .attr('cx', d => xr(d.x))
@@ -1415,7 +1469,7 @@ const App = ({
                   .attr('cy', d => yr(d.y))
                   .attr('r', r * decreaseLevel)
               } catch (error) {
-                console.error(error)
+                // console.error(error)
               }
             })
             .attr('cx', d => xr(d.x))
@@ -1436,7 +1490,7 @@ const App = ({
                   .attr('cy', d => yr(d.y))
                   .attr('r', r * decreaseLevel)
               } catch (error) {
-                console.error(error)
+                // console.error(error)
               }
             })
             .attr('cx', d => xr(d.x))
@@ -1457,7 +1511,7 @@ const App = ({
                   .attr('cy', d => yr(d.y))
                   .attr('r', r * decreaseLevel)
               } catch (error) {
-                console.error(error)
+                // console.error(error)
               }
             })
             .attr('cx', d => xr(d.x))
@@ -1478,7 +1532,7 @@ const App = ({
                   .attr('cy', d => yr(d.y))
                   .attr('r', r * decreaseLevel)
               } catch (error) {
-                console.error(error)
+                // console.error(error)
               }
             })
             .attr('cx', d => xr(d.x))
@@ -1499,7 +1553,7 @@ const App = ({
                   .attr('cy', d => yr(d.y))
                   .attr('r', r * decreaseLevel)
               } catch (error) {
-                console.error(error)
+                // console.error(error)
               }
             })
             .attr('cx', d => xr(d.x))
@@ -1521,7 +1575,7 @@ const App = ({
                   .attr('cy', d => yr(d.y))
                   .attr('r', r * decreaseLevel)
               } catch (error) {
-                console.error(error)
+                // console.error(error)
               }
             })
             .attr('cx', d => xr(d.x))
@@ -1542,7 +1596,7 @@ const App = ({
                   .attr('cy', d => yr(d.y))
                   .attr('r', r * decreaseLevel)
               } catch (error) {
-                console.error(error)
+                // console.error(error)
               }
             })
             .attr('cx', d => xr(d.x))
@@ -1559,7 +1613,7 @@ const App = ({
                 const fonts = Math.max(10, Math.floor(9 + minScale))
                 myNewTextsAvgID.style('font-size', fonts * decreaseLevel).attr('y', d => yr(d.y) + r / 1)
               } catch (err) {
-                console.log('error', err)
+                // console.log('error', err)
               }
               
             })
@@ -1578,7 +1632,7 @@ const App = ({
                 const fonts = Math.max(10, Math.floor(9 + minScale))
                 myNewTextsAvgIDInRelativeMode.style('font-size', fonts * decreaseLevel).attr('y', d => yr(d.y) + r / 1)
               } catch (err) {
-                console.log('error', err)
+                // console.log('error', err)
               }
               
             })
@@ -1616,7 +1670,7 @@ const App = ({
                 const fonts = Math.max(10, Math.floor(9 + minScale))
                 myNewTextsMedianID.style('font-size', fonts * decreaseLevel).attr('y', d => yr(d.y) + r / 1 )
               } catch (err) {
-                console.log('error', err)
+                // console.log('error', err)
               }
             })
             .attr('x', d => {
@@ -1634,7 +1688,7 @@ const App = ({
                 const fonts = Math.max(10, Math.floor(9 + minScale))
                 myNewTextsMedianIDInRelativeMode.style('font-size', fonts * decreaseLevel).attr('y', d => yr(d.y) + r / 1 )
               } catch (err) {
-                console.log('error', err)
+                // console.log('error', err)
               }
             })
             .attr('x', d => {
@@ -1691,7 +1745,7 @@ const App = ({
             //     .attr('y', d => yr(d.y) - fpIconSize / 2)
 
         } catch (error) {
-          console.error(error)
+          // console.error(error)
         }
       })
       d3.selectAll('circle').on('click', d => onClickNode(d.id))
@@ -1702,7 +1756,7 @@ const App = ({
         scatterSvg.selectAll("*").remove()
       }
     } catch (error) {
-      console.error(error)
+      // console.error(error)
     }
   }, [phenomena, scatterSvg, containerHeight, containerWidth, decreaseLevel])
 
