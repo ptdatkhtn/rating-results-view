@@ -49,7 +49,9 @@ const AxisY = ({
                     placement="top"
                     title={axisLabel2b}>
                     <div style={{
-                      width: 30, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', maxHeight: originalHeight / 2 - 10, height: 'fit-content', textAlign: 'right', fontWeight: 400, fontSize: '13px' }}>{axisLabel2b}</div>
+                      width: 30, writingMode: 'vertical-rl', transform: 'rotate(180deg)', 
+                        // overflow: 'hidden',
+                        textOverflow: 'ellipsis', maxHeight: originalHeight / 2 - 10, height: 'fit-content', textAlign: 'right', fontWeight: 400, fontSize: '13px' }}>{axisLabel2b}</div>
                   </Tooltip>
             </td>
           </tr>
@@ -65,7 +67,7 @@ const AxisY = ({
                         width: 30,
                         writingMode: 'vertical-rl', 
                         transform: 'rotate(180deg)', 
-                        overflow: 'hidden', 
+                        // overflow: 'hidden',
                         textOverflow: 'ellipsis', 
                         maxHeight: originalHeight / 2 - 10, 
                         height: 'fit-content', 

@@ -1182,10 +1182,10 @@ const checkNodesOverlap = (node1, node2) => {
               return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
             })
             .attr('height', (d) => {
-              return !!d?.['isFP'] ? fpIconSize : null
+              return !!d?.['isFP'] ? fpIconSize * decreaseLevel  : null
             })
             .attr('width', (d) => {
-              return !!d?.['isFP'] ? fpIconSize : null
+              return !!d?.['isFP'] ? fpIconSize  * decreaseLevel: null
             })
             .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
             .attr('cursor', 'pointer')
@@ -1200,10 +1200,10 @@ const checkNodesOverlap = (node1, node2) => {
             return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
           })
           .attr('height', (d) => {
-            return !!d?.['isFP'] ? fpIconSize : null
+            return !!d?.['isFP'] ? fpIconSize * decreaseLevel : null
           })
           .attr('width', (d) => {
-            return !!d?.['isFP'] ? fpIconSize : null
+            return !!d?.['isFP'] ? fpIconSize * decreaseLevel : null
           })
           .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
           .attr('cursor', 'pointer')
@@ -1218,10 +1218,10 @@ const checkNodesOverlap = (node1, node2) => {
             return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
           })
           .attr('height', (d) => {
-            return !!d?.['isFP'] ? fpIconSize : null
+            return !!d?.['isFP'] ? fpIconSize  * decreaseLevel : null
           })
           .attr('width', (d) => {
-            return !!d?.['isFP'] ? fpIconSize : null
+            return !!d?.['isFP'] ? fpIconSize * decreaseLevel : null
           })
           .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
           .attr('cursor', 'pointer')
@@ -1236,10 +1236,10 @@ const checkNodesOverlap = (node1, node2) => {
             return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
           })
           .attr('height', (d) => {
-            return !!d?.['isFP'] ? fpIconSize : null
+            return !!d?.['isFP'] ? fpIconSize * decreaseLevel : null
           })
           .attr('width', (d) => {
-            return !!d?.['isFP'] ? fpIconSize : null
+            return !!d?.['isFP'] ? fpIconSize  * decreaseLevel: null
           })
           .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
           .attr('cursor', 'pointer')
@@ -1716,23 +1716,23 @@ const checkNodesOverlap = (node1, node2) => {
 
             fpIconMedian
               .transition(trans)
-              .attr('x', d => xr(d.x) - fpIconSize / 2)
-              .attr('y', d => yr(d.y) - fpIconSize / 2)
+              .attr('x', d => xr(d.x) - fpIconSize * decreaseLevel / 2)
+              .attr('y', d => yr(d.y) - fpIconSize  * decreaseLevel / 2)
 
             fpIconAverage
                 .transition(trans)
-                .attr('x', d => xr(d.x) - fpIconSize / 2)
-                .attr('y', d => yr(d.y) - fpIconSize / 2)
+                .attr('x', d => xr(d.x) - fpIconSize  * decreaseLevel/ 2)
+                .attr('y', d => yr(d.y) - fpIconSize  * decreaseLevel/ 2)
 
             fpIconMedianInRelativeMode
               .transition(trans)
-              .attr('x', d => xr(d.x) - fpIconSize / 2)
-              .attr('y', d => yr(d.y) - fpIconSize / 2)
+              .attr('x', d => xr(d.x) - fpIconSize * decreaseLevel/ 2)
+              .attr('y', d => yr(d.y) - fpIconSize * decreaseLevel/ 2)
 
             fpIconAverageInRelativeMode
                 .transition(trans)
-                .attr('x', d => xr(d.x) - fpIconSize / 2)
-                .attr('y', d => yr(d.y) - fpIconSize / 2)
+                .attr('x', d => xr(d.x) - fpIconSize * decreaseLevel/ 2)
+                .attr('y', d => yr(d.y) - fpIconSize * decreaseLevel/ 2)
 
             // fpIconMedianInThirdMode
             //   .transition(trans)
