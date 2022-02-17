@@ -6,7 +6,7 @@ import {getPhenomenonUrl} from '../../helpers/contentCard'
 import { requestTranslation } from '@sangre-fp/i18n'
 import CustomDropdown from '../CustomDropdown/CustomDropdown'
 import { DataContext } from '../../store/GlobalState';
-import {Add, Remove} from '@mui/icons-material'
+import {Add, Remove, Fullscreen} from '@mui/icons-material'
 
 const NODE_RADIUS = 10
 const SPECIAL_NODE_RADIUS = 6
@@ -41,7 +41,9 @@ const App = ({
   const [menuIsOpen, setMenuIsOpen] = useState(false)
   const [menuModeIsOpen, setMenuModeIsOpen] = useState(false)
   const [decreaseLevel, setDecreaseLevel] = useState(1)
+  const [openFullScreenMode, setOpenFullScreenMode] = useState(false)
 
+  const openFullScreenModeHandle = () => setOpenFullScreenMode(!openFullScreenMode)
   const openMenuHandle = () => setMenuIsOpen(!menuIsOpen)
   const openMenuModeHandle = () => setMenuModeIsOpen(!menuModeIsOpen)
 
@@ -1791,124 +1793,144 @@ const checkNodesOverlap = (node1, node2) => {
   return (
     <div style={{width: '100%'}}>
       <div style={{ display: 'flex', 
-        // alignItems: 'center', 
-        justifyContent: 'space-between', paddingLeft: '56px', paddingRight: '60px', paddingTop: '8px', paddingBottom: '8px' }}>
-        <div style={{display: 'flex', 
-            // alignItems: 'center',
-            flexDirection: 'column'
+        alignItems: 'center', 
+        justifyContent: 'space-between', 
+        // paddingLeft: '56px', paddingRight: '60px', paddingTop: '8px', paddingBottom: '8px' 
         }}>
-          <div className="custom-control custom-checkbox">
-            <input type="checkbox" className="custom-control-input" id="customCheckbox_hideTitles_ratings" checked={!visibleText} onChange={onToggleTitle} />
-              <label className="custom-control-label" for="customCheckbox_hideTitles_ratings" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Hide titles' : 'Piilota otsikot') || requestTranslation('HideTitles_RatingResults')}</label>
-          </div>
-          <div style={{display: 'flex', marginTop: '20px'}}>
-            <button disabled={decreaseLevel === 1} onClick={handleIncreaseNodes}> <Add /> </button>
-            <div> {' / '}</div>
-            <button disabled={decreaseLevel <= 0.6} onClick={handleDecreaseNodes}> <Remove /></button>
-          </div>
-        </div>
-
-        <div> 
-        <div style={{display: 'flex', alignItems: 'center', marginRight: '-12px', marginBottom: '10px', justifyContent: 'space-between', width: '480px' }}>
-          <p style={{ fontSize: "13px", margin: 0, fontWeight: 400}}>{ (radar?.radarLanguage === "en" ? 'Show results as:' : 'Näytä tulokset muodossa:') || requestTranslation('ShowResultsAs_RatingResults')} </p>
-          {/* <div className="custom-control custom-radio custom-control-inline" style={{marginLeft: '16px', width: '120px'}}>
-            <input 
-              type="radio" 
-              id="customRadioInline_AsAbsoluteMode" 
-              name="customRadioInline_AsAbsoluteMode" 
-              className="custom-control-input" 
-              checked={!isRelative} 
-              onChange={onToggleIsAbsoluteMode} 
-            />
-              <label className="custom-control-label" for="customRadioInline_AsAbsoluteMode" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Absolute Mode' : 'Absolute Mode') || requestTranslation('Average_RatingResults')}</label>
-          </div>
-          <div class="custom-control custom-radio custom-control-inline" style={{ width: '120px'}}>
-            <input 
-              type="radio" 
-              id="customRadioInline_AsRelativeMode" 
-              name="customRadioInline_AsRelativeMode" 
-              className="custom-control-input" 
-              checked={!!isRelative} 
-              onChange={onToggleIsRelativeMode} 
-            />
-              <label className="custom-control-label" for="customRadioInline_AsRelativeMode" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Relative Mode' : 'Relative Mode') || requestTranslation('Median_RatingResults')}</label>
-          </div> */}
-          <CustomDropdown
-            name='modes'
-            options={[
-              {
-                labelEn: "Absolute Mode",
-                labelFin: "Absolute Mode Fin",
-                value: 1,
-              },
-              {
-                labelEn: "Disperse Mode",
-                labelFin: "Disperse Mode Fin",
-                value: 2,
-              },
-            //   {
-            //     labelEn: "Relative Mode",
-            //     labelFin: "Relative Mode Fin",
-            //     value: 3,
-            //   },
-            ]}
-            openDropdownHandle={openMenuModeHandle}
-            dropdownIsOpen={menuModeIsOpen}
-            closeDropdownHandle={() => setMenuModeIsOpen(false)}
-            defaultOptionsProps={1}
-            selectedOptionsProps={keyMode}
+        <div style={{display: 'flex', alignItems: 'center'}}>
+          <div> 
+            <div style={{display: 'flex', alignItems: 'center', marginRight: '-12px', marginBottom: '10px', justifyContent: 'space-between', width: '480px' }}>
+              <p style={{ fontSize: "13px", margin: 0, fontWeight: 400, paddingTop: '10px'}}>{ (radar?.radarLanguage === "en" ? 'Show as:' : 'Näytä tulokset muodossa:') || requestTranslation('ShowResultsAs_RatingResults')} </p>
+              {/* <div className="custom-control custom-radio custom-control-inline" style={{marginLeft: '16px', width: '120px'}}>
+                <input 
+                  type="radio" 
+                  id="customRadioInline_AsAbsoluteMode" 
+                  name="customRadioInline_AsAbsoluteMode" 
+                  className="custom-control-input" 
+                  checked={!isRelative} 
+                  onChange={onToggleIsAbsoluteMode} 
+                />
+                  <label className="custom-control-label" for="customRadioInline_AsAbsoluteMode" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Absolute Mode' : 'Absolute Mode') || requestTranslation('Average_RatingResults')}</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline" style={{ width: '120px'}}>
+                <input 
+                  type="radio" 
+                  id="customRadioInline_AsRelativeMode" 
+                  name="customRadioInline_AsRelativeMode" 
+                  className="custom-control-input" 
+                  checked={!!isRelative} 
+                  onChange={onToggleIsRelativeMode} 
+                />
+                  <label className="custom-control-label" for="customRadioInline_AsRelativeMode" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Relative Mode' : 'Relative Mode') || requestTranslation('Median_RatingResults')}</label>
+              </div> */}  
+              <CustomDropdown
+                name='AvgMedian'
+                options={[
+                  {
+                    labelEn: "Average",
+                    labelFin: "Average Fin",
+                    value: 1,
+                  },
+                  {
+                    labelEn: "Median",
+                    labelFin: "Median Fin",
+                    value: 2,
+                  },
+                ]}
+                openDropdownHandle={openMenuHandle}
+                dropdownIsOpen={menuIsOpen}
+                closeDropdownHandle={() => setMenuIsOpen(false)}
+                defaultOptionsProps={1}
+                selectedOptionsProps={keyAvgMedian}
+              />  
+              <CustomDropdown
+                name='modes'
+                options={[
+                  {
+                    labelEn: "Absolute Mode",
+                    labelFin: "Absolute Mode Fin",
+                    value: 1,
+                  },
+                  {
+                    labelEn: "Disperse Mode",
+                    labelFin: "Disperse Mode Fin",
+                    value: 2,
+                  },
+                //   {
+                //     labelEn: "Relative Mode",
+                //     labelFin: "Relative Mode Fin",
+                //     value: 3,
+                //   },
+                ]}
+                openDropdownHandle={openMenuModeHandle}
+                dropdownIsOpen={menuModeIsOpen}
+                closeDropdownHandle={() => setMenuModeIsOpen(false)}
+                defaultOptionsProps={1}
+                selectedOptionsProps={keyMode}
+              /> 
+            </div>
+      
+      {/* <div style={{display: 'flex', alignItems: 'center', marginRight: '-12px', marginTop: '24px', justifyContent: 'space-between', width: '375px' }}>
+        <p style={{ fontSize: "13px", margin: 0, fontWeight: 400}}>{ (radar?.radarLanguage === "en" ? 'Show results as:' : 'Näytä tulokset muodossa:') || requestTranslation('ShowResultsAs_RatingResults')} </p>
+        <div className="custom-control custom-radio custom-control-inline" style={{marginLeft: '16px', width: '120px'}}>
+          <input 
+            type="radio" 
+            id="customRadioInline_AsAverage" 
+            name="customRadioInline_AsAverage" 
+            className="custom-control-input" 
+            checked={isAverage} 
+            onChange={onToggleIsAverage} 
           />
-          <CustomDropdown
-            name='AvgMedian'
-            options={[
-              {
-                labelEn: "Average",
-                labelFin: "Average Fin",
-                value: 1,
-              },
-              {
-                labelEn: "Median",
-                labelFin: "Median Fin",
-                value: 2,
-              },
-            ]}
-            openDropdownHandle={openMenuHandle}
-            dropdownIsOpen={menuIsOpen}
-            closeDropdownHandle={() => setMenuIsOpen(false)}
-            defaultOptionsProps={1}
-            selectedOptionsProps={keyAvgMedian}
-          />   
+            <label className="custom-control-label" for="customRadioInline_AsAverage" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Average' : 'Keskiarvo') || requestTranslation('Average_RatingResults')}</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline" style={{ width: '120px'}}>
+          <input 
+            type="radio" 
+            id="customRadioInline_AsMedian" 
+            name="customRadioInline_AsMedian" 
+            className="custom-control-input" 
+            checked={!isAverage} 
+            onChange={onToggleIsMedian} 
+          />
+            <label className="custom-control-label" for="customRadioInline_AsMedian" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Median' : 'Mediaani') || requestTranslation('Median_RatingResults')}</label>
         </div>
         
-        {/* <div style={{display: 'flex', alignItems: 'center', marginRight: '-12px', marginTop: '24px', justifyContent: 'space-between', width: '375px' }}>
-          <p style={{ fontSize: "13px", margin: 0, fontWeight: 400}}>{ (radar?.radarLanguage === "en" ? 'Show results as:' : 'Näytä tulokset muodossa:') || requestTranslation('ShowResultsAs_RatingResults')} </p>
-          <div className="custom-control custom-radio custom-control-inline" style={{marginLeft: '16px', width: '120px'}}>
-            <input 
-              type="radio" 
-              id="customRadioInline_AsAverage" 
-              name="customRadioInline_AsAverage" 
-              className="custom-control-input" 
-              checked={isAverage} 
-              onChange={onToggleIsAverage} 
-            />
-              <label className="custom-control-label" for="customRadioInline_AsAverage" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Average' : 'Keskiarvo') || requestTranslation('Average_RatingResults')}</label>
+      </div> */}
           </div>
-          <div class="custom-control custom-radio custom-control-inline" style={{ width: '120px'}}>
-            <input 
-              type="radio" 
-              id="customRadioInline_AsMedian" 
-              name="customRadioInline_AsMedian" 
-              className="custom-control-input" 
-              checked={!isAverage} 
-              onChange={onToggleIsMedian} 
-            />
-              <label className="custom-control-label" for="customRadioInline_AsMedian" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Median' : 'Mediaani') || requestTranslation('Median_RatingResults')}</label>
+          <div style={{display: 'flex', 
+              // alignItems: 'center',
+              marginLeft: '32px'
+              // flexDirection: 'column'
+          }}>
+            <div className="custom-control custom-checkbox">
+              <input type="checkbox" className="custom-control-input" id="customCheckbox_hideTitles_ratings" checked={!visibleText} onChange={onToggleTitle} />
+                <label className="custom-control-label" for="customCheckbox_hideTitles_ratings" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Hide titles' : 'Piilota otsikot') || requestTranslation('HideTitles_RatingResults')}</label>
+            </div>
           </div>
-          
-        </div> */}
+          <div style={{display: 'flex', marginLeft: '32px', width: 'auto', justifyContent: 'space-around'}}>
+            <p style={{ fontSize: "13px", margin: 0, fontWeight: 400, paddingTop: '1px', marginRight: '12px'}}>{ (radar?.radarLanguage === "en" ? 'Resize:' : 'Resize in Finnish:')} </p>
+            <button style={{backgroundColor: 'white', borderRadius: '16px', marginRight: '10px'}} disabled={decreaseLevel <= 0.6} onClick={handleDecreaseNodes}> <Remove /></button>
+            <button style={{backgroundColor: 'white', borderRadius: '16px'}} disabled={decreaseLevel === 1} onClick={handleIncreaseNodes}> <Add /> </button>
+          </div>
+        </div>
+        
+        <div style={{display: 'flex'}} onClick={openFullScreenModeHandle}>
+          { !openFullScreenMode ?
+            (
+              <button>
+                <Fullscreen />
+              </button>
+            )
+            :
+            (
+              <button className="btn-icon-lg">
+                <span className='af-custom-close'/>
+              </button>
+            )
+          }
+        </div>
       </div>
-      
-    </div>
+
 
     <div className='rating-results-diagram' style={{ display: 'flex', paddingTop: '60px', paddingRight: '60px' }}>
       <AxisY originalHeight={containerHeight} axisHeight={containerHeight} axisLabel2={axisLabel2} axisLabel2a={axisLabel2a} axisLabel2b={axisLabel2b} />
@@ -1927,7 +1949,7 @@ const checkNodesOverlap = (node1, node2) => {
       </div>
     </div>
     
-  </div>
+    </div>
 
   )
 }

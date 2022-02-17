@@ -15,7 +15,7 @@ const localTranslations = {
       fi: 'Piilota otsikot'
     },    
     ShowResultsAs_RatingResults: {
-      en: 'Show results as: ',
+      en: 'Show as: ',
       fi: 'Näytä tulokset muodossa: '
     },
     Average_RatingResults: {
