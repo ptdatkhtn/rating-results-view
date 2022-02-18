@@ -74,7 +74,6 @@ const Rating = ({ phenomenon, radar, isRatingX }) => {
 
   const canBeEditAndClearResults = String(radar?.account?.role) !== 'visitor' && String(radar?.account?.role) !== 'user'
 
-  console.log(2222, phenomenon)
   return (
     phenomenon && (
       <RatingWidget >

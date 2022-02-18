@@ -115,7 +115,6 @@ const RatingResultsView = () => {
       eventTimeoutRef.current = setTimeout(calcSizeRateTabWrapper, 200);
     }, false)
   } catch (error) {
-    console.error(error)
   }
 
   const canBeEditAndClearResults = String(radar?.account?.role) !== 'visitor' && String(radar?.account?.role) !== 'user'

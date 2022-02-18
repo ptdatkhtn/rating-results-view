@@ -1,12 +1,19 @@
 import React from 'react'
 import Tooltip from '@mui/material/Tooltip';
 
+
+const fullscreenChartModeAxisYStyles = {
+  // eslint-disable-next-line no-restricted-globals
+  height: screen?.height * 80/100 + '!important'
+}
+
 const AxisY = ({
   axisHeight = 600,
   axisLabel2 = 'Vertical Axis Default',
   axisLabel2a = 'Low End Default',
   axisLabel2b = 'High End Default',
-  originalHeight
+  originalHeight,
+  isFm
 }) => {
   const cellStyle = {
     fontSize: 14,
@@ -20,7 +27,10 @@ const AxisY = ({
         height: +axisHeight, 
         margin: 0, 
         // background: 'rgb(224 222 222)', 
-        padding: '0px 0px 93px 0' }}>
+        padding: '0px 0px 93px 0',
+        ...fullscreenChartModeAxisYStyles
+
+        }}>
         <tbody style={{borderTop: 'none'}}>
           <tr style={{ ...cellStyle }}>
             <td style={{height: originalHeight }}>
@@ -39,7 +49,8 @@ const AxisY = ({
 
       <table cellPadding='0' cellSpacing='0' style={{ 
         height: +axisHeight, 
-        margin: 0, 
+        margin: 0,
+        ...fullscreenChartModeAxisYStyles,
         // background: 'rgb(224 222 222)', 
         padding: '0px 0px 93px 0' }}>
         <tbody style={{borderTop: 'none'}}>

@@ -11,6 +11,13 @@ import {Add, Remove, Fullscreen} from '@mui/icons-material'
 const NODE_RADIUS = 10
 const SPECIAL_NODE_RADIUS = 6
 
+// const fullscreenChartModeStyles = {
+//   // eslint-disable-next-line no-restricted-globals
+//   width: screen?.width * 80/100,
+//   // eslint-disable-next-line no-restricted-globals
+//   height: screen?.height * 80/100,
+// }
+
 const App = ({
   containerWidth = 500,
   containerHeight = 500,
@@ -28,6 +35,9 @@ const App = ({
   radar
 }) => {
 
+  const isNotInFullScreen = (!document.fullScreenElement) &&    // alternative standard method  
+        (!document.mozFullScreen) && (!document.webkitIsFullScreen) && (!document.msRequestFullscreen);
+        
   // console.log('1111', phenomena)
   const {state: {keyAvgMedian, keyMode} } = useContext(DataContext)
   
@@ -43,7 +53,56 @@ const App = ({
   const [decreaseLevel, setDecreaseLevel] = useState(1)
   const [openFullScreenMode, setOpenFullScreenMode] = useState(false)
 
-  const openFullScreenModeHandle = () => setOpenFullScreenMode(!openFullScreenMode)
+  const wrapperChartForFullscreenMode = document?.getElementById('wrapper-chart-1')
+
+  const handleFullscreenMode = () => {
+    try {            
+      if (wrapperChartForFullscreenMode.requestFullscreen) {
+            wrapperChartForFullscreenMode.requestFullscreen();
+          }
+          else if (wrapperChartForFullscreenMode.mozRequestFullScreen) {
+            wrapperChartForFullscreenMode.mozRequestFullScreen();
+          }
+          else if (wrapperChartForFullscreenMode.webkitRequestFullScreen) {
+            wrapperChartForFullscreenMode.webkitRequestFullScreen();
+          } 
+          else if (wrapperChartForFullscreenMode.msRequestFullscreen) { /* IE11 */
+            wrapperChartForFullscreenMode.msRequestFullscreen();
+          }
+  } catch (error) {
+      
+  }
+  }
+  const handleExitFullScreenMode = () => {
+    try {
+      if (document.exitFullscreen) {
+          document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) { /* Safari */
+          document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) { /* IE11 */
+          document.msExitFullscreen();
+      } else if (document.cancelFullScreen) { /* Safari */
+          document.cancelFullScreen();
+      } else if (document.mozCancelFullScreen) { /* Safari */
+          document.mozCancelFullScreen();
+      } else if (document.cancelFullScreen) { /* Safari */
+          document.cancelFullScreen();
+      } else if (document.webkitCancelFullScreen) { /* Safari */
+          document.webkitCancelFullScreen();
+      }
+  } catch (error) {
+      
+  }
+  }
+
+  const openFullScreenModeHandle = () => {
+    handleFullscreenMode()
+    setOpenFullScreenMode(true)
+  }
+  const closeFullScreenModeHandle = () => {
+    handleExitFullScreenMode()
+    setOpenFullScreenMode(false)
+  }
   const openMenuHandle = () => setMenuIsOpen(!menuIsOpen)
   const openMenuModeHandle = () => setMenuModeIsOpen(!menuModeIsOpen)
 
@@ -423,7 +482,6 @@ const checkNodesOverlap = (node1, node2) => {
               for (let i = 0; i < groupedSameArea.length; i++) {
                   const isSameArea = checkNodesOverlap(node, groupedSameArea[i].p)
                   if (isSameArea) {
-                      console.error('groupedSameArea[i]', groupedSameArea[i].around)
                       newNode = { ...node, x: Number(node.x) + groupedSameArea[i].around[groupedSameArea[i].count].x, y: Number(node.y) + groupedSameArea[i].around[groupedSameArea[i].count].y }
                       groupedSameArea[i].count++
                   }
@@ -1791,12 +1849,16 @@ const checkNodesOverlap = (node1, node2) => {
   }
 
   return (
-    <div style={{width: '100%'}}>
-      <div style={{ display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'space-between', 
-        // paddingLeft: '56px', paddingRight: '60px', paddingTop: '8px', paddingBottom: '8px' 
-        }}>
+    <div style={{width: '100%', background: !!openFullScreenMode ? '#e8ebeb' : null}} 
+      id='wrapper-chart-1'
+      >
+      <div    
+        id='wrapper-chart-2'
+        style={{ display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'space-between', 
+          // paddingLeft: '56px', paddingRight: '60px', paddingTop: '8px', paddingBottom: '8px' 
+          }}>
         <div style={{display: 'flex', alignItems: 'center'}}>
           <div> 
             <div style={{display: 'flex', alignItems: 'center', marginRight: '-12px', marginBottom: '10px', justifyContent: 'space-between', width: '480px' }}>
@@ -1914,16 +1976,16 @@ const checkNodesOverlap = (node1, node2) => {
           </div>
         </div>
         
-        <div style={{display: 'flex'}} onClick={openFullScreenModeHandle}>
+        <div style={{display: 'flex'}}>
           { !openFullScreenMode ?
             (
-              <button>
-                <Fullscreen />
+              <button onClick={openFullScreenModeHandle} style={{color: '#afabab'}}>
+                <Fullscreen style={{fontSize: '28px'}}/>
               </button>
             )
             :
             (
-              <button className="btn-icon-lg">
+              <button className="btn-icon-lg" onClick={closeFullScreenModeHandle}>
                 <span className='af-custom-close'/>
               </button>
             )
@@ -1932,20 +1994,39 @@ const checkNodesOverlap = (node1, node2) => {
       </div>
 
 
-    <div className='rating-results-diagram' style={{ display: 'flex', paddingTop: '60px', paddingRight: '60px' }}>
-      <AxisY originalHeight={containerHeight} axisHeight={containerHeight} axisLabel2={axisLabel2} axisLabel2a={axisLabel2a} axisLabel2b={axisLabel2b} />
-      <div style={{
-        width: containerWidth,
-        height: containerHeight + 70,
-        // padding: '0px 0px 60px 0',
-        boxSizing: 'content-box',
-        // background: '#e0dede' 
-      }}>
-        <div style={{ position: 'relative', width: containerWidth, height: containerHeight, background: 'white' }}>
-          <svg id='svg-app' style={{ position: 'absolute' }} />
+    <div className='rating-results-diagram' 
+      id='wrapper-chart-3'
+       style={{ display: 'flex', paddingTop: '60px', paddingRight: '60px' }}>
+      <AxisY originalHeight={containerHeight} axisHeight={containerHeight} axisLabel2={axisLabel2} axisLabel2a={axisLabel2a} axisLabel2b={axisLabel2b} isFm={openFullScreenMode}/>
+      <div 
+        id="wrapper-chart-5"
+          style={{
+            // padding: '0px 0px 60px 0',
+            boxSizing: 'content-box',
+            // eslint-disable-next-line no-restricted-globals
+            width: !openFullScreenMode ? containerWidth : screen?.width * 80/100,
+            // eslint-disable-next-line no-restricted-globals
+            height: !openFullScreenMode ? containerHeight + 70: screen?.height * 80/100,
+            // background: '#e0dede' 
+          }}>
+        <div 
+          id="wrapper-chart-svg-axis"
+           style={{ position: 'relative', width: containerWidth, height: containerHeight, background: 'white', 
+                    // eslint-disable-next-line no-restricted-globals
+                    width: !openFullScreenMode ? containerWidth : screen?.width * 80/100,
+                    // eslint-disable-next-line no-restricted-globals
+                    height: !openFullScreenMode ? containerHeight + 70: screen?.height * 80/100, }}>
+          <svg id='svg-app' 
+            style={{ 
+              position: 'absolute', 
+              // eslint-disable-next-line no-restricted-globals
+              width: !openFullScreenMode ? containerWidth : screen?.width * 80/100,
+              // eslint-disable-next-line no-restricted-globals
+              height: !openFullScreenMode ? containerHeight + 70: screen?.height * 80/100, 
+            }} />
           <canvas id='axis' />
         </div>
-        <AxisX originalWidth={containerWidth} axisWidth={containerWidth} axisLabel1={axisLabel1} axisLabel1a={axisLabel1a} axisLabel1b={axisLabel1b} />
+        <AxisX originalWidth={containerWidth} axisWidth={containerWidth} axisLabel1={axisLabel1} axisLabel1a={axisLabel1a} axisLabel1b={axisLabel1b} isFm={openFullScreenMode}/>
       </div>
     </div>
     

@@ -18,8 +18,6 @@ const customStyles = {
     marginBottom: 2,
   }),
   menu: (base, propsOptipons) => {
-    console.log('base111', base)
-    console.log('propsOptipons2222', propsOptipons)
     return {
       ...base,
       // height: 36,
@@ -81,7 +79,6 @@ const CustomDropdown = ({name, defaultOptionsProps, selectedOptionsProps, option
 
   const onChange = (e) => {
     const value = e
-    console.log('eee', e)
 
     if (name === 'modes') {
       //dispatch
