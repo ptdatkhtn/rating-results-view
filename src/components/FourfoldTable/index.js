@@ -1860,77 +1860,76 @@ const checkNodesOverlap = (node1, node2) => {
           // paddingLeft: '56px', paddingRight: '60px', paddingTop: '8px', paddingBottom: '8px' 
           }}>
         <div style={{display: 'flex', alignItems: 'center'}}>
-          <div> 
-            <div style={{display: 'flex', alignItems: 'center', marginRight: '-12px', marginBottom: '10px', justifyContent: 'space-between', width: '480px' }}>
-              <p style={{ fontSize: "13px", margin: 0, fontWeight: 400, paddingTop: '10px'}}>{ (radar?.radarLanguage === "en" ? 'Show as:' : 'Näytä tulokset muodossa:') || requestTranslation('ShowResultsAs_RatingResults')} </p>
-              {/* <div className="custom-control custom-radio custom-control-inline" style={{marginLeft: '16px', width: '120px'}}>
-                <input 
-                  type="radio" 
-                  id="customRadioInline_AsAbsoluteMode" 
-                  name="customRadioInline_AsAbsoluteMode" 
-                  className="custom-control-input" 
-                  checked={!isRelative} 
-                  onChange={onToggleIsAbsoluteMode} 
-                />
-                  <label className="custom-control-label" for="customRadioInline_AsAbsoluteMode" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Absolute Mode' : 'Absolute Mode') || requestTranslation('Average_RatingResults')}</label>
-              </div>
-              <div class="custom-control custom-radio custom-control-inline" style={{ width: '120px'}}>
-                <input 
-                  type="radio" 
-                  id="customRadioInline_AsRelativeMode" 
-                  name="customRadioInline_AsRelativeMode" 
-                  className="custom-control-input" 
-                  checked={!!isRelative} 
-                  onChange={onToggleIsRelativeMode} 
-                />
-                  <label className="custom-control-label" for="customRadioInline_AsRelativeMode" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Relative Mode' : 'Relative Mode') || requestTranslation('Median_RatingResults')}</label>
-              </div> */}  
-              <CustomDropdown
-                name='AvgMedian'
-                options={[
-                  {
-                    labelEn: "Average",
-                    labelFin: "Average Fin",
-                    value: 1,
-                  },
-                  {
-                    labelEn: "Median",
-                    labelFin: "Median Fin",
-                    value: 2,
-                  },
-                ]}
-                openDropdownHandle={openMenuHandle}
-                dropdownIsOpen={menuIsOpen}
-                closeDropdownHandle={() => setMenuIsOpen(false)}
-                defaultOptionsProps={1}
-                selectedOptionsProps={keyAvgMedian}
-              />  
-              <CustomDropdown
-                name='modes'
-                options={[
-                  {
-                    labelEn: "Absolute Mode",
-                    labelFin: "Absolute Mode Fin",
-                    value: 1,
-                  },
-                  {
-                    labelEn: "Disperse Mode",
-                    labelFin: "Disperse Mode Fin",
-                    value: 2,
-                  },
-                //   {
-                //     labelEn: "Relative Mode",
-                //     labelFin: "Relative Mode Fin",
-                //     value: 3,
-                //   },
-                ]}
-                openDropdownHandle={openMenuModeHandle}
-                dropdownIsOpen={menuModeIsOpen}
-                closeDropdownHandle={() => setMenuModeIsOpen(false)}
-                defaultOptionsProps={1}
-                selectedOptionsProps={keyMode}
-              /> 
+          <div style={{display: 'flex', alignItems: 'center', marginRight: '-12px', marginBottom: '10px', justifyContent: 'space-between', width: '460px' }}>
+            <p style={{ fontSize: "13px", margin: 0, fontWeight: 400, paddingTop: '10px'}}>{ (radar?.radarLanguage === "en" ? 'Show as:' : 'Näytä tulokset muodossa:') || requestTranslation('ShowResultsAs_RatingResults')} </p>
+            {/* <div className="custom-control custom-radio custom-control-inline" style={{marginLeft: '16px', width: '120px'}}>
+              <input 
+                type="radio" 
+                id="customRadioInline_AsAbsoluteMode" 
+                name="customRadioInline_AsAbsoluteMode" 
+                className="custom-control-input" 
+                checked={!isRelative} 
+                onChange={onToggleIsAbsoluteMode} 
+              />
+                <label className="custom-control-label" for="customRadioInline_AsAbsoluteMode" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Absolute Mode' : 'Absolute Mode') || requestTranslation('Average_RatingResults')}</label>
             </div>
+            <div class="custom-control custom-radio custom-control-inline" style={{ width: '120px'}}>
+              <input 
+                type="radio" 
+                id="customRadioInline_AsRelativeMode" 
+                name="customRadioInline_AsRelativeMode" 
+                className="custom-control-input" 
+                checked={!!isRelative} 
+                onChange={onToggleIsRelativeMode} 
+              />
+                <label className="custom-control-label" for="customRadioInline_AsRelativeMode" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Relative Mode' : 'Relative Mode') || requestTranslation('Median_RatingResults')}</label>
+            </div> */}  
+            <CustomDropdown
+              name='AvgMedian'
+              options={[
+                {
+                  labelEn: "Average",
+                  labelFin: "Average Fin",
+                  value: 1,
+                },
+                {
+                  labelEn: "Median",
+                  labelFin: "Median Fin",
+                  value: 2,
+                },
+              ]}
+              openDropdownHandle={openMenuHandle}
+              dropdownIsOpen={menuIsOpen}
+              closeDropdownHandle={() => setMenuIsOpen(false)}
+              defaultOptionsProps={1}
+              selectedOptionsProps={keyAvgMedian}
+            />  
+            <CustomDropdown
+              name='modes'
+              options={[
+                {
+                  labelEn: "Absolute Mode",
+                  labelFin: "Absolute Mode Fin",
+                  value: 1,
+                },
+                {
+                  labelEn: "Disperse Mode",
+                  labelFin: "Disperse Mode Fin",
+                  value: 2,
+                },
+              //   {
+              //     labelEn: "Relative Mode",
+              //     labelFin: "Relative Mode Fin",
+              //     value: 3,
+              //   },
+              ]}
+              openDropdownHandle={openMenuModeHandle}
+              dropdownIsOpen={menuModeIsOpen}
+              closeDropdownHandle={() => setMenuModeIsOpen(false)}
+              defaultOptionsProps={1}
+              selectedOptionsProps={keyMode}
+            /> 
+          </div>
       
       {/* <div style={{display: 'flex', alignItems: 'center', marginRight: '-12px', marginTop: '24px', justifyContent: 'space-between', width: '375px' }}>
         <p style={{ fontSize: "13px", margin: 0, fontWeight: 400}}>{ (radar?.radarLanguage === "en" ? 'Show results as:' : 'Näytä tulokset muodossa:') || requestTranslation('ShowResultsAs_RatingResults')} </p>
@@ -1958,7 +1957,6 @@ const checkNodesOverlap = (node1, node2) => {
         </div>
         
       </div> */}
-          </div>
           <div style={{display: 'flex', 
               // alignItems: 'center',
               marginLeft: '32px'
