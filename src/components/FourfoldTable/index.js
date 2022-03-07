@@ -56,7 +56,7 @@ const App = ({
   const wrapperChartForFullscreenMode = document?.getElementById('wrapper-chart-1')
 
   const handleFullscreenMode = () => {
-    try {            
+    try {
       if (wrapperChartForFullscreenMode.requestFullscreen) {
             wrapperChartForFullscreenMode.requestFullscreen();
           }
@@ -1050,7 +1050,7 @@ const checkNodesOverlap = (node1, node2) => {
       })
       .attr('cursor', 'pointer')
       .attr('class', d => {
-        return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'outer_special_circle_rating_result left' : 'outer_normal_circle_rating_result left'
+        return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? `outer_special_circle_rating_result ` + (!openFullScreenMode ? 'left' : 'left-fs') : 'outer_normal_circle_rating_result ' + (!openFullScreenMode ? 'left' : 'left-fs')
       })
       .attr('id', 'circleAvg')
       .style('fill', d => {
@@ -1065,7 +1065,7 @@ const checkNodesOverlap = (node1, node2) => {
       })
       .attr('cursor', 'pointer')
       .attr('class', d => {
-        return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'outer_special_circle_rating_result left' : 'outer_normal_circle_rating_result left'
+        return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'outer_special_circle_rating_result ' + (!openFullScreenMode ? 'left' : 'left-fs') : 'outer_normal_circle_rating_result ' + (!openFullScreenMode ? 'left' : 'left-fs')
       })
       .attr('id', 'circleAvgInRelativeMode')
       .style('fill', d => {
@@ -1096,7 +1096,7 @@ const checkNodesOverlap = (node1, node2) => {
         return d.type[0].innerStroke
       })
       .attr('cursor', 'pointer')
-      .attr('class', d => {return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'inner_special_circle_rating_result left' : 'inner_normal_circle_rating_result left'})
+      .attr('class', d => {return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'inner_special_circle_rating_result ' + (!openFullScreenMode ? 'left' : 'left-fs') : 'inner_normal_circle_rating_result ' + (!openFullScreenMode ? 'left' : 'left-fs')})
       .attr('id', 'circleAvg')
       .style('fill', d => {
         if (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) {
@@ -1115,7 +1115,7 @@ const checkNodesOverlap = (node1, node2) => {
         return d.type[0].innerStroke
       })
       .attr('cursor', 'pointer')
-      .attr('class', d => {return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'inner_special_circle_rating_result left' : 'inner_normal_circle_rating_result left'})
+      .attr('class', d => {return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'inner_special_circle_rating_result ' + (!openFullScreenMode ? 'left' : 'left-fs') : 'inner_normal_circle_rating_result ' + (!openFullScreenMode ? 'left' : 'left-fs')})
       .attr('id', 'circleAvgInRelativeMode')
       .style('fill', d => {
         if (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) {
@@ -1153,7 +1153,7 @@ const checkNodesOverlap = (node1, node2) => {
       .attr('cursor', 'pointer')
       .attr('id', 'circleMedian')
       .attr('class', d => {
-        return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'outer_special_circle_median_rating_result left' : 'outer_normal_circle_median_rating_result left'
+        return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'outer_special_circle_median_rating_result ' + (!openFullScreenMode ? 'left' : 'left-fs') : 'outer_normal_circle_median_rating_result ' + (!openFullScreenMode ? 'left' : 'left-fs')
       })
       .style('fill', d => d.type[0].fillSymbol)
 
@@ -1165,7 +1165,7 @@ const checkNodesOverlap = (node1, node2) => {
       .attr('cursor', 'pointer')
       .attr('id', 'circleMedianInRelativeMode')
       .attr('class', d => {
-        return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'outer_special_circle_median_rating_result left' : 'outer_normal_circle_median_rating_result left'
+        return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'outer_special_circle_median_rating_result ' + (!openFullScreenMode ? 'left' : 'left-fs') : 'outer_normal_circle_median_rating_result ' + (!openFullScreenMode ? 'left' : 'left-fs')
       })
       .style('fill', d => d.type[0].fillSymbol)
 
@@ -1189,7 +1189,7 @@ const checkNodesOverlap = (node1, node2) => {
       .attr('stroke', d => d.type[0].innerStroke)
       .attr('cursor', 'pointer')
       .attr('id', 'circleMedian')
-      .attr('class', d => {return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'inner_special_circle_median_rating_result left' : 'inner_normal_circle_median_rating_result left'})
+      .attr('class', d => {return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'inner_special_circle_median_rating_result ' + (!openFullScreenMode ? 'left' : 'left-fs') : 'inner_normal_circle_median_rating_result ' + (!openFullScreenMode ? 'left' : 'left-fs')})
       .style('fill', d => {
         if (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) {
           return 'white'
@@ -1206,7 +1206,7 @@ const checkNodesOverlap = (node1, node2) => {
       .attr('stroke', d => d.type[0].innerStroke)
       .attr('cursor', 'pointer')
       .attr('id', 'circleMedianInRelativeMode')
-      .attr('class', d => {return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'inner_special_circle_median_rating_result left' : 'inner_normal_circle_median_rating_result left'})
+      .attr('class', d => {return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'inner_special_circle_median_rating_result '+ (!openFullScreenMode ? 'left' : 'left-fs') : 'inner_normal_circle_median_rating_result '+ (!openFullScreenMode ? 'left' : 'left-fs')})
       .style('fill', d => {
         if (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) {
           return 'white'
@@ -1249,7 +1249,7 @@ const checkNodesOverlap = (node1, node2) => {
             })
             .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
             .attr('cursor', 'pointer')
-            .attr('class', 'left')
+            .attr('class',  (!openFullScreenMode ? 'left' : 'left-fs'))
 
       const fpIconAverage = scatterSvg.append('g')
           .selectAll('image')
@@ -1267,7 +1267,7 @@ const checkNodesOverlap = (node1, node2) => {
           })
           .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
           .attr('cursor', 'pointer')
-            .attr('class', 'left')
+            .attr('class',  (!openFullScreenMode ? 'left' : 'left-fs'))
 
         const fpIconMedianInRelativeMode = scatterSvg.append('g')
           .selectAll('image')
@@ -1285,7 +1285,7 @@ const checkNodesOverlap = (node1, node2) => {
           })
           .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
           .attr('cursor', 'pointer')
-            .attr('class', 'left')
+            .attr('class',  (!openFullScreenMode ? 'left' : 'left-fs'))
 
       const fpIconAverageInRelativeMode = scatterSvg.append('g')
           .selectAll('image')
@@ -1303,7 +1303,7 @@ const checkNodesOverlap = (node1, node2) => {
           })
           .attr('data-href', d => getPhenomenonUrl(radar?.id, d))
           .attr('cursor', 'pointer')
-            .attr('class', 'left')
+            .attr('class', (!openFullScreenMode ? 'left' : 'left-fs'))
 
         //   const fpIconMedianInThirdMode = scatterSvg.append('g')
         //   .selectAll('image')
@@ -1818,7 +1818,7 @@ const checkNodesOverlap = (node1, node2) => {
     } catch (error) {
       // console.error(error)
     }
-  }, [phenomena, scatterSvg, containerHeight, containerWidth, decreaseLevel])
+  }, [phenomena, scatterSvg, containerHeight, containerWidth, decreaseLevel, openFullScreenMode])
 
   const onClickNode = (id) => {
     setVisibleDialog(true)
@@ -1847,11 +1847,28 @@ const checkNodesOverlap = (node1, node2) => {
   const handleDecreaseNodes = () => {
     setDecreaseLevel(value => (value - 0.1))
   }
+  function closePopupLeftfs () {
+    // checkIfComments('popup-left')
+    document.getElementById('popup-left-ratings').style.visibility = 'hidden'
+    document.getElementById('popup-left-ratings')
+      ?.getElementsByClassName('scroll-pane-left')[0]
+      ?.getElementsByClassName("jspPane")[0]
+      ?.getElementsByClassName("column")[0]
+        ?.remove()
+  }
 
   return (
     <div style={{width: '100%', background: !!openFullScreenMode ? '#e8ebeb' : null}} 
       id='wrapper-chart-1'
       >
+        <div class="popup popup-left popup-left-ratings popup-phenomenon-radar-results" id="popup-left-ratings">
+          <a class="btn-close" id="btn-close-popup-left-fs" onClick={closePopupLeftfs}><span class="af-custom-close"></span></a>
+          <div class="stateindicatorleft"></div>
+          <div class="scroll-pane-left"></div>
+          <div class="popup-contentloader">
+          <img src="<?= $base_url . '/' . drupal_get_path('theme', 'AltFutures_theme') . '/images/ajax-loader.gif'; ?>" width="20" height="20" />
+          </div>
+        </div>
       <div    
         id='wrapper-chart-2'
         style={{ display: 'flex', 
