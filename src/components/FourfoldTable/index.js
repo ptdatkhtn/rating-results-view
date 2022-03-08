@@ -1866,7 +1866,7 @@ const checkNodesOverlap = (node1, node2) => {
           <div class="stateindicatorleft"></div>
           <div class="scroll-pane-left"></div>
           <div class="popup-contentloader">
-          <img src="<?= $base_url . '/' . drupal_get_path('theme', 'AltFutures_theme') . '/images/ajax-loader.gif'; ?>" width="20" height="20" />
+            <img src="/sites/all/themes/AltFutures_theme/images/ajax-loader.gif" width="20" height="20" />
           </div>
         </div>
       <div    
