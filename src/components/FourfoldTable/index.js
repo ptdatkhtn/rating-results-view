@@ -181,7 +181,7 @@ const App = ({
         }
     ]
 
-    const maxTextWidth = 90
+    const maxTextWidth = 100
 
     const rectNodes = React.useMemo(() => {
         return [
@@ -416,7 +416,7 @@ const checkNodesOverlap = (node1, node2) => {
     const modifyValueNodesInRelativeMode = React.useCallback((nodes) => {
       // if (!isRelative) return nodes
 
-      const radius = NODE_RADIUS / 4
+      const radius = NODE_RADIUS / 6
       const listAround = (countAround = 16) => {
           let result = []
           for (let i = 0; i < countAround; i++) {
@@ -1418,8 +1418,8 @@ const checkNodesOverlap = (node1, node2) => {
     let z = d3.zoomIdentity
 
     // set up the ancillary zooms and an accessor for their transforms
-    const zoomX = d3.zoom().scaleExtent([1, 100]).translateExtent([[0, 0], [containerWidth, containerHeight]])
-    const zoomY = d3.zoom().scaleExtent([1, 100]).translateExtent([[0, 0], [containerWidth, containerHeight]])
+    const zoomX = d3.zoom().scaleExtent([1, 50]).translateExtent([[0, 0], [containerWidth, containerHeight]])
+    const zoomY = d3.zoom().scaleExtent([1, 50]).translateExtent([[0, 0], [containerWidth, containerHeight]])
     const tx = () => d3.zoomTransform(gx.node())
     const ty = () => d3.zoomTransform(gy.node())
     gx.call(zoomX).attr("pointer-events", "none")
@@ -1442,7 +1442,7 @@ const checkNodesOverlap = (node1, node2) => {
     // const myNewTextsAvgIDInThirdMode = d3.selectAll('#myNewTextsAvgInThirdMode')
 
     // active zooming
-    const zoom = d3.zoom().scaleExtent([1, 100]).translateExtent([[0, 0], [containerWidth, containerHeight]]).on("zoom", function (e) {
+    const zoom = d3.zoom().scaleExtent([1, 50]).translateExtent([[0, 0], [containerWidth, containerHeight]]).on("zoom", function (e) {
       try {
           const trans = d3.transition().duration(150).ease(d3.easeLinear)
           const t = e.transform
