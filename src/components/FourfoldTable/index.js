@@ -75,6 +75,7 @@ const App = ({
   }
   const handleExitFullScreenMode = () => {
     try {
+      closePopupLeftfs()
       if (document.exitFullscreen) {
           document.exitFullscreen();
       } else if (document.webkitExitFullscreen) { /* Safari */
