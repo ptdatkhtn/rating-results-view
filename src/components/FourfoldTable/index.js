@@ -1872,11 +1872,20 @@ const checkNodesOverlap = (node1, node2) => {
         </div>
       <div    
         id='wrapper-chart-2'
-        style={{ display: 'flex', 
+        style={!openFullScreenMode ? 
+          { display: 'flex', 
           alignItems: 'center', 
-          justifyContent: 'space-between', 
+          justifyContent: 'space-between'
           // paddingLeft: '56px', paddingRight: '60px', paddingTop: '8px', paddingBottom: '8px' 
-          }}>
+          } : { display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'space-between',
+          marginLeft: '8%',
+          marginRight: '2%',
+          marginTop: '24px'
+          // paddingLeft: '56px', paddingRight: '60px', paddingTop: '8px', paddingBottom: '8px' 
+          }
+        }>
         <div style={{display: 'flex', alignItems: 'center'}}>
           <div style={{display: 'flex', alignItems: 'center', marginRight: '-12px', marginBottom: '10px', justifyContent: 'space-between', width: '460px' }}>
             <p style={{ fontSize: "13px", margin: 0, fontWeight: 400, paddingTop: '10px'}}>{ (radar?.radarLanguage === "en" ? 'Show as:' : 'Näytä tulokset muodossa:') || requestTranslation('ShowResultsAs_RatingResults')} </p>
@@ -2012,7 +2021,7 @@ const checkNodesOverlap = (node1, node2) => {
 
     <div className='rating-results-diagram' 
       id='wrapper-chart-3'
-       style={{ display: 'flex', paddingTop: '60px', paddingRight: '60px' }}>
+       style={{ display: 'flex', paddingTop: '60px', paddingRight: '60px', justifyContent: !openFullScreenMode ? 'unset' : 'center' }}>
       <AxisY originalHeight={containerHeight} axisHeight={containerHeight} axisLabel2={axisLabel2} axisLabel2a={axisLabel2a} axisLabel2b={axisLabel2b} isFm={openFullScreenMode}/>
       <div 
         id="wrapper-chart-5"
