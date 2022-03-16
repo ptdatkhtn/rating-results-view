@@ -161,7 +161,7 @@ const App = ({
     left: 40
   }
 
-  const fpIconSize = React.useMemo(() => 25 * decreaseLevelRef.current, [decreaseLevelRef.current])
+  const fpIconSize = 25
   const innerTexts = [
     { x: 25, y: 25, title: axisLabel3, gutter: -margin.left / 2 },
     { x: 75, y: 25, title: axisLabel4, gutter: margin.left / 2 },
@@ -1798,20 +1798,21 @@ const App = ({
           //     .attr('y', d => yr(d.y) + radius / 1 + 3)
           const scale = Math.min(zoomRef.current.k, 8)
           const minScale = Math.max(scale, 5.333)
-      
+          const fpIconSized = fpIconSize * minScale /5.333
+
           fpIconMedian
             .transition(trans)
             .attr('xlink:href', (d) => {
               return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
             })
             .attr('height', (d) => {
-              return !!d?.['isFP'] ? fpIconSize * minScale /5.333 : null
+              return !!d?.['isFP'] ? fpIconSized : null
             })
             .attr('width', (d) => {
-              return !!d?.['isFP'] ? fpIconSize * minScale /5.333 : null
+              return !!d?.['isFP'] ? fpIconSized : null
             })
-            .attr('x', d => xr(d.x) - fpIconSize * minScale /5.333 / 2)
-            .attr('y', d => yr(d.y) - fpIconSize * minScale /5.333/ 2)
+            .attr('x', d => xr(d.x) - fpIconSized / 2)
+            .attr('y', d => yr(d.y) - fpIconSized/ 2)
 
           fpIconAverage
             .transition(trans)
@@ -1819,7 +1820,7 @@ const App = ({
               return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
             })
             .attr('height', (d) => {
-              return !!d?.['isFP'] ?  fpIconSize * minScale /5.333 : null
+              return !!d?.['isFP'] ?  fpIconSized : null
             })
             .attr('width', (d) => {
               return !!d?.['isFP'] ? fpIconSize * minScale/5.333: null
@@ -1833,13 +1834,13 @@ const App = ({
               return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
             })
             .attr('height', (d) => {
-              return !!d?.['isFP'] ? fpIconSize * minScale /5.333 : null
+              return !!d?.['isFP'] ? fpIconSized : null
             })
             .attr('width', (d) => {
-              return !!d?.['isFP'] ? fpIconSize * minScale /5.333 : null
+              return !!d?.['isFP'] ? fpIconSized : null
             })
-            .attr('x', d => xr(d.x) - fpIconSize * minScale /5.333 / 2)
-            .attr('y', d => yr(d.y) - fpIconSize * minScale /5.333 / 2)
+            .attr('x', d => xr(d.x) - fpIconSized / 2)
+            .attr('y', d => yr(d.y) - fpIconSized / 2)
 
           fpIconAverageInRelativeMode
             .transition(trans)
@@ -1847,13 +1848,13 @@ const App = ({
               return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
             })
             .attr('height', (d) => {
-              return !!d?.['isFP'] ? fpIconSize * minScale /5.333  : null
+              return !!d?.['isFP'] ? fpIconSized  : null
             })
             .attr('width', (d) => {
-              return !!d?.['isFP'] ? fpIconSize * minScale /5.333 : null
+              return !!d?.['isFP'] ? fpIconSized : null
             })
-            .attr('x', d => xr(d.x) - fpIconSize * minScale /5.333 / 2)
-            .attr('y', d => yr(d.y) - fpIconSize * minScale /5.333 / 2)
+            .attr('x', d => xr(d.x) - fpIconSized / 2)
+            .attr('y', d => yr(d.y) - fpIconSized / 2)
 
           // fpIconMedianInThirdMode
           //   .transition(trans)
@@ -1910,6 +1911,9 @@ const App = ({
       const scale = Math.min(zoomRef.current.k, 8)
       const minScale = Math.max(scale, 1)
       const radius = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
+
+      const minScale2 = Math.max(scale, 5.333)
+      const fpIconSized = fpIconSize * minScale /5.333
 
       const tx = () => d3.zoomTransform(getGX.node())
       const ty = () => d3.zoomTransform(getGY.node())
@@ -2169,20 +2173,19 @@ const App = ({
         .attr('cx', d => xr(d.x))
         .attr('cy', d => yr(d.y))
 
-        
         fpIconMedian
         .transition(trans)
         .attr('xlink:href', (d) => {
           return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
         })
         .attr('height', (d) => {
-          return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current : null
+          return !!d?.['isFP'] ? Math.max(35, fpIconSized * decreaseLevelRef.current) : null
         })
         .attr('width', (d) => {
-          return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current : null
+          return !!d?.['isFP'] ? Math.max(35, fpIconSized * decreaseLevelRef.current) : null
         })
-        .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current / 2)
-        .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current / 2)
+        .attr('x', d => xr(d.x) - Math.max(35, fpIconSized * decreaseLevelRef.current) / 2)
+        .attr('y', d => yr(d.y) - Math.max(35, fpIconSized * decreaseLevelRef.current) / 2)
 
       fpIconAverage
         .transition(trans)
@@ -2190,13 +2193,13 @@ const App = ({
           return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
         })
         .attr('height', (d) => {
-          return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current : null
+          return !!d?.['isFP'] ? Math.max(35, fpIconSized * decreaseLevelRef.current) : null
         })
         .attr('width', (d) => {
-          return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current : null
+          return !!d?.['isFP'] ? Math.max(35, fpIconSized * decreaseLevelRef.current) : null
         })
-        .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current / 2)
-        .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current / 2)
+        .attr('x', d => xr(d.x) - Math.max(35, fpIconSized * decreaseLevelRef.current) / 2)
+        .attr('y', d => yr(d.y) - Math.max(35, fpIconSized * decreaseLevelRef.current) / 2)
 
       fpIconMedianInRelativeMode
         .transition(trans)
@@ -2204,13 +2207,13 @@ const App = ({
           return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
         })
         .attr('height', (d) => {
-          return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current : null
+          return !!d?.['isFP'] ? Math.max(35, fpIconSized * decreaseLevelRef.current) : null
         })
         .attr('width', (d) => {
-          return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current : null
+          return !!d?.['isFP'] ? Math.max(35, fpIconSized * decreaseLevelRef.current) : null
         })
-        .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current / 2)
-        .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current / 2)
+        .attr('x', d => xr(d.x) - Math.max(35, fpIconSized * decreaseLevelRef.current) / 2)
+        .attr('y', d => yr(d.y) - Math.max(35, fpIconSized * decreaseLevelRef.current) / 2)
 
       fpIconAverageInRelativeMode
         .transition(trans)
@@ -2218,13 +2221,13 @@ const App = ({
           return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
         })
         .attr('height', (d) => {
-          return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current : null
+          return !!d?.['isFP'] ? Math.max(35, fpIconSized * decreaseLevelRef.current) : null
         })
         .attr('width', (d) => {
-          return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current : null
+          return !!d?.['isFP'] ? Math.max(35, fpIconSized * decreaseLevelRef.current) : null
         })
-        .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current / 2)
-        .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current / 2)
+        .attr('x', d => xr(d.x) - Math.max(35, fpIconSized * decreaseLevelRef.current) / 2)
+        .attr('y', d => yr(d.y) - Math.max(35, fpIconSized * decreaseLevelRef.current) / 2)
     }
   }, [decreaseLevel])
 
