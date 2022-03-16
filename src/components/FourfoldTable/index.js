@@ -161,7 +161,7 @@ const App = ({
     left: 40
   }
 
-  const fpIconSize = 30
+  const fpIconSize = 25
   const innerTexts = [
     { x: 25, y: 25, title: axisLabel3, gutter: -margin.left / 2 },
     { x: 75, y: 25, title: axisLabel4, gutter: margin.left / 2 },
@@ -183,7 +183,7 @@ const App = ({
     }
   ]
 
-  const maxTextWidth = 100
+  const maxTextWidth = 110
 
   const rectNodes = React.useMemo(() => {
     return [
@@ -1692,11 +1692,11 @@ const App = ({
               try {
                 const scale = Math.min(zoomRef.current.k, 8)
                 const minScale = Math.max(scale, 1)
-                const r = Math.max(10, Math.floor(10 + minScale))
-                const fonts = Math.max(10, Math.floor(9 + minScale))
+                const r = Math.max(10, Math.floor(9 + minScale))
+                const fonts = Math.max(12, Math.floor(11 + minScale))
                 myNewTextsAvgID.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r / 1)
               } catch (err) {
-                // console.log('error', err)
+                
               }
 
             })
@@ -1711,11 +1711,11 @@ const App = ({
               try {
                 const scale = Math.min(zoomRef.current.k, 8)
                 const minScale = Math.max(scale, 1)
-                const r = Math.max(10, Math.floor(10 + minScale))
-                const fonts = Math.max(10, Math.floor(9 + minScale))
+                const r = Math.max(10, Math.floor(9 + minScale))
+                const fonts = Math.max(12, Math.floor(11 + minScale))
                 myNewTextsAvgIDInRelativeMode.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r / 1)
               } catch (err) {
-                // console.log('error', err)
+                
               }
 
             })
@@ -1734,7 +1734,7 @@ const App = ({
           //         const fonts = Math.max(10, Math.floor(9 + minScale))
           //         myNewTextsAvgIDInThirdMode.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r / 1)
           //       } catch (err) {
-          //         console.log('error', err)
+          //      
           //       }
 
           //     })
@@ -1749,11 +1749,11 @@ const App = ({
               try {
                 const scale = Math.min(zoomRef.current.k, 8)
                 const minScale = Math.max(scale, 1)
-                const r = Math.max(10, Math.floor(10 + minScale))
-                const fonts = Math.max(10, Math.floor(9 + minScale))
+                const r = Math.max(10, Math.floor(9 + minScale))
+                const fonts = Math.max(12, Math.floor(11 + minScale))
                 myNewTextsMedianID.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r / 1)
               } catch (err) {
-                // console.log('error', err)
+                
               }
             })
             .attr('x', d => {
@@ -1767,11 +1767,11 @@ const App = ({
               try {
                 const scale = Math.min(zoomRef.current.k, 8)
                 const minScale = Math.max(scale, 1)
-                const r = Math.max(10, Math.floor(10 + minScale))
-                const fonts = Math.max(10, Math.floor(9 + minScale))
+                const r = Math.max(10, Math.floor(9 + minScale))
+                const fonts = Math.max(12, Math.floor(11 + minScale))
                 myNewTextsMedianIDInRelativeMode.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r / 1)
               } catch (err) {
-                // console.log('error', err)
+                
               }
             })
             .attr('x', d => {
@@ -1880,11 +1880,11 @@ const App = ({
             try {
               const scale = Math.min(zoomRef.current.k, 8)
               const minScale = Math.max(scale, 1)
-              const r = Math.max(10, Math.floor(10 + minScale))
-              const fonts = Math.max(10, Math.floor(9 + minScale))
+              const r = Math.max(10, Math.floor(9 + minScale))
+              const fonts = Math.max(12, Math.floor(11 + minScale))
               myForeignObjectsAvg.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1)
             } catch (err) {
-              console.log('error', err)
+              // console.log('error', err)
             }
 
           })
@@ -1902,11 +1902,11 @@ const App = ({
             try {
               const scale = Math.min(zoomRef.current.k, 8)
               const minScale = Math.max(scale, 1)
-              const r = Math.max(10, Math.floor(10 + minScale))
-              const fonts = Math.max(10, Math.floor(9 + minScale))
+              const r = Math.max(10, Math.floor(9 + minScale))
+              const fonts = Math.max(12, Math.floor(11 + minScale))
               myForeignObjectsAvgInRelativeMode.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1)
             } catch (err) {
-              console.log('error', err)
+              // console.log('error', err)
             }
 
           })
@@ -1924,11 +1924,11 @@ const App = ({
             try {
               const scale = Math.min(zoomRef.current.k, 8)
               const minScale = Math.max(scale, 1)
-              const r = Math.max(10, Math.floor(10 + minScale))
-              const fonts = Math.max(10, Math.floor(9 + minScale))
+              const r = Math.max(10, Math.floor(9 + minScale))
+              const fonts = Math.max(12, Math.floor(11 + minScale))
               myForeignObjectsMedian.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1)
             } catch (err) {
-              console.log('error', err)
+              // console.log('error', err)
             }
 
           })
@@ -1946,11 +1946,11 @@ const App = ({
             try {
               const scale = Math.min(zoomRef.current.k, 8)
               const minScale = Math.max(scale, 1)
-              const r = Math.max(10, Math.floor(10 + minScale))
-              const fonts = Math.max(10, Math.floor(9 + minScale))
+              const r = Math.max(10, Math.floor(9 + minScale))
+              const fonts = Math.max(12, Math.floor(11 + minScale))
               myForeignObjectsMedianInRelativeMode.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1)
             } catch (err) {
-              console.log('error', err)
+        
             }
 
           })
@@ -1975,7 +1975,7 @@ const App = ({
                 .attr('cy', d => yr(d.y))
                 .attr('r', r * decreaseLevel)
             } catch (error) {
-              console.error(error)
+       
             }
           })
           .attr('cx', d => xr(d.x))
@@ -1996,7 +1996,7 @@ const App = ({
                 .attr('cy', d => yr(d.y))
                 .attr('r', r * decreaseLevel)
             } catch (error) {
-              console.error(error)
+   
             }
           })
           .attr('cx', d => xr(d.x))
@@ -2017,7 +2017,7 @@ const App = ({
                 .attr('cy', d => yr(d.y))
                 .attr('r', r * decreaseLevel)
             } catch (error) {
-              console.error(error)
+          
             }
           })
           .attr('cx', d => xr(d.x))
@@ -2038,7 +2038,7 @@ const App = ({
                 .attr('cy', d => yr(d.y))
                 .attr('r', r * decreaseLevel)
             } catch (error) {
-              console.error(error)
+            
             }
           })
           .attr('cx', d => xr(d.x))
@@ -2059,7 +2059,7 @@ const App = ({
                 .attr('cy', d => yr(d.y))
                 .attr('r', r * decreaseLevel)
             } catch (error) {
-              console.error(error)
+          
             }
           })
           .attr('cx', d => xr(d.x))
@@ -2079,7 +2079,7 @@ const App = ({
               .attr('cy', d => yr(d.y))
               .attr('r', r * decreaseLevel)
           } catch (error) {
-            console.error(error)
+           
           }
         })
         .attr('cx', d => xr(d.x))
@@ -2099,7 +2099,7 @@ const App = ({
               .attr('cy', d => yr(d.y))
               .attr('r', r * decreaseLevel)
           } catch (error) {
-            console.error(error)
+      
           }
         })
         .attr('cx', d => xr(d.x))
@@ -2118,7 +2118,6 @@ const App = ({
               .attr('cy', d => yr(d.y))
               .attr('r', r * decreaseLevel)
           } catch (error) {
-            console.error(error)
           }
         })
         .attr('cx', d => xr(d.x))
