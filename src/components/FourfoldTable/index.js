@@ -427,7 +427,7 @@ const App = ({
       }
       return result
     }
-
+    
     let duplicates = []
     let sameAreas = []
     let groupedSameArea = []
@@ -1693,7 +1693,7 @@ const App = ({
                 const scale = Math.min(zoomRef.current.k, 8)
                 const minScale = Math.max(scale, 1)
                 const r = Math.max(10, Math.floor(9 + minScale))
-                const fonts = Math.max(12, Math.floor(11 + minScale))
+                const fonts = Math.max(10, Math.floor(9 + minScale))
                 myNewTextsAvgID.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r / 1)
               } catch (err) {
                 
@@ -1712,7 +1712,7 @@ const App = ({
                 const scale = Math.min(zoomRef.current.k, 8)
                 const minScale = Math.max(scale, 1)
                 const r = Math.max(10, Math.floor(9 + minScale))
-                const fonts = Math.max(12, Math.floor(11 + minScale))
+                const fonts = Math.max(10, Math.floor(9 + minScale))
                 myNewTextsAvgIDInRelativeMode.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r / 1)
               } catch (err) {
                 
@@ -1750,7 +1750,7 @@ const App = ({
                 const scale = Math.min(zoomRef.current.k, 8)
                 const minScale = Math.max(scale, 1)
                 const r = Math.max(10, Math.floor(9 + minScale))
-                const fonts = Math.max(12, Math.floor(11 + minScale))
+                const fonts = Math.max(10, Math.floor(9 + minScale))
                 myNewTextsMedianID.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r / 1)
               } catch (err) {
                 
@@ -1768,7 +1768,7 @@ const App = ({
                 const scale = Math.min(zoomRef.current.k, 8)
                 const minScale = Math.max(scale, 1)
                 const r = Math.max(10, Math.floor(9 + minScale))
-                const fonts = Math.max(12, Math.floor(11 + minScale))
+                const fonts = Math.max(10, Math.floor(9 + minScale))
                 myNewTextsMedianIDInRelativeMode.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r / 1)
               } catch (err) {
                 
@@ -1881,7 +1881,7 @@ const App = ({
               const scale = Math.min(zoomRef.current.k, 8)
               const minScale = Math.max(scale, 1)
               const r = Math.max(10, Math.floor(9 + minScale))
-              const fonts = Math.max(12, Math.floor(11 + minScale))
+              const fonts = Math.max(10, Math.floor(9 + minScale))
               myForeignObjectsAvg.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1)
             } catch (err) {
               // console.log('error', err)
@@ -1903,7 +1903,7 @@ const App = ({
               const scale = Math.min(zoomRef.current.k, 8)
               const minScale = Math.max(scale, 1)
               const r = Math.max(10, Math.floor(9 + minScale))
-              const fonts = Math.max(12, Math.floor(11 + minScale))
+              const fonts = Math.max(10, Math.floor(9 + minScale))
               myForeignObjectsAvgInRelativeMode.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1)
             } catch (err) {
               // console.log('error', err)
@@ -1925,7 +1925,7 @@ const App = ({
               const scale = Math.min(zoomRef.current.k, 8)
               const minScale = Math.max(scale, 1)
               const r = Math.max(10, Math.floor(9 + minScale))
-              const fonts = Math.max(12, Math.floor(11 + minScale))
+              const fonts = Math.max(10, Math.floor(9 + minScale))
               myForeignObjectsMedian.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1)
             } catch (err) {
               // console.log('error', err)
@@ -1947,7 +1947,7 @@ const App = ({
               const scale = Math.min(zoomRef.current.k, 8)
               const minScale = Math.max(scale, 1)
               const r = Math.max(10, Math.floor(9 + minScale))
-              const fonts = Math.max(12, Math.floor(11 + minScale))
+              const fonts = Math.max(10, Math.floor(9 + minScale))
               myForeignObjectsMedianInRelativeMode.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1)
             } catch (err) {
         
@@ -2306,7 +2306,7 @@ const App = ({
           <div style={{ display: 'flex', marginLeft: '32px', width: 'auto', justifyContent: 'space-around' }}>
             <p style={{ fontSize: "13px", margin: 0, fontWeight: 400, paddingTop: '1px', marginRight: '12px' }}>{(radar?.radarLanguage === "en" ? 'Resize:' : 'Resize in Finnish:')} </p>
             <button style={{ backgroundColor: 'white', borderRadius: '16px', marginRight: '10px' }} disabled={decreaseLevel <= 0.6} onClick={handleDecreaseNodes}> <Remove /></button>
-            <button style={{ backgroundColor: 'white', borderRadius: '16px' }} disabled={decreaseLevel === 1} onClick={handleIncreaseNodes}> <Add /> </button>
+            <button style={{ backgroundColor: 'white', borderRadius: '16px' }} disabled={decreaseLevel >= 2} onClick={handleIncreaseNodes}> <Add /> </button>
           </div>
         </div>
 
