@@ -161,7 +161,7 @@ const App = ({
     left: 40
   }
 
-  const fpIconSize = 25
+  const fpIconSize = React.useMemo(() => 25 * decreaseLevelRef.current, [decreaseLevelRef.current])
   const innerTexts = [
     { x: 25, y: 25, title: axisLabel3, gutter: -margin.left / 2 },
     { x: 75, y: 25, title: axisLabel4, gutter: margin.left / 2 },
@@ -1796,26 +1796,64 @@ const App = ({
           //       return xr(d.x) - (maxTextWidth * decreaseLevelRef.current) / 2
           //     })
           //     .attr('y', d => yr(d.y) + radius / 1 + 3)
-
+          const scale = Math.min(zoomRef.current.k, 8)
+          const minScale = Math.max(scale, 5.333)
+      
           fpIconMedian
             .transition(trans)
-            .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current / 2)
-            .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current / 2)
+            .attr('xlink:href', (d) => {
+              return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
+            })
+            .attr('height', (d) => {
+              return !!d?.['isFP'] ? fpIconSize * minScale /5.333 : null
+            })
+            .attr('width', (d) => {
+              return !!d?.['isFP'] ? fpIconSize * minScale /5.333 : null
+            })
+            .attr('x', d => xr(d.x) - fpIconSize * minScale /5.333 / 2)
+            .attr('y', d => yr(d.y) - fpIconSize * minScale /5.333/ 2)
 
           fpIconAverage
             .transition(trans)
-            .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current / 2)
-            .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current / 2)
+            .attr('xlink:href', (d) => {
+              return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
+            })
+            .attr('height', (d) => {
+              return !!d?.['isFP'] ?  fpIconSize * minScale /5.333 : null
+            })
+            .attr('width', (d) => {
+              return !!d?.['isFP'] ? fpIconSize * minScale/5.333: null
+            })
+            .attr('x', d => xr(d.x) - fpIconSize * minScale/5.333  / 2)
+            .attr('y', d => yr(d.y) -  fpIconSize * minScale/5.333 / 2)
 
           fpIconMedianInRelativeMode
             .transition(trans)
-            .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current / 2)
-            .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current / 2)
+            .attr('xlink:href', (d) => {
+              return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
+            })
+            .attr('height', (d) => {
+              return !!d?.['isFP'] ? fpIconSize * minScale /5.333 : null
+            })
+            .attr('width', (d) => {
+              return !!d?.['isFP'] ? fpIconSize * minScale /5.333 : null
+            })
+            .attr('x', d => xr(d.x) - fpIconSize * minScale /5.333 / 2)
+            .attr('y', d => yr(d.y) - fpIconSize * minScale /5.333 / 2)
 
           fpIconAverageInRelativeMode
             .transition(trans)
-            .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current / 2)
-            .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current / 2)
+            .attr('xlink:href', (d) => {
+              return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
+            })
+            .attr('height', (d) => {
+              return !!d?.['isFP'] ? fpIconSize * minScale /5.333  : null
+            })
+            .attr('width', (d) => {
+              return !!d?.['isFP'] ? fpIconSize * minScale /5.333 : null
+            })
+            .attr('x', d => xr(d.x) - fpIconSize * minScale /5.333 / 2)
+            .attr('y', d => yr(d.y) - fpIconSize * minScale /5.333 / 2)
 
           // fpIconMedianInThirdMode
           //   .transition(trans)
@@ -1860,6 +1898,14 @@ const App = ({
     const myForeignObjectsAvgInRelativeMode = d3.selectAll('#myNewTextsAvgInRelativeMode')
     const myForeignObjectsMedianInRelativeMode = d3.selectAll('#myNewTextsMedianInRelativeMode')
 
+    const fpIconAverage = d3.selectAll('#fpIconAverage')
+    const fpIconMedian = d3.selectAll('#fpIconMedian')
+    const fpIconAverageInRelativeMode = d3.selectAll('#fpIconAverageInRelativeMode')
+    const fpIconMedianInRelativeMode = d3.selectAll('#fpIconMedianInRelativeMode')
+    // fpIconAverage
+    // fpIconMedian
+    // fpIconAverageInRelativeMode
+    // fpIconMedianInRelativeMode
     if (getGX) {
       const scale = Math.min(zoomRef.current.k, 8)
       const minScale = Math.max(scale, 1)
@@ -2122,6 +2168,63 @@ const App = ({
         })
         .attr('cx', d => xr(d.x))
         .attr('cy', d => yr(d.y))
+
+        
+        fpIconMedian
+        .transition(trans)
+        .attr('xlink:href', (d) => {
+          return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
+        })
+        .attr('height', (d) => {
+          return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current : null
+        })
+        .attr('width', (d) => {
+          return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current : null
+        })
+        .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current / 2)
+        .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current / 2)
+
+      fpIconAverage
+        .transition(trans)
+        .attr('xlink:href', (d) => {
+          return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
+        })
+        .attr('height', (d) => {
+          return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current : null
+        })
+        .attr('width', (d) => {
+          return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current : null
+        })
+        .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current / 2)
+        .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current / 2)
+
+      fpIconMedianInRelativeMode
+        .transition(trans)
+        .attr('xlink:href', (d) => {
+          return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
+        })
+        .attr('height', (d) => {
+          return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current : null
+        })
+        .attr('width', (d) => {
+          return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current : null
+        })
+        .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current / 2)
+        .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current / 2)
+
+      fpIconAverageInRelativeMode
+        .transition(trans)
+        .attr('xlink:href', (d) => {
+          return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
+        })
+        .attr('height', (d) => {
+          return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current : null
+        })
+        .attr('width', (d) => {
+          return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current : null
+        })
+        .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current / 2)
+        .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current / 2)
     }
   }, [decreaseLevel])
 
