@@ -2419,15 +2419,20 @@ const App = ({
         <div style={{ display: 'flex' }}>
           {!openFullScreenMode ?
             (
-              <button onClick={openFullScreenModeHandle} style={{ color: '#afabab' }}>
-                <Fullscreen style={{ fontSize: '28px' }} />
-              </button>
+              (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true) && (
+                <button onClick={openFullScreenModeHandle} style={{ color: '#afabab' }}>
+                  <Fullscreen style={{ fontSize: '28px' }} />
+                </button>
+              )
             )
             :
             (
-              <button className="btn-icon-lg" onClick={closeFullScreenModeHandle}>
-                <span className='af-custom-close' />
-              </button>
+              (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true) 
+                && (
+                      <button className="btn-icon-lg" onClick={closeFullScreenModeHandle}>
+                        <span className='af-custom-close' />
+                      </button>
+                    )
             )
           }
         </div>
