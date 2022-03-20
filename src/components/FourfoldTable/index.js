@@ -1903,11 +1903,15 @@ const App = ({
     const fpIconMedian = d3.selectAll('#fpIconMedian')
     const fpIconAverageInRelativeMode = d3.selectAll('#fpIconAverageInRelativeMode')
     const fpIconMedianInRelativeMode = d3.selectAll('#fpIconMedianInRelativeMode')
+
+    const gx = scatterSvg?.append("g")
+    const gy = scatterSvg?.append("g")
+
     // fpIconAverage
     // fpIconMedian
     // fpIconAverageInRelativeMode
     // fpIconMedianInRelativeMode
-    if (getGX) {
+    if (gx) {
       const scale = Math.min(zoomRef.current.k, 8)
       const minScale = Math.max(scale, 1)
       const radius = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
@@ -1915,8 +1919,8 @@ const App = ({
       const minScale2 = Math.max(scale, 5.333)
       const fpIconSized = fpIconSize * minScale /5.333
 
-      const tx = () => d3.zoomTransform(getGX.node())
-      const ty = () => d3.zoomTransform(getGY.node())
+      const tx = () => d3.zoomTransform(gx.node())
+      const ty = () => d3.zoomTransform(gy.node())
 
       const x = getX(nodeData)
       const y = getY(nodeData)
