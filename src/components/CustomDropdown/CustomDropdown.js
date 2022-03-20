@@ -52,7 +52,7 @@ const customStyles = {
     return customOptionsStyles
   }
 };
-const CustomDropdown = ({name, defaultOptionsProps, selectedOptionsProps, options, dropdownIsOpen, openDropdownHandle, closeDropdownHandle}) => {
+const CustomDropdown = ({name, defaultOptionsProps, selectedOptionsProps, options, dropdownIsOpen, openDropdownHandle, closeDropdownHandle, lang}) => {
   const {dispatch } = useContext(DataContext)
   
   //take first object from array in dropdown
@@ -93,18 +93,18 @@ const CustomDropdown = ({name, defaultOptionsProps, selectedOptionsProps, option
       })
     }
   }
-
+// radar?.radarLanguage === "en" ? 'Median' : 'Mediaani'
   let tempSelectedOptions = null
   if ( name === 'modes') {
     if( selectedOptionsProps === 1) {
       tempSelectedOptions = {
-        label: 'Absolute Mode',
+        label: lang === "en" ? 'Absolute Mode' : 'Absolute FI',
         value: 1,
         key: 1
       }
     } else if( selectedOptionsProps === 2) {
       tempSelectedOptions = {
-        label: 'Disperse Mode',
+        label: lang === "en" ? 'Disperse Mode' : 'Disperse FI',
         value: 2,
         key: 2
       }
@@ -118,13 +118,13 @@ const CustomDropdown = ({name, defaultOptionsProps, selectedOptionsProps, option
   } else {
     if(selectedOptionsProps === 1) {
       tempSelectedOptions = {
-        label: 'Average',
+        label: lang === "en" ? 'Average' : 'Keskiarvo',
         value: 1,
         key: 1
       }
     } else {
       tempSelectedOptions = {
-        label: 'Median',
+        label: lang === "en" ? 'Median' : 'Mediaani',
         value: 2,
         key: 2
       }

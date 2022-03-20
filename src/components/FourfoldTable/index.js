@@ -2333,12 +2333,12 @@ const App = ({
               name='AvgMedian'
               options={[
                 {
-                  labelEn: "Average",
+                  labelEn: radar?.radarLanguage === "en" ? 'Average' : 'Keskiarvo',
                   labelFin: "Average Fin",
                   value: 1,
                 },
                 {
-                  labelEn: "Median",
+                  labelEn: radar?.radarLanguage === "en" ? 'Median' : 'Mediaani',
                   labelFin: "Median Fin",
                   value: 2,
                 },
@@ -2348,17 +2348,18 @@ const App = ({
               closeDropdownHandle={() => setMenuIsOpen(false)}
               defaultOptionsProps={1}
               selectedOptionsProps={keyAvgMedian}
+              lang={radar?.radarLanguage}
             />
             <CustomDropdown
               name='modes'
               options={[
                 {
-                  labelEn: "Absolute Mode",
+                  labelEn: radar?.radarLanguage === "en" ? 'Absolute Mode' : 'Absolute FI',
                   labelFin: "Absolute Mode Fin",
                   value: 1,
                 },
                 {
-                  labelEn: "Disperse Mode",
+                  labelEn: radar?.radarLanguage === "en" ? 'Disperse Mode' : 'Disperse FI',
                   labelFin: "Disperse Mode Fin",
                   value: 2,
                 },
@@ -2373,6 +2374,7 @@ const App = ({
               closeDropdownHandle={() => setMenuModeIsOpen(false)}
               defaultOptionsProps={1}
               selectedOptionsProps={keyMode}
+              lang={radar?.radarLanguage}
             />
           </div>
 
