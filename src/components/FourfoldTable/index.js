@@ -57,6 +57,17 @@ const App = ({
 
   const wrapperChartForFullscreenMode = document?.getElementById('wrapper-chart-1')
 
+  const isFullScreen = ( )=>  {
+    return !!(document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement)
+  }
+
+  const fullscreenchanged = () => {
+   if ( !isFullScreen() && !!openFullScreenMode ) {
+    closeFullScreenModeHandle()
+   }
+  }
+  document.addEventListener('fullscreenchange', fullscreenchanged);
+ 
   const handleFullscreenMode = () => {
     try {
       if (wrapperChartForFullscreenMode.requestFullscreen) {
