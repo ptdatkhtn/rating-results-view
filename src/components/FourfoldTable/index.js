@@ -34,7 +34,6 @@ const App = ({
   phenomena = [],
   radar
 }) => {
-
   const isNotInFullScreen = (!document.fullScreenElement) &&    // alternative standard method  
     (!document.mozFullScreen) && (!document.webkitIsFullScreen) && (!document.msRequestFullscreen);
 
@@ -56,17 +55,25 @@ const App = ({
   const zoomRef = useRef({ k: 1, x: 0, y: 0})
 
   const wrapperChartForFullscreenMode = document?.getElementById('wrapper-chart-1')
-
+  const uA = navigator.userAgent;
+  const vendor = navigator.vendor;
+  const isSafari = (/Safari/i.test(uA) && /Apple Computer/.test(vendor) && !/Mobi|Android/i.test(uA))
+  const prefixes = !!isSafari ? 'webkit' : ''
   const isFullScreen = ( )=>  {
     return !!(document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement)
   }
-
+  const  isFullScreenInSafari = () => {
+    // eslint-disable-next-line no-restricted-globals
+    return Math.abs(screen.width - window.innerWidth) < 10; 
+    }
   const fullscreenchanged = () => {
-   if ( !isFullScreen() && !!openFullScreenMode ) {
+   if ( (!isFullScreen() || !isFullScreenInSafari()
+    ) 
+    && !!openFullScreenMode ) {
     closeFullScreenModeHandle()
    }
   }
-  document.addEventListener('fullscreenchange', fullscreenchanged);
+  document.addEventListener(prefixes + 'fullscreenchange', fullscreenchanged);
  
   const handleFullscreenMode = () => {
     try {
