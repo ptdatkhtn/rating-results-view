@@ -727,15 +727,19 @@ const App = ({
           .selectAll('circle')
           .data([item])
           .join('circle')
-          .attr('stroke', d => d.type[0].outerStroke)
-          .attr('cursor', 'pointer')
-          .attr('id', 'circleAvg')
-          .attr('class', d => {
-            return (!!(String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined'))) ? 'outer_special_circle_rating_result left' : 'outer_normal_circle_rating_result left'
+          .attr('stroke', d => {
+            return d.type[0].outerStroke
           })
-          .style('fill', d => d.type[0].fillSymbol)
+          .attr('cursor', 'pointer')
+          .attr('class', d => {
+            return (String(d?.color) === 'none' && (String(d['content-type-alias']) === 'undefined')) ? 'outer_special_circle_rating_result ' + (!openFullScreenMode ? 'left' : 'left-fs') : 'outer_normal_circle_rating_result ' + (!openFullScreenMode ? 'left' : 'left-fs')
+          })
+          .attr('id', 'circleAvg')
+          .style('fill', d => {
+            return d.type[0].fillSymbol
+          })
 
-        scatterSvg.append('g').append('clipPath')
+        scatterSvg.append('g')
           .selectAll('circle')
           .data([item])
           .join('circle')
@@ -1713,7 +1717,7 @@ const App = ({
           .on('end', () => {
             const scale = Math.min(zoomRef.current.k, 8)
             const minScale = Math.max(scale, 1)
-            const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
+            const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
             try {
               outer_special_circle
                 // .transition(trans2)
@@ -1734,7 +1738,7 @@ const App = ({
           .on('end', () => {
             const scale = Math.min(zoomRef.current.k, 8)
             const minScale = Math.max(scale, 1)
-            const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
+            const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
             try {
               inner_normal_circle
                 // .transition(trans2)
@@ -1796,7 +1800,7 @@ const App = ({
         .on('end', () => {
           const scale = Math.min(zoomRef.current.k, 8)
           const minScale = Math.max(scale, 1)
-          const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
+          const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
           try {
             outer_special_circle_median
               // .transition(trans2)
@@ -1816,7 +1820,7 @@ const App = ({
         .on('end', () => {
           const scale = Math.min(zoomRef.current.k, 8)
           const minScale = Math.max(scale, 1)
-          const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
+          const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
           try {
             inner_normal_circle_median
               // .transition(trans2)
