@@ -1592,7 +1592,7 @@ const App = ({
     if (gx) {
       const scale = Math.min(zoomRef.current.k, 8)
       const minScale = Math.max(scale, 1)
-      const radius = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
+      const radius = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
 
       const tx = () => d3.zoomTransform(gx.node())
       const ty = () => d3.zoomTransform(gy.node())
