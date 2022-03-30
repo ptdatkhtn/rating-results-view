@@ -1987,7 +1987,7 @@ const App = ({
         <div style=
           {{ display: 'flex', 
             alignItems: 'center',
-            width: !!openFullScreenMode ? '100%' : 'unset',
+            width: '100%',
             justifyContent: !!openFullScreenMode ? 'center' : 'unset',
             marginLeft: !!openFullScreenMode ? '-60px' : 'unset'
           }}>
