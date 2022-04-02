@@ -9,17 +9,20 @@ const customStyles = {
   container: (base) => ({
     ...base,
     width: 144,
-    height: 28
+    height: 28,
+    cursor: 'pointer'
   }),
   control: (base) => ({
     ...base,
     height: 36,
     minHeight: 36,
     marginBottom: 2,
+    cursor: 'pointer'
   }),
   menu: (base, propsOptipons) => {
     return {
       ...base,
+      cursor: 'pointer'
       // height: 36,
       // minHeight: 36,
       // marginBottom: 2,
@@ -34,6 +37,7 @@ const customStyles = {
       // backgroundColor:  (isSelected && isFocused) ? 'rgba(0,126,255,.08)' : 'white',
       backgroundColor:  ( isFocused) ? 'rgba(0,126,255,.08)' : 'white',
       color: 'black',
+      cursor: 'pointer',
       ':hover' : {
         backgroundColor: (isFocused) ? 'rgba(0,126,255,.08)' : 'white',
         cursor: 'pointer'
@@ -61,7 +65,7 @@ const CustomDropdown = ({name, defaultOptionsProps, selectedOptionsProps, option
   const DropdownDownIndicator = (props) => {
     return (
       <components.DropdownIndicator {...props}>
-        <ArrowDropDown onClick={openDropdownHandle} />
+        <ArrowDropDown onClick={openDropdownHandle} style={{cursor: 'pointer'}} />
       </components.DropdownIndicator>
     );
   };
@@ -69,7 +73,7 @@ const CustomDropdown = ({name, defaultOptionsProps, selectedOptionsProps, option
   const DropdownUpIndicator = (props) => {
     return (
       <components.DropdownIndicator {...props}>
-        <ArrowDropUp onClick={openDropdownHandle} />
+        <ArrowDropUp onClick={openDropdownHandle} style={{cursor: 'pointer'}}/>
       </components.DropdownIndicator>
     );
   };
@@ -132,7 +136,9 @@ const CustomDropdown = ({name, defaultOptionsProps, selectedOptionsProps, option
   }
   
   return (
-    <>
+    <div style={{position: 'relative'}}>
+      <button onClick={openDropdownHandle} style={{cursor:'pointer', zIndex: 99, background: 'transparent', width: '100%', height: '100%', position: 'absolute'}}>
+      </button>
       <Select
         styles={customStyles}
         classNamePrefix="react-select-rating-results"
@@ -158,7 +164,7 @@ const CustomDropdown = ({name, defaultOptionsProps, selectedOptionsProps, option
         menuIsOpen={dropdownIsOpen}
         onChange={onChange}
       />
-    </>
+    </div>
   );
 };
 
