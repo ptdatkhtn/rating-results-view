@@ -1700,15 +1700,15 @@ const App = ({
             try {
               outer_normal_circle
                 // .transition(trans2)
-                .attr('cx', d => xr(d.x))
-                .attr('cy', d => yr(d.y))
+                // .attr('cx', d => xr(d.x))
+                // .attr('cy', d => yr(d.y))
                 .attr('r', r * decreaseLevel)
             } catch (error) {
        
             }
           })
-          .attr('cx', d => xr(d.x))
-          .attr('cy', d => yr(d.y))
+          // .attr('cx', d => xr(d.x))
+          // .attr('cy', d => yr(d.y))
       }
 
       if (outer_special_circle) {
@@ -1721,15 +1721,15 @@ const App = ({
             try {
               outer_special_circle
                 // .transition(trans2)
-                .attr('cx', d => xr(d.x))
-                .attr('cy', d => yr(d.y))
+                // .attr('cx', d => xr(d.x))
+                // .attr('cy', d => yr(d.y))
                 .attr('r', r * decreaseLevel)
             } catch (error) {
    
             }
           })
-          .attr('cx', d => xr(d.x))
-          .attr('cy', d => yr(d.y))
+          // .attr('cx', d => xr(d.x))
+          // .attr('cy', d => yr(d.y))
       }
 
       if (inner_normal_circle) {
@@ -1742,15 +1742,15 @@ const App = ({
             try {
               inner_normal_circle
                 // .transition(trans2)
-                .attr('cx', d => xr(d.x))
-                .attr('cy', d => yr(d.y))
+                // .attr('cx', d => xr(d.x))
+                // .attr('cy', d => yr(d.y))
                 .attr('r', r * decreaseLevel)
             } catch (error) {
           
             }
           })
-          .attr('cx', d => xr(d.x))
-          .attr('cy', d => yr(d.y))
+          // .attr('cx', d => xr(d.x))
+          // .attr('cy', d => yr(d.y))
       }
 
       if (inner_special_circle) {
@@ -1763,15 +1763,15 @@ const App = ({
             try {
               inner_special_circle
                 // .transition(trans2)
-                .attr('cx', d => xr(d.x))
-                .attr('cy', d => yr(d.y))
+                // .attr('cx', d => xr(d.x))
+                // .attr('cy', d => yr(d.y))
                 .attr('r', r * decreaseLevel)
             } catch (error) {
 
             }
           })
-          .attr('cx', d => xr(d.x))
-          .attr('cy', d => yr(d.y))
+          // .attr('cx', d => xr(d.x))
+          // .attr('cy', d => yr(d.y))
       }
 
       if (outer_normal_circle_median) {
@@ -1784,15 +1784,15 @@ const App = ({
             try {
               outer_normal_circle_median
                 // .transition(trans2)
-                .attr('cx', d => xr(d.x))
-                .attr('cy', d => yr(d.y))
+                // .attr('cx', d => xr(d.x))
+                // .attr('cy', d => yr(d.y))
                 .attr('r', r * decreaseLevel)
             } catch (error) {
 
             }
           })
-          .attr('cx', d => xr(d.x))
-          .attr('cy', d => yr(d.y))
+          // .attr('cx', d => xr(d.x))
+          // .attr('cy', d => yr(d.y))
       }
 
       outer_special_circle_median
@@ -1804,15 +1804,15 @@ const App = ({
           try {
             outer_special_circle_median
               // .transition(trans2)
-              .attr('cx', d => xr(d.x))
-              .attr('cy', d => yr(d.y))
+              // .attr('cx', d => xr(d.x))
+              // .attr('cy', d => yr(d.y))
               .attr('r', r * decreaseLevel)
           } catch (error) {
 
           }
         })
-        .attr('cx', d => xr(d.x))
-        .attr('cy', d => yr(d.y))
+        // .attr('cx', d => xr(d.x))
+        // .attr('cy', d => yr(d.y))
 
 
       inner_normal_circle_median
@@ -1824,15 +1824,15 @@ const App = ({
           try {
             inner_normal_circle_median
               // .transition(trans2)
-              .attr('cx', d => xr(d.x))
-              .attr('cy', d => yr(d.y))
+              // .attr('cx', d => xr(d.x))
+              // .attr('cy', d => yr(d.y))
               .attr('r', r * decreaseLevel)
           } catch (error) {
 
           }
         })
-        .attr('cx', d => xr(d.x))
-        .attr('cy', d => yr(d.y))
+        // .attr('cx', d => xr(d.x))
+        // .attr('cy', d => yr(d.y))
 
       inner_special_circle_median
         .transition(trans)
@@ -1843,14 +1843,14 @@ const App = ({
           try {
             inner_special_circle_median
               // .transition(trans2)
-              .attr('cx', d => xr(d.x))
-              .attr('cy', d => yr(d.y))
+              // .attr('cx', d => xr(d.x))
+              // .attr('cy', d => yr(d.y))
               .attr('r', r * decreaseLevel)
           } catch (error) {
           }
         })
-        .attr('cx', d => xr(d.x))
-        .attr('cy', d => yr(d.y))
+        // .attr('cx', d => xr(d.x))
+        // .attr('cy', d => yr(d.y))
 
       fpIconMedian
         .transition(trans)
