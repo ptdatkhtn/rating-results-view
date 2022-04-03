@@ -102,13 +102,13 @@ const CustomDropdown = ({name, defaultOptionsProps, selectedOptionsProps, option
   if ( name === 'modes') {
     if( selectedOptionsProps === 1) {
       tempSelectedOptions = {
-        label: lang === "en" ? 'Absolute Mode' : 'Absolute FI',
+        label: lang === "en" ? 'Absolute' : 'Tarkka',
         value: 1,
         key: 1
       }
     } else if( selectedOptionsProps === 2) {
       tempSelectedOptions = {
-        label: lang === "en" ? 'Disperse Mode' : 'Disperse FI',
+        label: lang === "en" ? 'Dispersed' : 'Hajautettu',
         value: 2,
         key: 2
       }

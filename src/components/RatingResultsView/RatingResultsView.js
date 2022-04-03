@@ -209,7 +209,7 @@ const closeRatingInformationModalHandle = () => {
               InfoModalNote4={(radar?.radarLanguage === "en" ? `At the bottom of the view, for the facilitators, there is the list of hidden items and a possibility to clear all results.
               ` : 'Näkymän alaosassa on fasilitaattoreille näkyvissä lista piilotetuista ilmiöistä sekä mahdollisuus tyhjentää arvioinnin tulokset.') || requestTranslation('InfoModalRatingNote2')}
               InfoModalNote4b={(radar?.radarLanguage === "en" ? `Note:
-              ` : ' Huom:') || requestTranslation('InfoModalRatingNote2')}
+              ` : ' Huom: ') || requestTranslation('InfoModalRatingNote2')}
               InfoModalNote4c={(radar?.radarLanguage === "en" ? `Clearing the results can’t be undone, so please make sure you have exported the results (as PPT Summary for example) before clearing the rating score.
               ` : 'Arvioiden tyhjentäminen poistaa kaikki tehdyt arvioinnit, minkä jälkeen niitä ei voi palauttaa. Varmistathan, että olet sitä ennen tallentanut työn tulokset esimerkiksi PPT yhteenvedoksi.') || requestTranslation('InfoModalRatingNote2')}
               InfoModalOpen={openRatingInformationModal}
