@@ -2040,13 +2040,13 @@ const App = ({
               name='modes'
               options={[
                 {
-                  labelEn: radar?.radarLanguage === "en" ? 'Absolute Mode' : 'Absolute FI',
-                  labelFin: "Absolute Mode Fin",
+                  labelEn: radar?.radarLanguage === "en" ? 'Absolute Mode' : 'Tarkka',
+                  labelFin: "Tarkka",
                   value: 1,
                 },
                 {
-                  labelEn: radar?.radarLanguage === "en" ? 'Disperse Mode' : 'Disperse FI',
-                  labelFin: "Disperse Mode Fin",
+                  labelEn: radar?.radarLanguage === "en" ? 'Disperse Mode' : 'Hajautettu',
+                  labelFin: "Hajautettu",
                   value: 2,
                 },
                 //   {
@@ -2102,7 +2102,7 @@ const App = ({
             </div>
           </div>
           <div style={{ display: 'flex', marginLeft: '32px', width: 'auto', justifyContent: 'space-around' }}>
-            <p style={{ fontSize: "13px", margin: 0, fontWeight: 400, paddingTop: '1px', marginRight: '12px' }}>{(radar?.radarLanguage === "en" ? 'Resize:' : 'Resize in Finnish:')} </p>
+            <p style={{ fontSize: "13px", margin: 0, fontWeight: 400, paddingTop: '1px', marginRight: '12px' }}>{(radar?.radarLanguage === "en" ? 'Resize:' : 'Tekstin koko:')} </p>
             <button style={{ backgroundColor: 'white', borderRadius: '16px', marginRight: '10px' }} disabled={decreaseLevel <= 0.6} onClick={handleDecreaseNodes}> <Remove /></button>
             <button style={{ backgroundColor: 'white', borderRadius: '16px' }} disabled={decreaseLevel >= 2} onClick={handleIncreaseNodes}> <Add /> </button>
           </div>

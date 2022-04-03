@@ -12,9 +12,16 @@ const InformationModal = ({
   InfoModalDescription3,
   InfoModalDescription4,
   InfoModalDescription5,
-  InfoModalDescription6,
-  InfoModalDescription7,
+  InfoModalDescriptionb,
+  InfoModalDescriptionb2,
+  InfoModalDescriptionb3,
+  InfoModalDescriptionb4,
   InfoModalNote,
+  InfoModalNote2,
+  InfoModalNote3,
+  InfoModalNote4,
+  InfoModalNote4b,
+  InfoModalNote4c,
   InfoModalOpen,
   InfoModalClose,
   LearnMoreLink,
@@ -54,18 +61,52 @@ const InformationModal = ({
           <p className="mt-4">
             {InfoModalNote}
           </p>
-          
+          {
+            InfoModalNote2 &&(
+              <p className="mt-4">
+                {InfoModalNote2}
+              </p>
+            )
+          }
             <InformationUl>
               {InfoModalDescription && <InformationLi>{InfoModalDescription}</InformationLi>}
               {InfoModalDescription2 && <InformationLi>{InfoModalDescription2}</InformationLi>}
               {InfoModalDescription3 && <InformationLi>{InfoModalDescription3}</InformationLi>}
               {InfoModalDescription4 && <InformationLi>{InfoModalDescription4}</InformationLi>}
               {InfoModalDescription5 && <InformationLi>{InfoModalDescription5}</InformationLi>}
-              {InfoModalDescription6 && <InformationLi>{InfoModalDescription6}</InformationLi>}
-              {InfoModalDescription7 && <InformationLi>{InfoModalDescription7}</InformationLi>}
 
             </InformationUl>
 
+            {
+              InfoModalNote3 &&(
+                <p className="mt-4">
+                  {InfoModalNote3}
+                </p>
+              )
+            }
+
+            <InformationUl>
+              {InfoModalDescriptionb && <InformationLi>{InfoModalDescriptionb}</InformationLi>}
+              {InfoModalDescriptionb2 && <InformationLi>{InfoModalDescriptionb2}</InformationLi>}
+              {InfoModalDescriptionb3 && <InformationLi>{InfoModalDescriptionb3}</InformationLi>}
+              {InfoModalDescriptionb4 && <InformationLi>{InfoModalDescriptionb4}</InformationLi>}
+            </InformationUl>
+
+            {
+              InfoModalNote4 &&(
+                <p className="mt-4">
+                    <span className="mt-4">
+                      {InfoModalNote4}
+                    </span>
+                    <span className="mt-4" style={{ fontWeight: 'bold'}}>
+                      {InfoModalNote4b}
+                    </span>
+                    <span className="mt-4">
+                      {InfoModalNote4c}
+                  </span>
+                  </p>
+              )
+            }
           {/* <div style={{ marginTop: "48px", display: 'flex', flexDirection:'column', width: '60%' }}>
             <p>{requestTranslation('LearnMoreFromHUB')}</p>
             <div style={{display: 'flex', flexDirection: 'column'}}>

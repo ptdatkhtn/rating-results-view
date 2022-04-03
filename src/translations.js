@@ -39,10 +39,14 @@ const localTranslations = {
       fi:`"Lisätietoja arvioinnista"`
   },
   InfoModalRatingNote: {
-    en:`The Rating tool enables evaluation and assessment of the content on the radar via two axis, and displays the results in a fourfold table.`,
-    fi: `Arviointityökalu mahdollistaa sisällön arvioinnin kahdella akselilla visualisoiden arvioinnin tulokset nelikentässä.
-    `
+    en:`The Rating results view consists of two main sections: the fourfold table that shows the results in 2-by-2 matrix, and a list for both axes. You can review the content cards by clicking the dots / titles.`,
+    fi: `Arvioinnin tulosnäkymä koostuu kahdesta osiosta: nelikentästä ja kumpaakin arviointiakselia edustavasta listasta.`
   },
+  InfoModalRatingNote2: {
+    en:`In the fourfold table you can select how to visualise the results:`,
+    fi: `Nelikentässä voit säätää tulosten esitystapaa:`
+  },
+
   InfoModalRatingContent: {
     en:`
     After activating the Rating tool, anyone with access to the radar can rate on the content cards.`,
