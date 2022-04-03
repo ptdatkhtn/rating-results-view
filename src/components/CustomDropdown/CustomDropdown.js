@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import Select, { components } from "react-select";
 import { requestTranslation } from '@sangre-fp/i18n'
 import { ArrowDropDown, ArrowDropUp } from "@mui/icons-material";
@@ -60,7 +60,7 @@ const CustomDropdown = ({name, defaultOptionsProps, selectedOptionsProps, option
   const {dispatch } = useContext(DataContext)
   
   //take first object from array in dropdown
-  let firstOption = options.slice(0,1).shift()
+  // let firstOption = options.slice(0,1).shift()
 
   const DropdownDownIndicator = (props) => {
     return (

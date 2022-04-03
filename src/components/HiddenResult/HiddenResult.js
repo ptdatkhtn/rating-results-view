@@ -9,6 +9,7 @@ import {
 } from "./styles";
 import {getPhenomenonUrl} from '../../helpers/contentCard'
 import * as tokens from "@sangre-fp/css-framework/tokens/fp-design-tokens"
+
 const HiddenResult = ({ phenomenon }) => {
   const {
     state: { hiddenPhenomena, radar },

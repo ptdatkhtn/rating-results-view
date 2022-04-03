@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, paddingModalStyles } from "@sangre-fp/ui";
-import { requestTranslation } from "@sangre-fp/i18n";
-import { InfoCircle } from "@styled-icons/boxicons-regular";
+// import { requestTranslation } from "@sangre-fp/i18n";
+// import { InfoCircle } from "@styled-icons/boxicons-regular";
 import styled from "styled-components";
 
 const EmbedLinkModal = ({

@@ -2,6 +2,7 @@ import React, {useContext} from 'react'
 import { requestTranslation } from '@sangre-fp/i18n'
 import HiddenResult from '../HiddenResult/HiddenResult'
 import {DataContext} from '../../store/GlobalState'
+
 import {
     Container,
     HiddenResultsWrapper

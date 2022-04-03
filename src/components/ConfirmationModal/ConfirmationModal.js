@@ -2,6 +2,7 @@ import React from "react";
 import { requestTranslation } from "@sangre-fp/i18n";
 import Modal from "react-modal";
 import { modalStyles, Btn, BtnGroup, ModalContent } from "./styles";
+
 const ConfirmationModal = ({
   clearRatings,
   confirmationModal,

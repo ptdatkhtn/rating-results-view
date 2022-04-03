@@ -4,7 +4,7 @@ import {
   RatingWidget,
   RatingItemHeader,
   RatingItem,
-  RatingSlider,
+  // RatingSlider,
   RatingHeader,
   RatingSliderScale,
   SliderScaleMin,
@@ -21,7 +21,7 @@ import Slider from '../Slider'
 
 const Rating = ({ phenomenon, radar, isRatingX }) => { 
   const {
-    state: { hiddenPhenomena },
+    state: { hiddenPhenomena, keyAvgMedian },
     dispatch,
   } = useContext(DataContext);
 
@@ -108,7 +108,7 @@ const Rating = ({ phenomenon, radar, isRatingX }) => {
           >
           </RatingSlider> */}
           <Slider 
-            value={isRatingX? phenomenon?.rating_x?.avg: phenomenon?.rating_y?.avg }
+            value={isRatingX? (keyAvgMedian === 1 ? phenomenon?.rating_x?.avg : phenomenon?.rating_x?.median): (keyAvgMedian === 1 ? phenomenon?.rating_y?.avg : phenomenon?.rating_y?.median) }
           />
           <div style={{position:'relative', width:'100%'}}>
             

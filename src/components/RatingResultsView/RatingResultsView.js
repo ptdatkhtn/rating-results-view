@@ -10,7 +10,10 @@ import {innerDimensions} from '../../helpers/dimension'
 import { requestTranslation } from '@sangre-fp/i18n'
 import InformationModal from '../InformationModal/InformationModal'
 import Popover from '@material-ui/core/Popover';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles, 
+  // createStyles, 
+  // Theme 
+} from '@material-ui/core/styles';
 
 import {
   RateTabWrapper,
