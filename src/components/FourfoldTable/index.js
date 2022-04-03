@@ -2020,12 +2020,12 @@ const App = ({
               options={[
                 {
                   labelEn: radar?.radarLanguage === "en" ? 'Average' : 'Keskiarvo',
-                  labelFin: "Average Fin",
+                  labelFin: "Keskiarvo",
                   value: 1,
                 },
                 {
                   labelEn: radar?.radarLanguage === "en" ? 'Median' : 'Mediaani',
-                  labelFin: "Median Fin",
+                  labelFin: "Mediaani",
                   value: 2,
                 },
               ]}
@@ -2040,12 +2040,12 @@ const App = ({
               name='modes'
               options={[
                 {
-                  labelEn: radar?.radarLanguage === "en" ? 'Absolute Mode' : 'Tarkka',
+                  labelEn: radar?.radarLanguage === "en" ? 'Absolute' : 'Tarkka',
                   labelFin: "Tarkka",
                   value: 1,
                 },
                 {
-                  labelEn: radar?.radarLanguage === "en" ? 'Disperse Mode' : 'Hajautettu',
+                  labelEn: radar?.radarLanguage === "en" ? 'Dispersed' : 'Hajautettu',
                   labelFin: "Hajautettu",
                   value: 2,
                 },
