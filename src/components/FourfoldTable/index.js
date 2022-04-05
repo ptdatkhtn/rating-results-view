@@ -53,6 +53,7 @@ const App = ({
   const [openFullScreenMode, setOpenFullScreenMode] = useState(false)
   const decreaseLevelRef = useRef(1)
   const zoomRef = useRef({ k: 1, x: 0, y: 0})
+  const zoomFuncRef = useRef(null)
 
   const wrapperChartForFullscreenMode = document?.getElementById('wrapper-chart-1')
   const uA = navigator.userAgent;
@@ -1190,8 +1191,7 @@ const App = ({
       const fpIconAverageInRelativeMode = d3.selectAll('#fpIconAverageInRelativeMode')
       const myCircleAvg = d3.selectAll('#circleAvg')
 
-      // active zooming
-      const zoom = d3.zoom().scaleExtent([1, 50]).translateExtent([[0, 0], [containerWidth, containerHeight]]).on("zoom", function (e) {
+      const zoomed = function (e) {
         try {
           const trans = d3.transition().duration(150).ease(d3.easeLinear)
           const t = e.transform
@@ -1422,14 +1422,17 @@ const App = ({
                 const minScale = Math.max(scale, 1)
                 const r = Math.max(10, Math.floor(9 + minScale))
                 const fonts = Math.max(10, Math.floor(9 + minScale))
-                myNewTextsAvgID.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r / 1)
+                myNewTextsAvgID
+                  .style('font-size', fonts * decreaseLevelRef.current)
+                  .attr('x', d => xr(d.x) - maxTextWidth / 2)
+                  .attr('y', d => yr(d.y) + r / 1)
               } catch (err) {
                 
               }
 
             })
             .attr('x', d => {
-              return xr(d.x) - (maxTextWidth * decreaseLevelRef.current) / 2
+              return xr(d.x) - maxTextWidth / 2
             })
             .attr('y', d => yr(d.y) + radius / 1 + 3)
 
@@ -1441,14 +1444,17 @@ const App = ({
                 const minScale = Math.max(scale, 1)
                 const r = Math.max(10, Math.floor(9 + minScale))
                 const fonts = Math.max(10, Math.floor(9 + minScale))
-                myNewTextsAvgIDInRelativeMode.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r / 1)
+                myNewTextsAvgIDInRelativeMode
+                  .style('font-size', fonts * decreaseLevelRef.current)
+                  .attr('x', d => xr(d.x) - maxTextWidth / 2)
+                  .attr('y', d => yr(d.y) + r / 1)
               } catch (err) {
 
               }
 
             })
             .attr('x', d => {
-              return xr(d.x) - (maxTextWidth * decreaseLevelRef.current) / 2
+              return xr(d.x) - maxTextWidth / 2
             })
             .attr('y', d => yr(d.y) + radius / 1 + 3)
 
@@ -1460,13 +1466,16 @@ const App = ({
                 const minScale = Math.max(scale, 1)
                 const r = Math.max(10, Math.floor(9 + minScale))
                 const fonts = Math.max(10, Math.floor(9 + minScale))
-                myNewTextsMedianID.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r / 1)
+                myNewTextsMedianID
+                  .style('font-size', fonts * decreaseLevelRef.current)
+                  .attr('x', d => xr(d.x) - maxTextWidth / 2)
+                  .attr('y', d => yr(d.y) + r / 1)
               } catch (err) {
                 
               }
             })
             .attr('x', d => {
-              return xr(d.x) - (maxTextWidth * decreaseLevelRef.current) / 2
+              return xr(d.x) - maxTextWidth / 2
             })
             .attr('y', d => yr(d.y) + radius / 1 + 3)
 
@@ -1478,13 +1487,16 @@ const App = ({
                 const minScale = Math.max(scale, 1)
                 const r = Math.max(10, Math.floor(9 + minScale))
                 const fonts = Math.max(10, Math.floor(9 + minScale))
-                myNewTextsMedianIDInRelativeMode.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r / 1)
+                myNewTextsMedianIDInRelativeMode
+                  .style('font-size', fonts * decreaseLevelRef.current)
+                  .attr('x', d => xr(d.x) - maxTextWidth / 2)
+                  .attr('y', d => yr(d.y) + r / 1)
               } catch (err) {
 
               }
             })
             .attr('x', d => {
-              return xr(d.x) - (maxTextWidth * decreaseLevelRef.current) / 2
+              return xr(d.x) - maxTextWidth / 2
             })
             .attr('y', d => yr(d.y) + radius / 1 + 3)
 
@@ -1551,8 +1563,12 @@ const App = ({
         } catch (error) {
           // console.error(error)
         }
-      })
+      }
+
+      // active zooming
+      const zoom = d3.zoom().scaleExtent([1, 50]).translateExtent([[0, 0], [containerWidth, containerHeight]]).on("zoom", zoomed)
       d3.selectAll('circle').on('click', d => onClickNode(d.id))
+      zoomFuncRef.current = zoomed
       scatterSvg.call(zoom)
         .call(zoom.transform, d3.zoomIdentity.scale(1))
         .node()
@@ -1565,348 +1581,351 @@ const App = ({
   }, [phenomena, scatterSvg, containerHeight, containerWidth, openFullScreenMode])
 
   useEffect(() => {
-    const trans = d3.transition().duration(150).ease(d3.easeLinear)
-    // const trans2 = d3.transition().duration(150).ease(d3.easeLinear)
-    const inner_normal_circle = d3.selectAll('.inner_normal_circle_rating_result')
-    const outer_normal_circle = d3.selectAll('.outer_normal_circle_rating_result')
-    const outer_special_circle = d3.selectAll('.outer_special_circle_rating_result')
-    const inner_special_circle = d3.selectAll('.inner_special_circle_rating_result')
-    const outer_normal_circle_median = d3.selectAll('.outer_normal_circle_median_rating_result')
-    const outer_special_circle_median = d3.selectAll('.outer_special_circle_median_rating_result')
-    const inner_normal_circle_median = d3.selectAll('.inner_normal_circle_median_rating_result')
-    const inner_special_circle_median = d3.selectAll('.inner_special_circle_median_rating_result')
+    // const trans = d3.transition().duration(150).ease(d3.easeLinear)
+    // // const trans2 = d3.transition().duration(150).ease(d3.easeLinear)
+    // const inner_normal_circle = d3.selectAll('.inner_normal_circle_rating_result')
+    // const outer_normal_circle = d3.selectAll('.outer_normal_circle_rating_result')
+    // const outer_special_circle = d3.selectAll('.outer_special_circle_rating_result')
+    // const inner_special_circle = d3.selectAll('.inner_special_circle_rating_result')
+    // const outer_normal_circle_median = d3.selectAll('.outer_normal_circle_median_rating_result')
+    // const outer_special_circle_median = d3.selectAll('.outer_special_circle_median_rating_result')
+    // const inner_normal_circle_median = d3.selectAll('.inner_normal_circle_median_rating_result')
+    // const inner_special_circle_median = d3.selectAll('.inner_special_circle_median_rating_result')
 
-    const myForeignObjectsAvg = d3.selectAll('#myNewTextsAvg')
-    const myForeignObjectsMedian = d3.selectAll('#myNewTextsMedian')
-    const myForeignObjectsAvgInRelativeMode = d3.selectAll('#myNewTextsAvgInRelativeMode')
-    const myForeignObjectsMedianInRelativeMode = d3.selectAll('#myNewTextsMedianInRelativeMode')
+    // const myForeignObjectsAvg = d3.selectAll('#myNewTextsAvg')
+    // const myForeignObjectsMedian = d3.selectAll('#myNewTextsMedian')
+    // const myForeignObjectsAvgInRelativeMode = d3.selectAll('#myNewTextsAvgInRelativeMode')
+    // const myForeignObjectsMedianInRelativeMode = d3.selectAll('#myNewTextsMedianInRelativeMode')
 
-    const fpIconAverage = d3.selectAll('#fpIconAverage')
-    const fpIconMedian = d3.selectAll('#fpIconMedian')
-    const fpIconAverageInRelativeMode = d3.selectAll('#fpIconAverageInRelativeMode')
-    const fpIconMedianInRelativeMode = d3.selectAll('#fpIconMedianInRelativeMode')
+    // const fpIconAverage = d3.selectAll('#fpIconAverage')
+    // const fpIconMedian = d3.selectAll('#fpIconMedian')
+    // const fpIconAverageInRelativeMode = d3.selectAll('#fpIconAverageInRelativeMode')
+    // const fpIconMedianInRelativeMode = d3.selectAll('#fpIconMedianInRelativeMode')
 
-    const gx = scatterSvg?.append("g")
-    const gy = scatterSvg?.append("g")
+    // const gx = scatterSvg?.append("g")
+    // const gy = scatterSvg?.append("g")
 
-    if (gx) {
-      const scale = Math.min(zoomRef.current.k, 8)
-      const minScale = Math.max(scale, 1)
-      const radius = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
-
-      const tx = () => d3.zoomTransform(gx.node())
-      const ty = () => d3.zoomTransform(gy.node())
-
-      const x = getX(nodeData)
-      const y = getY(nodeData)
-      const xr = tx().rescaleX(x)
-      const yr = ty().rescaleY(y)
-
-      if (myForeignObjectsAvg) {
-        myForeignObjectsAvg
-          .transition(trans)
-          .on('end', () => {
-            try {
-              const scale = Math.min(zoomRef.current.k, 8)
-              const minScale = Math.max(scale, 1)
-              const r = Math.max(10, Math.floor(9 + minScale))
-              const fonts = Math.max(10, Math.floor(9 + minScale))
-              myForeignObjectsAvg.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1)
-            } catch (err) {
-              // console.log('error', err)
-            }
-
-          })
-          .attr('x', d => {
-            return xr(d.x) - (maxTextWidth * decreaseLevelRef.current) / 2
-          })
-          .attr('y', d => yr(d.y) + radius * decreaseLevelRef.current / 1 + 3)
-          .attr('width', maxTextWidth * decreaseLevel)
+    if (scatterSvg) {
+      if (zoomFuncRef.current) {
+        zoomFuncRef.current({ transform: zoomRef.current })
       }
+      // const scale = Math.min(zoomRef.current.k, 8)
+      // const minScale = Math.max(scale, 1)
+      // const radius = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
 
-      if (myForeignObjectsAvgInRelativeMode) {
-        myForeignObjectsAvgInRelativeMode
-          .transition(trans)
-          .on('end', () => {
-            try {
-              const scale = Math.min(zoomRef.current.k, 8)
-              const minScale = Math.max(scale, 1)
-              const r = Math.max(10, Math.floor(9 + minScale))
-              const fonts = Math.max(10, Math.floor(9 + minScale))
-              myForeignObjectsAvgInRelativeMode.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1)
-            } catch (err) {
-              // console.log('error', err)
-            }
+      // const tx = () => d3.zoomTransform(gx.node())
+      // const ty = () => d3.zoomTransform(gy.node())
 
-          })
-          .attr('x', d => {
-            return xr(d.x) - (maxTextWidth * decreaseLevelRef.current) / 2
-          })
-          .attr('y', d => yr(d.y) + radius * decreaseLevelRef.current / 1 + 3)
-          .attr('width', maxTextWidth * decreaseLevel)
-      }
+      // const x = getX(nodeData)
+      // const y = getY(nodeData)
+      // const xr = tx().rescaleX(x)
+      // const yr = ty().rescaleY(y)
 
-      if (myForeignObjectsMedian) {
-        myForeignObjectsMedian
-          .transition(trans)
-          .on('end', () => {
-            try {
-              const scale = Math.min(zoomRef.current.k, 8)
-              const minScale = Math.max(scale, 1)
-              const r = Math.max(10, Math.floor(9 + minScale))
-              const fonts = Math.max(10, Math.floor(9 + minScale))
-              myForeignObjectsMedian.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1)
-            } catch (err) {
-              // console.log('error', err)
-            }
+      // if (myForeignObjectsAvg) {
+      //   myForeignObjectsAvg
+      //     .transition(trans)
+      //     .on('end', () => {
+      //       try {
+      //         const scale = Math.min(zoomRef.current.k, 8)
+      //         const minScale = Math.max(scale, 1)
+      //         const r = Math.max(10, Math.floor(9 + minScale))
+      //         const fonts = Math.max(10, Math.floor(9 + minScale))
+      //         myForeignObjectsAvg.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1)
+      //       } catch (err) {
+      //         // console.log('error', err)
+      //       }
 
-          })
-          .attr('x', d => {
-            return xr(d.x) - (maxTextWidth * decreaseLevelRef.current) / 2
-          })
-          .attr('y', d => yr(d.y) + radius * decreaseLevelRef.current / 1 + 3)
-          .attr('width', maxTextWidth * decreaseLevel)
-      }
+      //     })
+      //     // .attr('x', d => {
+      //     //   return xr(d.x) - (maxTextWidth * decreaseLevelRef.current) / 2
+      //     // })
+      //     // .attr('y', d => yr(d.y) + radius * decreaseLevelRef.current / 1 + 3)
+      //     .attr('width', maxTextWidth * decreaseLevel)
+      // }
 
-      if (myForeignObjectsMedianInRelativeMode) {
-        myForeignObjectsMedianInRelativeMode
-          .transition(trans)
-          .on('end', () => {
-            try {
-              const scale = Math.min(zoomRef.current.k, 8)
-              const minScale = Math.max(scale, 1)
-              const r = Math.max(10, Math.floor(9 + minScale))
-              const fonts = Math.max(10, Math.floor(9 + minScale))
-              myForeignObjectsMedianInRelativeMode.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1)
-            } catch (err) {
+      // if (myForeignObjectsAvgInRelativeMode) {
+      //   myForeignObjectsAvgInRelativeMode
+      //     .transition(trans)
+      //     .on('end', () => {
+      //       try {
+      //         const scale = Math.min(zoomRef.current.k, 8)
+      //         const minScale = Math.max(scale, 1)
+      //         const r = Math.max(10, Math.floor(9 + minScale))
+      //         const fonts = Math.max(10, Math.floor(9 + minScale))
+      //         myForeignObjectsAvgInRelativeMode.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1)
+      //       } catch (err) {
+      //         // console.log('error', err)
+      //       }
+
+      //     })
+      //     // .attr('x', d => {
+      //     //   return xr(d.x) - (maxTextWidth * decreaseLevelRef.current) / 2
+      //     // })
+      //     // .attr('y', d => yr(d.y) + radius * decreaseLevelRef.current / 1 + 3)
+      //     .attr('width', maxTextWidth * decreaseLevel)
+      // }
+
+      // if (myForeignObjectsMedian) {
+      //   myForeignObjectsMedian
+      //     .transition(trans)
+      //     .on('end', () => {
+      //       try {
+      //         const scale = Math.min(zoomRef.current.k, 8)
+      //         const minScale = Math.max(scale, 1)
+      //         const r = Math.max(10, Math.floor(9 + minScale))
+      //         const fonts = Math.max(10, Math.floor(9 + minScale))
+      //         myForeignObjectsMedian.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1)
+      //       } catch (err) {
+      //         // console.log('error', err)
+      //       }
+
+      //     })
+      //     // .attr('x', d => {
+      //     //   return xr(d.x) - (maxTextWidth * decreaseLevelRef.current) / 2
+      //     // })
+      //     // .attr('y', d => yr(d.y) + radius * decreaseLevelRef.current / 1 + 3)
+      //     .attr('width', maxTextWidth * decreaseLevel)
+      // }
+
+      // if (myForeignObjectsMedianInRelativeMode) {
+      //   myForeignObjectsMedianInRelativeMode
+      //     .transition(trans)
+      //     .on('end', () => {
+      //       try {
+      //         const scale = Math.min(zoomRef.current.k, 8)
+      //         const minScale = Math.max(scale, 1)
+      //         const r = Math.max(10, Math.floor(9 + minScale))
+      //         const fonts = Math.max(10, Math.floor(9 + minScale))
+      //         myForeignObjectsMedianInRelativeMode.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1)
+      //       } catch (err) {
         
-            }
+      //       }
 
-          })
-          .attr('x', d => {
-            return xr(d.x) - (maxTextWidth * decreaseLevelRef.current) / 2
-          })
-          .attr('y', d => yr(d.y) + radius * decreaseLevelRef.current / 1 + 3)
-          .attr('width', maxTextWidth * decreaseLevel)
-      }
+      //     })
+      //     // .attr('x', d => {
+      //     //   return xr(d.x) - (maxTextWidth * decreaseLevelRef.current) / 2
+      //     // })
+      //     // .attr('y', d => yr(d.y) + radius * decreaseLevelRef.current / 1 + 3)
+      //     .attr('width', maxTextWidth * decreaseLevel)
+      // }
 
-      if (outer_normal_circle) {
-        outer_normal_circle
-          .transition(trans)
-          .on('end', () => {
-            const scale = Math.min(zoomRef.current.k, 8)
-            const minScale = Math.max(scale, 1)
-            const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
-            try {
-              outer_normal_circle
-                // .transition(trans2)
-                // .attr('cx', d => xr(d.x))
-                // .attr('cy', d => yr(d.y))
-                .attr('r', r * decreaseLevel)
-            } catch (error) {
+      // if (outer_normal_circle) {
+      //   outer_normal_circle
+      //     .transition(trans)
+      //     .on('end', () => {
+      //       const scale = Math.min(zoomRef.current.k, 8)
+      //       const minScale = Math.max(scale, 1)
+      //       const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
+      //       try {
+      //         outer_normal_circle
+      //           // .transition(trans2)
+      //           // .attr('cx', d => xr(d.x))
+      //           // .attr('cy', d => yr(d.y))
+      //           .attr('r', r * decreaseLevel)
+      //       } catch (error) {
        
-            }
-          })
-          // .attr('cx', d => xr(d.x))
-          // .attr('cy', d => yr(d.y))
-      }
+      //       }
+      //     })
+      //     // .attr('cx', d => xr(d.x))
+      //     // .attr('cy', d => yr(d.y))
+      // }
 
-      if (outer_special_circle) {
-        outer_special_circle
-          .transition(trans)
-          .on('end', () => {
-            const scale = Math.min(zoomRef.current.k, 8)
-            const minScale = Math.max(scale, 1)
-            const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
-            try {
-              outer_special_circle
-                // .transition(trans2)
-                // .attr('cx', d => xr(d.x))
-                // .attr('cy', d => yr(d.y))
-                .attr('r', r * decreaseLevel)
-            } catch (error) {
+      // if (outer_special_circle) {
+      //   outer_special_circle
+      //     .transition(trans)
+      //     .on('end', () => {
+      //       const scale = Math.min(zoomRef.current.k, 8)
+      //       const minScale = Math.max(scale, 1)
+      //       const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
+      //       try {
+      //         outer_special_circle
+      //           // .transition(trans2)
+      //           // .attr('cx', d => xr(d.x))
+      //           // .attr('cy', d => yr(d.y))
+      //           .attr('r', r * decreaseLevel)
+      //       } catch (error) {
    
-            }
-          })
-          // .attr('cx', d => xr(d.x))
-          // .attr('cy', d => yr(d.y))
-      }
+      //       }
+      //     })
+      //     // .attr('cx', d => xr(d.x))
+      //     // .attr('cy', d => yr(d.y))
+      // }
 
-      if (inner_normal_circle) {
-        inner_normal_circle
-          .transition(trans)
-          .on('end', () => {
-            const scale = Math.min(zoomRef.current.k, 8)
-            const minScale = Math.max(scale, 1)
-            const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
-            try {
-              inner_normal_circle
-                // .transition(trans2)
-                // .attr('cx', d => xr(d.x))
-                // .attr('cy', d => yr(d.y))
-                .attr('r', r * decreaseLevel)
-            } catch (error) {
+      // if (inner_normal_circle) {
+      //   inner_normal_circle
+      //     .transition(trans)
+      //     .on('end', () => {
+      //       const scale = Math.min(zoomRef.current.k, 8)
+      //       const minScale = Math.max(scale, 1)
+      //       const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
+      //       try {
+      //         inner_normal_circle
+      //           // .transition(trans2)
+      //           // .attr('cx', d => xr(d.x))
+      //           // .attr('cy', d => yr(d.y))
+      //           .attr('r', r * decreaseLevel)
+      //       } catch (error) {
           
-            }
-          })
-          // .attr('cx', d => xr(d.x))
-          // .attr('cy', d => yr(d.y))
-      }
+      //       }
+      //     })
+      //     // .attr('cx', d => xr(d.x))
+      //     // .attr('cy', d => yr(d.y))
+      // }
 
-      if (inner_special_circle) {
-        inner_special_circle
-          .transition(trans)
-          .on('end', () => {
-            const scale = Math.min(zoomRef.current.k, 8)
-            const minScale = Math.max(scale, 1)
-            const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
-            try {
-              inner_special_circle
-                // .transition(trans2)
-                // .attr('cx', d => xr(d.x))
-                // .attr('cy', d => yr(d.y))
-                .attr('r', r * decreaseLevel)
-            } catch (error) {
+      // if (inner_special_circle) {
+      //   inner_special_circle
+      //     .transition(trans)
+      //     .on('end', () => {
+      //       const scale = Math.min(zoomRef.current.k, 8)
+      //       const minScale = Math.max(scale, 1)
+      //       const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
+      //       try {
+      //         inner_special_circle
+      //           // .transition(trans2)
+      //           // .attr('cx', d => xr(d.x))
+      //           // .attr('cy', d => yr(d.y))
+      //           .attr('r', r * decreaseLevel)
+      //       } catch (error) {
 
-            }
-          })
-          // .attr('cx', d => xr(d.x))
-          // .attr('cy', d => yr(d.y))
-      }
+      //       }
+      //     })
+      //     // .attr('cx', d => xr(d.x))
+      //     // .attr('cy', d => yr(d.y))
+      // }
 
-      if (outer_normal_circle_median) {
-        outer_normal_circle_median
-          .transition(trans)
-          .on('end', () => {
-            const scale = Math.min(zoomRef.current.k, 8)
-            const minScale = Math.max(scale, 1)
-            const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
-            try {
-              outer_normal_circle_median
-                // .transition(trans2)
-                // .attr('cx', d => xr(d.x))
-                // .attr('cy', d => yr(d.y))
-                .attr('r', r * decreaseLevel)
-            } catch (error) {
+      // if (outer_normal_circle_median) {
+      //   outer_normal_circle_median
+      //     .transition(trans)
+      //     .on('end', () => {
+      //       const scale = Math.min(zoomRef.current.k, 8)
+      //       const minScale = Math.max(scale, 1)
+      //       const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
+      //       try {
+      //         outer_normal_circle_median
+      //           // .transition(trans2)
+      //           // .attr('cx', d => xr(d.x))
+      //           // .attr('cy', d => yr(d.y))
+      //           .attr('r', r * decreaseLevel)
+      //       } catch (error) {
 
-            }
-          })
-          // .attr('cx', d => xr(d.x))
-          // .attr('cy', d => yr(d.y))
-      }
+      //       }
+      //     })
+      //     // .attr('cx', d => xr(d.x))
+      //     // .attr('cy', d => yr(d.y))
+      // }
 
-      outer_special_circle_median
-        .transition(trans)
-        .on('end', () => {
-          const scale = Math.min(zoomRef.current.k, 8)
-          const minScale = Math.max(scale, 1)
-          const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
-          try {
-            outer_special_circle_median
-              // .transition(trans2)
-              // .attr('cx', d => xr(d.x))
-              // .attr('cy', d => yr(d.y))
-              .attr('r', r * decreaseLevel)
-          } catch (error) {
+      // outer_special_circle_median
+      //   .transition(trans)
+      //   .on('end', () => {
+      //     const scale = Math.min(zoomRef.current.k, 8)
+      //     const minScale = Math.max(scale, 1)
+      //     const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
+      //     try {
+      //       outer_special_circle_median
+      //         // .transition(trans2)
+      //         // .attr('cx', d => xr(d.x))
+      //         // .attr('cy', d => yr(d.y))
+      //         .attr('r', r * decreaseLevel)
+      //     } catch (error) {
 
-          }
-        })
-        // .attr('cx', d => xr(d.x))
-        // .attr('cy', d => yr(d.y))
+      //     }
+      //   })
+      //   // .attr('cx', d => xr(d.x))
+      //   // .attr('cy', d => yr(d.y))
 
 
-      inner_normal_circle_median
-        .transition(trans)
-        .on('end', () => {
-          const scale = Math.min(zoomRef.current.k, 8)
-          const minScale = Math.max(scale, 1)
-          const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
-          try {
-            inner_normal_circle_median
-              // .transition(trans2)
-              // .attr('cx', d => xr(d.x))
-              // .attr('cy', d => yr(d.y))
-              .attr('r', r * decreaseLevel)
-          } catch (error) {
+      // inner_normal_circle_median
+      //   .transition(trans)
+      //   .on('end', () => {
+      //     const scale = Math.min(zoomRef.current.k, 8)
+      //     const minScale = Math.max(scale, 1)
+      //     const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
+      //     try {
+      //       inner_normal_circle_median
+      //         // .transition(trans2)
+      //         // .attr('cx', d => xr(d.x))
+      //         // .attr('cy', d => yr(d.y))
+      //         .attr('r', r * decreaseLevel)
+      //     } catch (error) {
 
-          }
-        })
-        // .attr('cx', d => xr(d.x))
-        // .attr('cy', d => yr(d.y))
+      //     }
+      //   })
+      //   // .attr('cx', d => xr(d.x))
+      //   // .attr('cy', d => yr(d.y))
 
-      inner_special_circle_median
-        .transition(trans)
-        .on('end', () => {
-          const scale = Math.min(zoomRef.current.k, 8)
-          const minScale = Math.max(scale, 1)
-          const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
-          try {
-            inner_special_circle_median
-              // .transition(trans2)
-              // .attr('cx', d => xr(d.x))
-              // .attr('cy', d => yr(d.y))
-              .attr('r', r * decreaseLevel)
-          } catch (error) {
-          }
-        })
-        // .attr('cx', d => xr(d.x))
-        // .attr('cy', d => yr(d.y))
+      // inner_special_circle_median
+      //   .transition(trans)
+      //   .on('end', () => {
+      //     const scale = Math.min(zoomRef.current.k, 8)
+      //     const minScale = Math.max(scale, 1)
+      //     const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
+      //     try {
+      //       inner_special_circle_median
+      //         // .transition(trans2)
+      //         // .attr('cx', d => xr(d.x))
+      //         // .attr('cy', d => yr(d.y))
+      //         .attr('r', r * decreaseLevel)
+      //     } catch (error) {
+      //     }
+      //   })
+      //   // .attr('cx', d => xr(d.x))
+      //   // .attr('cy', d => yr(d.y))
 
-      fpIconMedian
-        .transition(trans)
-        .attr('xlink:href', (d) => {
-          return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
-        })
-        .attr('height', (d) => {
-          return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
-        })
-        .attr('width', (d) => {
-          return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
-        })
-        .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
-        .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
+      // fpIconMedian
+      //   .transition(trans)
+      //   .attr('xlink:href', (d) => {
+      //     return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
+      //   })
+      //   .attr('height', (d) => {
+      //     return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
+      //   })
+      //   .attr('width', (d) => {
+      //     return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
+      //   })
+      //   // .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
+      //   // .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
 
-      fpIconAverage
-        .transition(trans)
-        .attr('xlink:href', (d) => {
-          return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
-        })
-        .attr('height', (d) => {
-          return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
-        })
-        .attr('width', (d) => {
-          return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
-        })
-        .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
-        .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
+      // fpIconAverage
+      //   .transition(trans)
+      //   .attr('xlink:href', (d) => {
+      //     return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
+      //   })
+      //   .attr('height', (d) => {
+      //     return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
+      //   })
+      //   .attr('width', (d) => {
+      //     return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
+      //   })
+      //   // .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
+      //   // .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
 
-      fpIconMedianInRelativeMode
-        .transition(trans)
-        .attr('xlink:href', (d) => {
-          return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
-        })
-        .attr('height', (d) => {
-          return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
-        })
-        .attr('width', (d) => {
-          return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
-        })
-        .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
-        .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
+      // fpIconMedianInRelativeMode
+      //   .transition(trans)
+      //   .attr('xlink:href', (d) => {
+      //     return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
+      //   })
+      //   .attr('height', (d) => {
+      //     return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
+      //   })
+      //   .attr('width', (d) => {
+      //     return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
+      //   })
+      //   // .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
+      //   // .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
 
-      fpIconAverageInRelativeMode
-        .transition(trans)
-        .attr('xlink:href', (d) => {
-          return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
-        })
-        .attr('height', (d) => {
-          return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
-        })
-        .attr('width', (d) => {
-          return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
-        })
-        .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
-        .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
+      // fpIconAverageInRelativeMode
+      //   .transition(trans)
+      //   .attr('xlink:href', (d) => {
+      //     return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
+      //   })
+      //   .attr('height', (d) => {
+      //     return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
+      //   })
+      //   .attr('width', (d) => {
+      //     return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
+      //   })
+      //   // .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
+      //   // .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
     }
   }, [decreaseLevel])
 
