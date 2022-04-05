@@ -195,7 +195,7 @@ const closeRatingInformationModalHandle = () => {
             onClose={onLeaveRatingIcon}
             disableRestoreFocus
           >
-            <HoverBox>{(radar?.radarLanguage === "en" ? '"More information on Rating"' : '"Lisätietoja arvioinnista"') || requestTranslation('InfoIconHoverRating')}</HoverBox>
+            <HoverBox>{(radar?.radarLanguage === "en" ? 'More information on Rating results view' : 'Lisää tietoa arvioinnin tulosnäkymästä') || requestTranslation('InfoIconHoverRating')}</HoverBox>
           </Popover> 
           <InformationModal 
               radar={radar}

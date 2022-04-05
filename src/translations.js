@@ -35,8 +35,8 @@ const localTranslations = {
       fi: 'Arvioinnin tulokset'
     },
     InfoIconHoverRating: {
-      en:`"More information on Rating"`,
-      fi:`"Lisätietoja arvioinnista"`
+      en:`More information on Rating results view`,
+      fi:`Lisää tietoa arvioinnin tulosnäkymästä`
   },
   InfoModalRatingNote: {
     en:`The Rating results view consists of two main sections: the fourfold table that shows the results in 2-by-2 matrix, and a list for both axes. You can review the content cards by clicking the dots / titles.`,
