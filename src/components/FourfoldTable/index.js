@@ -1425,7 +1425,7 @@ const App = ({
                 myNewTextsAvgID
                   .style('font-size', fonts * decreaseLevelRef.current)
                   .attr('x', d => xr(d.x) - maxTextWidth / 2)
-                  .attr('y', d => yr(d.y) + r / 1)
+                  .attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1)
               } catch (err) {
                 
               }
@@ -1434,7 +1434,7 @@ const App = ({
             .attr('x', d => {
               return xr(d.x) - maxTextWidth / 2
             })
-            .attr('y', d => yr(d.y) + radius / 1 + 3)
+            .attr('y', d => yr(d.y) + radius * decreaseLevelRef.current / 1 + 3)
 
           myForeignObjectsAvgInRelativeMode
             .transition(trans)
@@ -1447,7 +1447,7 @@ const App = ({
                 myNewTextsAvgIDInRelativeMode
                   .style('font-size', fonts * decreaseLevelRef.current)
                   .attr('x', d => xr(d.x) - maxTextWidth / 2)
-                  .attr('y', d => yr(d.y) + r / 1)
+                  .attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1 + 3)
               } catch (err) {
 
               }
@@ -1456,7 +1456,7 @@ const App = ({
             .attr('x', d => {
               return xr(d.x) - maxTextWidth / 2
             })
-            .attr('y', d => yr(d.y) + radius / 1 + 3)
+            .attr('y', d => yr(d.y) + radius * decreaseLevelRef.current / 1 + 3)
 
           myForeignObjectsMedian
             .transition(trans)
@@ -1469,7 +1469,7 @@ const App = ({
                 myNewTextsMedianID
                   .style('font-size', fonts * decreaseLevelRef.current)
                   .attr('x', d => xr(d.x) - maxTextWidth / 2)
-                  .attr('y', d => yr(d.y) + r / 1)
+                  .attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1 + 3)
               } catch (err) {
                 
               }
@@ -1477,7 +1477,7 @@ const App = ({
             .attr('x', d => {
               return xr(d.x) - maxTextWidth / 2
             })
-            .attr('y', d => yr(d.y) + radius / 1 + 3)
+            .attr('y', d => yr(d.y) + radius * decreaseLevelRef.current / 1 + 3)
 
           myForeignObjectsMedianInRelativeMode
             .transition(trans)
@@ -1490,7 +1490,7 @@ const App = ({
                 myNewTextsMedianIDInRelativeMode
                   .style('font-size', fonts * decreaseLevelRef.current)
                   .attr('x', d => xr(d.x) - maxTextWidth / 2)
-                  .attr('y', d => yr(d.y) + r / 1)
+                  .attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1 + 3)
               } catch (err) {
 
               }
@@ -1498,7 +1498,7 @@ const App = ({
             .attr('x', d => {
               return xr(d.x) - maxTextWidth / 2
             })
-            .attr('y', d => yr(d.y) + radius / 1 + 3)
+            .attr('y', d => yr(d.y) + radius * decreaseLevelRef.current / 1 + 3)
 
           const scale = Math.min(t.k, 8 * decreaseLevelRef.current)
           const minScale = Math.max(scale, 1)
