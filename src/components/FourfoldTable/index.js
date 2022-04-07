@@ -77,6 +77,7 @@ const App = ({
   document.addEventListener(prefixes + 'fullscreenchange', fullscreenchanged);
  
   const handleFullscreenMode = () => {
+    decreaseLevelRef.current = 1
     try {
       if (wrapperChartForFullscreenMode.requestFullscreen) {
         wrapperChartForFullscreenMode.requestFullscreen();
@@ -95,6 +96,7 @@ const App = ({
     }
   }
   const handleExitFullScreenMode = () => {
+    decreaseLevelRef.current = 1
     try {
       closePopupLeftfs()
       if (document.exitFullscreen) {
@@ -202,8 +204,11 @@ const App = ({
     }
   ]
 
-  const maxTextWidth = 120
+  const maxTextWidth = React.useMemo(() => {
+    return 120 + 120 * decreaseLevel /2
+  }, [decreaseLevel])
 
+  console.log('decreaseLeveldecreaseLevel', decreaseLevel)
   const rectNodes = React.useMemo(() => {
     return [
       {
@@ -595,12 +600,13 @@ const App = ({
     const svg = d3.select('#svg-app').attr("viewBox", [0, 0, containerWidth, containerHeight])
 
     const canvasAxis = document.getElementById('axis')
+    decreaseLevelRef.current = 1
     setAppContext({
       axis: canvasAxis,
       axisContext: canvasAxis.getContext('2d'),
       scatterSvg: svg
     })
-  }, [containerWidth])
+  }, [containerWidth, containerHeight])
 
   const getX = (data) => {
     return d3.scaleLinear()
@@ -1191,6 +1197,8 @@ const App = ({
       const fpIconAverageInRelativeMode = d3.selectAll('#fpIconAverageInRelativeMode')
       const myCircleAvg = d3.selectAll('#circleAvg')
 
+      setDecreaseLevel(1)
+
       const zoomed = function (e) {
         try {
           const trans = d3.transition().duration(150).ease(d3.easeLinear)
@@ -1580,354 +1588,354 @@ const App = ({
     }
   }, [phenomena, scatterSvg, containerHeight, containerWidth, openFullScreenMode])
 
-  useEffect(() => {
-    // const trans = d3.transition().duration(150).ease(d3.easeLinear)
-    // // const trans2 = d3.transition().duration(150).ease(d3.easeLinear)
-    // const inner_normal_circle = d3.selectAll('.inner_normal_circle_rating_result')
-    // const outer_normal_circle = d3.selectAll('.outer_normal_circle_rating_result')
-    // const outer_special_circle = d3.selectAll('.outer_special_circle_rating_result')
-    // const inner_special_circle = d3.selectAll('.inner_special_circle_rating_result')
-    // const outer_normal_circle_median = d3.selectAll('.outer_normal_circle_median_rating_result')
-    // const outer_special_circle_median = d3.selectAll('.outer_special_circle_median_rating_result')
-    // const inner_normal_circle_median = d3.selectAll('.inner_normal_circle_median_rating_result')
-    // const inner_special_circle_median = d3.selectAll('.inner_special_circle_median_rating_result')
+  // useEffect(() => {
+  //   // const trans = d3.transition().duration(150).ease(d3.easeLinear)
+  //   // // const trans2 = d3.transition().duration(150).ease(d3.easeLinear)
+  //   // const inner_normal_circle = d3.selectAll('.inner_normal_circle_rating_result')
+  //   // const outer_normal_circle = d3.selectAll('.outer_normal_circle_rating_result')
+  //   // const outer_special_circle = d3.selectAll('.outer_special_circle_rating_result')
+  //   // const inner_special_circle = d3.selectAll('.inner_special_circle_rating_result')
+  //   // const outer_normal_circle_median = d3.selectAll('.outer_normal_circle_median_rating_result')
+  //   // const outer_special_circle_median = d3.selectAll('.outer_special_circle_median_rating_result')
+  //   // const inner_normal_circle_median = d3.selectAll('.inner_normal_circle_median_rating_result')
+  //   // const inner_special_circle_median = d3.selectAll('.inner_special_circle_median_rating_result')
 
-    // const myForeignObjectsAvg = d3.selectAll('#myNewTextsAvg')
-    // const myForeignObjectsMedian = d3.selectAll('#myNewTextsMedian')
-    // const myForeignObjectsAvgInRelativeMode = d3.selectAll('#myNewTextsAvgInRelativeMode')
-    // const myForeignObjectsMedianInRelativeMode = d3.selectAll('#myNewTextsMedianInRelativeMode')
+  //   // const myForeignObjectsAvg = d3.selectAll('#myNewTextsAvg')
+  //   // const myForeignObjectsMedian = d3.selectAll('#myNewTextsMedian')
+  //   // const myForeignObjectsAvgInRelativeMode = d3.selectAll('#myNewTextsAvgInRelativeMode')
+  //   // const myForeignObjectsMedianInRelativeMode = d3.selectAll('#myNewTextsMedianInRelativeMode')
 
-    // const fpIconAverage = d3.selectAll('#fpIconAverage')
-    // const fpIconMedian = d3.selectAll('#fpIconMedian')
-    // const fpIconAverageInRelativeMode = d3.selectAll('#fpIconAverageInRelativeMode')
-    // const fpIconMedianInRelativeMode = d3.selectAll('#fpIconMedianInRelativeMode')
+  //   // const fpIconAverage = d3.selectAll('#fpIconAverage')
+  //   // const fpIconMedian = d3.selectAll('#fpIconMedian')
+  //   // const fpIconAverageInRelativeMode = d3.selectAll('#fpIconAverageInRelativeMode')
+  //   // const fpIconMedianInRelativeMode = d3.selectAll('#fpIconMedianInRelativeMode')
 
-    // const gx = scatterSvg?.append("g")
-    // const gy = scatterSvg?.append("g")
+  //   // const gx = scatterSvg?.append("g")
+  //   // const gy = scatterSvg?.append("g")
 
-    if (scatterSvg) {
-      if (zoomFuncRef.current) {
-        zoomFuncRef.current({ transform: zoomRef.current })
-      }
-      // const scale = Math.min(zoomRef.current.k, 8)
-      // const minScale = Math.max(scale, 1)
-      // const radius = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
+  //   if (scatterSvg) {
+  //     if (zoomFuncRef.current) {
+  //       zoomFuncRef.current({ transform: zoomRef.current })
+  //     }
+  //     // const scale = Math.min(zoomRef.current.k, 8)
+  //     // const minScale = Math.max(scale, 1)
+  //     // const radius = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
 
-      // const tx = () => d3.zoomTransform(gx.node())
-      // const ty = () => d3.zoomTransform(gy.node())
+  //     // const tx = () => d3.zoomTransform(gx.node())
+  //     // const ty = () => d3.zoomTransform(gy.node())
 
-      // const x = getX(nodeData)
-      // const y = getY(nodeData)
-      // const xr = tx().rescaleX(x)
-      // const yr = ty().rescaleY(y)
+  //     // const x = getX(nodeData)
+  //     // const y = getY(nodeData)
+  //     // const xr = tx().rescaleX(x)
+  //     // const yr = ty().rescaleY(y)
 
-      // if (myForeignObjectsAvg) {
-      //   myForeignObjectsAvg
-      //     .transition(trans)
-      //     .on('end', () => {
-      //       try {
-      //         const scale = Math.min(zoomRef.current.k, 8)
-      //         const minScale = Math.max(scale, 1)
-      //         const r = Math.max(10, Math.floor(9 + minScale))
-      //         const fonts = Math.max(10, Math.floor(9 + minScale))
-      //         myForeignObjectsAvg.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1)
-      //       } catch (err) {
-      //         // console.log('error', err)
-      //       }
+  //     // if (myForeignObjectsAvg) {
+  //     //   myForeignObjectsAvg
+  //     //     .transition(trans)
+  //     //     .on('end', () => {
+  //     //       try {
+  //     //         const scale = Math.min(zoomRef.current.k, 8)
+  //     //         const minScale = Math.max(scale, 1)
+  //     //         const r = Math.max(10, Math.floor(9 + minScale))
+  //     //         const fonts = Math.max(10, Math.floor(9 + minScale))
+  //     //         myForeignObjectsAvg.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1)
+  //     //       } catch (err) {
+  //     //         // console.log('error', err)
+  //     //       }
 
-      //     })
-      //     // .attr('x', d => {
-      //     //   return xr(d.x) - (maxTextWidth * decreaseLevelRef.current) / 2
-      //     // })
-      //     // .attr('y', d => yr(d.y) + radius * decreaseLevelRef.current / 1 + 3)
-      //     .attr('width', maxTextWidth * decreaseLevel)
-      // }
+  //     //     })
+  //     //     // .attr('x', d => {
+  //     //     //   return xr(d.x) - (maxTextWidth * decreaseLevelRef.current) / 2
+  //     //     // })
+  //     //     // .attr('y', d => yr(d.y) + radius * decreaseLevelRef.current / 1 + 3)
+  //     //     .attr('width', maxTextWidth * decreaseLevel)
+  //     // }
 
-      // if (myForeignObjectsAvgInRelativeMode) {
-      //   myForeignObjectsAvgInRelativeMode
-      //     .transition(trans)
-      //     .on('end', () => {
-      //       try {
-      //         const scale = Math.min(zoomRef.current.k, 8)
-      //         const minScale = Math.max(scale, 1)
-      //         const r = Math.max(10, Math.floor(9 + minScale))
-      //         const fonts = Math.max(10, Math.floor(9 + minScale))
-      //         myForeignObjectsAvgInRelativeMode.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1)
-      //       } catch (err) {
-      //         // console.log('error', err)
-      //       }
+  //     // if (myForeignObjectsAvgInRelativeMode) {
+  //     //   myForeignObjectsAvgInRelativeMode
+  //     //     .transition(trans)
+  //     //     .on('end', () => {
+  //     //       try {
+  //     //         const scale = Math.min(zoomRef.current.k, 8)
+  //     //         const minScale = Math.max(scale, 1)
+  //     //         const r = Math.max(10, Math.floor(9 + minScale))
+  //     //         const fonts = Math.max(10, Math.floor(9 + minScale))
+  //     //         myForeignObjectsAvgInRelativeMode.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1)
+  //     //       } catch (err) {
+  //     //         // console.log('error', err)
+  //     //       }
 
-      //     })
-      //     // .attr('x', d => {
-      //     //   return xr(d.x) - (maxTextWidth * decreaseLevelRef.current) / 2
-      //     // })
-      //     // .attr('y', d => yr(d.y) + radius * decreaseLevelRef.current / 1 + 3)
-      //     .attr('width', maxTextWidth * decreaseLevel)
-      // }
+  //     //     })
+  //     //     // .attr('x', d => {
+  //     //     //   return xr(d.x) - (maxTextWidth * decreaseLevelRef.current) / 2
+  //     //     // })
+  //     //     // .attr('y', d => yr(d.y) + radius * decreaseLevelRef.current / 1 + 3)
+  //     //     .attr('width', maxTextWidth * decreaseLevel)
+  //     // }
 
-      // if (myForeignObjectsMedian) {
-      //   myForeignObjectsMedian
-      //     .transition(trans)
-      //     .on('end', () => {
-      //       try {
-      //         const scale = Math.min(zoomRef.current.k, 8)
-      //         const minScale = Math.max(scale, 1)
-      //         const r = Math.max(10, Math.floor(9 + minScale))
-      //         const fonts = Math.max(10, Math.floor(9 + minScale))
-      //         myForeignObjectsMedian.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1)
-      //       } catch (err) {
-      //         // console.log('error', err)
-      //       }
+  //     // if (myForeignObjectsMedian) {
+  //     //   myForeignObjectsMedian
+  //     //     .transition(trans)
+  //     //     .on('end', () => {
+  //     //       try {
+  //     //         const scale = Math.min(zoomRef.current.k, 8)
+  //     //         const minScale = Math.max(scale, 1)
+  //     //         const r = Math.max(10, Math.floor(9 + minScale))
+  //     //         const fonts = Math.max(10, Math.floor(9 + minScale))
+  //     //         myForeignObjectsMedian.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1)
+  //     //       } catch (err) {
+  //     //         // console.log('error', err)
+  //     //       }
 
-      //     })
-      //     // .attr('x', d => {
-      //     //   return xr(d.x) - (maxTextWidth * decreaseLevelRef.current) / 2
-      //     // })
-      //     // .attr('y', d => yr(d.y) + radius * decreaseLevelRef.current / 1 + 3)
-      //     .attr('width', maxTextWidth * decreaseLevel)
-      // }
+  //     //     })
+  //     //     // .attr('x', d => {
+  //     //     //   return xr(d.x) - (maxTextWidth * decreaseLevelRef.current) / 2
+  //     //     // })
+  //     //     // .attr('y', d => yr(d.y) + radius * decreaseLevelRef.current / 1 + 3)
+  //     //     .attr('width', maxTextWidth * decreaseLevel)
+  //     // }
 
-      // if (myForeignObjectsMedianInRelativeMode) {
-      //   myForeignObjectsMedianInRelativeMode
-      //     .transition(trans)
-      //     .on('end', () => {
-      //       try {
-      //         const scale = Math.min(zoomRef.current.k, 8)
-      //         const minScale = Math.max(scale, 1)
-      //         const r = Math.max(10, Math.floor(9 + minScale))
-      //         const fonts = Math.max(10, Math.floor(9 + minScale))
-      //         myForeignObjectsMedianInRelativeMode.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1)
-      //       } catch (err) {
+  //     // if (myForeignObjectsMedianInRelativeMode) {
+  //     //   myForeignObjectsMedianInRelativeMode
+  //     //     .transition(trans)
+  //     //     .on('end', () => {
+  //     //       try {
+  //     //         const scale = Math.min(zoomRef.current.k, 8)
+  //     //         const minScale = Math.max(scale, 1)
+  //     //         const r = Math.max(10, Math.floor(9 + minScale))
+  //     //         const fonts = Math.max(10, Math.floor(9 + minScale))
+  //     //         myForeignObjectsMedianInRelativeMode.style('font-size', fonts * decreaseLevelRef.current).attr('y', d => yr(d.y) + r * decreaseLevelRef.current / 1)
+  //     //       } catch (err) {
         
-      //       }
+  //     //       }
 
-      //     })
-      //     // .attr('x', d => {
-      //     //   return xr(d.x) - (maxTextWidth * decreaseLevelRef.current) / 2
-      //     // })
-      //     // .attr('y', d => yr(d.y) + radius * decreaseLevelRef.current / 1 + 3)
-      //     .attr('width', maxTextWidth * decreaseLevel)
-      // }
+  //     //     })
+  //     //     // .attr('x', d => {
+  //     //     //   return xr(d.x) - (maxTextWidth * decreaseLevelRef.current) / 2
+  //     //     // })
+  //     //     // .attr('y', d => yr(d.y) + radius * decreaseLevelRef.current / 1 + 3)
+  //     //     .attr('width', maxTextWidth * decreaseLevel)
+  //     // }
 
-      // if (outer_normal_circle) {
-      //   outer_normal_circle
-      //     .transition(trans)
-      //     .on('end', () => {
-      //       const scale = Math.min(zoomRef.current.k, 8)
-      //       const minScale = Math.max(scale, 1)
-      //       const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
-      //       try {
-      //         outer_normal_circle
-      //           // .transition(trans2)
-      //           // .attr('cx', d => xr(d.x))
-      //           // .attr('cy', d => yr(d.y))
-      //           .attr('r', r * decreaseLevel)
-      //       } catch (error) {
+  //     // if (outer_normal_circle) {
+  //     //   outer_normal_circle
+  //     //     .transition(trans)
+  //     //     .on('end', () => {
+  //     //       const scale = Math.min(zoomRef.current.k, 8)
+  //     //       const minScale = Math.max(scale, 1)
+  //     //       const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
+  //     //       try {
+  //     //         outer_normal_circle
+  //     //           // .transition(trans2)
+  //     //           // .attr('cx', d => xr(d.x))
+  //     //           // .attr('cy', d => yr(d.y))
+  //     //           .attr('r', r * decreaseLevel)
+  //     //       } catch (error) {
        
-      //       }
-      //     })
-      //     // .attr('cx', d => xr(d.x))
-      //     // .attr('cy', d => yr(d.y))
-      // }
+  //     //       }
+  //     //     })
+  //     //     // .attr('cx', d => xr(d.x))
+  //     //     // .attr('cy', d => yr(d.y))
+  //     // }
 
-      // if (outer_special_circle) {
-      //   outer_special_circle
-      //     .transition(trans)
-      //     .on('end', () => {
-      //       const scale = Math.min(zoomRef.current.k, 8)
-      //       const minScale = Math.max(scale, 1)
-      //       const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
-      //       try {
-      //         outer_special_circle
-      //           // .transition(trans2)
-      //           // .attr('cx', d => xr(d.x))
-      //           // .attr('cy', d => yr(d.y))
-      //           .attr('r', r * decreaseLevel)
-      //       } catch (error) {
+  //     // if (outer_special_circle) {
+  //     //   outer_special_circle
+  //     //     .transition(trans)
+  //     //     .on('end', () => {
+  //     //       const scale = Math.min(zoomRef.current.k, 8)
+  //     //       const minScale = Math.max(scale, 1)
+  //     //       const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
+  //     //       try {
+  //     //         outer_special_circle
+  //     //           // .transition(trans2)
+  //     //           // .attr('cx', d => xr(d.x))
+  //     //           // .attr('cy', d => yr(d.y))
+  //     //           .attr('r', r * decreaseLevel)
+  //     //       } catch (error) {
    
-      //       }
-      //     })
-      //     // .attr('cx', d => xr(d.x))
-      //     // .attr('cy', d => yr(d.y))
-      // }
+  //     //       }
+  //     //     })
+  //     //     // .attr('cx', d => xr(d.x))
+  //     //     // .attr('cy', d => yr(d.y))
+  //     // }
 
-      // if (inner_normal_circle) {
-      //   inner_normal_circle
-      //     .transition(trans)
-      //     .on('end', () => {
-      //       const scale = Math.min(zoomRef.current.k, 8)
-      //       const minScale = Math.max(scale, 1)
-      //       const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
-      //       try {
-      //         inner_normal_circle
-      //           // .transition(trans2)
-      //           // .attr('cx', d => xr(d.x))
-      //           // .attr('cy', d => yr(d.y))
-      //           .attr('r', r * decreaseLevel)
-      //       } catch (error) {
+  //     // if (inner_normal_circle) {
+  //     //   inner_normal_circle
+  //     //     .transition(trans)
+  //     //     .on('end', () => {
+  //     //       const scale = Math.min(zoomRef.current.k, 8)
+  //     //       const minScale = Math.max(scale, 1)
+  //     //       const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
+  //     //       try {
+  //     //         inner_normal_circle
+  //     //           // .transition(trans2)
+  //     //           // .attr('cx', d => xr(d.x))
+  //     //           // .attr('cy', d => yr(d.y))
+  //     //           .attr('r', r * decreaseLevel)
+  //     //       } catch (error) {
           
-      //       }
-      //     })
-      //     // .attr('cx', d => xr(d.x))
-      //     // .attr('cy', d => yr(d.y))
-      // }
+  //     //       }
+  //     //     })
+  //     //     // .attr('cx', d => xr(d.x))
+  //     //     // .attr('cy', d => yr(d.y))
+  //     // }
 
-      // if (inner_special_circle) {
-      //   inner_special_circle
-      //     .transition(trans)
-      //     .on('end', () => {
-      //       const scale = Math.min(zoomRef.current.k, 8)
-      //       const minScale = Math.max(scale, 1)
-      //       const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
-      //       try {
-      //         inner_special_circle
-      //           // .transition(trans2)
-      //           // .attr('cx', d => xr(d.x))
-      //           // .attr('cy', d => yr(d.y))
-      //           .attr('r', r * decreaseLevel)
-      //       } catch (error) {
+  //     // if (inner_special_circle) {
+  //     //   inner_special_circle
+  //     //     .transition(trans)
+  //     //     .on('end', () => {
+  //     //       const scale = Math.min(zoomRef.current.k, 8)
+  //     //       const minScale = Math.max(scale, 1)
+  //     //       const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
+  //     //       try {
+  //     //         inner_special_circle
+  //     //           // .transition(trans2)
+  //     //           // .attr('cx', d => xr(d.x))
+  //     //           // .attr('cy', d => yr(d.y))
+  //     //           .attr('r', r * decreaseLevel)
+  //     //       } catch (error) {
 
-      //       }
-      //     })
-      //     // .attr('cx', d => xr(d.x))
-      //     // .attr('cy', d => yr(d.y))
-      // }
+  //     //       }
+  //     //     })
+  //     //     // .attr('cx', d => xr(d.x))
+  //     //     // .attr('cy', d => yr(d.y))
+  //     // }
 
-      // if (outer_normal_circle_median) {
-      //   outer_normal_circle_median
-      //     .transition(trans)
-      //     .on('end', () => {
-      //       const scale = Math.min(zoomRef.current.k, 8)
-      //       const minScale = Math.max(scale, 1)
-      //       const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
-      //       try {
-      //         outer_normal_circle_median
-      //           // .transition(trans2)
-      //           // .attr('cx', d => xr(d.x))
-      //           // .attr('cy', d => yr(d.y))
-      //           .attr('r', r * decreaseLevel)
-      //       } catch (error) {
+  //     // if (outer_normal_circle_median) {
+  //     //   outer_normal_circle_median
+  //     //     .transition(trans)
+  //     //     .on('end', () => {
+  //     //       const scale = Math.min(zoomRef.current.k, 8)
+  //     //       const minScale = Math.max(scale, 1)
+  //     //       const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
+  //     //       try {
+  //     //         outer_normal_circle_median
+  //     //           // .transition(trans2)
+  //     //           // .attr('cx', d => xr(d.x))
+  //     //           // .attr('cy', d => yr(d.y))
+  //     //           .attr('r', r * decreaseLevel)
+  //     //       } catch (error) {
 
-      //       }
-      //     })
-      //     // .attr('cx', d => xr(d.x))
-      //     // .attr('cy', d => yr(d.y))
-      // }
+  //     //       }
+  //     //     })
+  //     //     // .attr('cx', d => xr(d.x))
+  //     //     // .attr('cy', d => yr(d.y))
+  //     // }
 
-      // outer_special_circle_median
-      //   .transition(trans)
-      //   .on('end', () => {
-      //     const scale = Math.min(zoomRef.current.k, 8)
-      //     const minScale = Math.max(scale, 1)
-      //     const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
-      //     try {
-      //       outer_special_circle_median
-      //         // .transition(trans2)
-      //         // .attr('cx', d => xr(d.x))
-      //         // .attr('cy', d => yr(d.y))
-      //         .attr('r', r * decreaseLevel)
-      //     } catch (error) {
+  //     // outer_special_circle_median
+  //     //   .transition(trans)
+  //     //   .on('end', () => {
+  //     //     const scale = Math.min(zoomRef.current.k, 8)
+  //     //     const minScale = Math.max(scale, 1)
+  //     //     const r = Math.max(NODE_RADIUS, Math.floor(NODE_RADIUS + minScale))
+  //     //     try {
+  //     //       outer_special_circle_median
+  //     //         // .transition(trans2)
+  //     //         // .attr('cx', d => xr(d.x))
+  //     //         // .attr('cy', d => yr(d.y))
+  //     //         .attr('r', r * decreaseLevel)
+  //     //     } catch (error) {
 
-      //     }
-      //   })
-      //   // .attr('cx', d => xr(d.x))
-      //   // .attr('cy', d => yr(d.y))
+  //     //     }
+  //     //   })
+  //     //   // .attr('cx', d => xr(d.x))
+  //     //   // .attr('cy', d => yr(d.y))
 
 
-      // inner_normal_circle_median
-      //   .transition(trans)
-      //   .on('end', () => {
-      //     const scale = Math.min(zoomRef.current.k, 8)
-      //     const minScale = Math.max(scale, 1)
-      //     const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
-      //     try {
-      //       inner_normal_circle_median
-      //         // .transition(trans2)
-      //         // .attr('cx', d => xr(d.x))
-      //         // .attr('cy', d => yr(d.y))
-      //         .attr('r', r * decreaseLevel)
-      //     } catch (error) {
+  //     // inner_normal_circle_median
+  //     //   .transition(trans)
+  //     //   .on('end', () => {
+  //     //     const scale = Math.min(zoomRef.current.k, 8)
+  //     //     const minScale = Math.max(scale, 1)
+  //     //     const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
+  //     //     try {
+  //     //       inner_normal_circle_median
+  //     //         // .transition(trans2)
+  //     //         // .attr('cx', d => xr(d.x))
+  //     //         // .attr('cy', d => yr(d.y))
+  //     //         .attr('r', r * decreaseLevel)
+  //     //     } catch (error) {
 
-      //     }
-      //   })
-      //   // .attr('cx', d => xr(d.x))
-      //   // .attr('cy', d => yr(d.y))
+  //     //     }
+  //     //   })
+  //     //   // .attr('cx', d => xr(d.x))
+  //     //   // .attr('cy', d => yr(d.y))
 
-      // inner_special_circle_median
-      //   .transition(trans)
-      //   .on('end', () => {
-      //     const scale = Math.min(zoomRef.current.k, 8)
-      //     const minScale = Math.max(scale, 1)
-      //     const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
-      //     try {
-      //       inner_special_circle_median
-      //         // .transition(trans2)
-      //         // .attr('cx', d => xr(d.x))
-      //         // .attr('cy', d => yr(d.y))
-      //         .attr('r', r * decreaseLevel)
-      //     } catch (error) {
-      //     }
-      //   })
-      //   // .attr('cx', d => xr(d.x))
-      //   // .attr('cy', d => yr(d.y))
+  //     // inner_special_circle_median
+  //     //   .transition(trans)
+  //     //   .on('end', () => {
+  //     //     const scale = Math.min(zoomRef.current.k, 8)
+  //     //     const minScale = Math.max(scale, 1)
+  //     //     const r = Math.max(SPECIAL_NODE_RADIUS, Math.floor(SPECIAL_NODE_RADIUS + minScale))
+  //     //     try {
+  //     //       inner_special_circle_median
+  //     //         // .transition(trans2)
+  //     //         // .attr('cx', d => xr(d.x))
+  //     //         // .attr('cy', d => yr(d.y))
+  //     //         .attr('r', r * decreaseLevel)
+  //     //     } catch (error) {
+  //     //     }
+  //     //   })
+  //     //   // .attr('cx', d => xr(d.x))
+  //     //   // .attr('cy', d => yr(d.y))
 
-      // fpIconMedian
-      //   .transition(trans)
-      //   .attr('xlink:href', (d) => {
-      //     return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
-      //   })
-      //   .attr('height', (d) => {
-      //     return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
-      //   })
-      //   .attr('width', (d) => {
-      //     return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
-      //   })
-      //   // .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
-      //   // .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
+  //     // fpIconMedian
+  //     //   .transition(trans)
+  //     //   .attr('xlink:href', (d) => {
+  //     //     return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
+  //     //   })
+  //     //   .attr('height', (d) => {
+  //     //     return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
+  //     //   })
+  //     //   .attr('width', (d) => {
+  //     //     return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
+  //     //   })
+  //     //   // .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
+  //     //   // .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
 
-      // fpIconAverage
-      //   .transition(trans)
-      //   .attr('xlink:href', (d) => {
-      //     return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
-      //   })
-      //   .attr('height', (d) => {
-      //     return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
-      //   })
-      //   .attr('width', (d) => {
-      //     return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
-      //   })
-      //   // .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
-      //   // .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
+  //     // fpIconAverage
+  //     //   .transition(trans)
+  //     //   .attr('xlink:href', (d) => {
+  //     //     return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
+  //     //   })
+  //     //   .attr('height', (d) => {
+  //     //     return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
+  //     //   })
+  //     //   .attr('width', (d) => {
+  //     //     return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
+  //     //   })
+  //     //   // .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
+  //     //   // .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
 
-      // fpIconMedianInRelativeMode
-      //   .transition(trans)
-      //   .attr('xlink:href', (d) => {
-      //     return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
-      //   })
-      //   .attr('height', (d) => {
-      //     return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
-      //   })
-      //   .attr('width', (d) => {
-      //     return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
-      //   })
-      //   // .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
-      //   // .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
+  //     // fpIconMedianInRelativeMode
+  //     //   .transition(trans)
+  //     //   .attr('xlink:href', (d) => {
+  //     //     return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
+  //     //   })
+  //     //   .attr('height', (d) => {
+  //     //     return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
+  //     //   })
+  //     //   .attr('width', (d) => {
+  //     //     return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
+  //     //   })
+  //     //   // .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
+  //     //   // .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
 
-      // fpIconAverageInRelativeMode
-      //   .transition(trans)
-      //   .attr('xlink:href', (d) => {
-      //     return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
-      //   })
-      //   .attr('height', (d) => {
-      //     return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
-      //   })
-      //   .attr('width', (d) => {
-      //     return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
-      //   })
-      //   // .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
-      //   // .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
-    }
-  }, [decreaseLevel])
+  //     // fpIconAverageInRelativeMode
+  //     //   .transition(trans)
+  //     //   .attr('xlink:href', (d) => {
+  //     //     return !!d?.['isFP'] ? 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2' : null
+  //     //   })
+  //     //   .attr('height', (d) => {
+  //     //     return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
+  //     //   })
+  //     //   .attr('width', (d) => {
+  //     //     return !!d?.['isFP'] ? fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) : null
+  //     //   })
+  //     //   // .attr('x', d => xr(d.x) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
+  //     //   // .attr('y', d => yr(d.y) - fpIconSize * decreaseLevelRef.current * (radius / NODE_RADIUS) / 2)
+  //   }
+  // }, [decreaseLevel])
 
   const onClickNode = (id) => {
     setVisibleDialog(true)
@@ -1950,12 +1958,18 @@ const App = ({
   }
 
   const handleIncreaseNodes = () => {
-    decreaseLevelRef.current = decreaseLevel + 0.1
+    decreaseLevelRef.current = decreaseLevelRef.current + 0.1
+    if (zoomFuncRef.current) {
+        zoomFuncRef.current({ transform: zoomRef.current })
+    }
     setDecreaseLevel(value => (value + 0.1))
   }
 
   const handleDecreaseNodes = () => {
-    decreaseLevelRef.current = decreaseLevel - 0.1
+    decreaseLevelRef.current = decreaseLevelRef.current - 0.1
+    if (zoomFuncRef.current) {
+        zoomFuncRef.current({ transform: zoomRef.current })
+    }
     setDecreaseLevel(value => (value - 0.1))
   }
   function closePopupLeftfs() {
@@ -2123,7 +2137,7 @@ const App = ({
           <div style={{ display: 'flex', marginLeft: '32px', width: 'auto', justifyContent: 'space-around' }}>
             <p style={{ fontSize: "13px", margin: 0, fontWeight: 400, paddingTop: '1px', marginRight: '12px' }}>{(radar?.radarLanguage === "en" ? 'Resize:' : 'Tekstin koko:')} </p>
             <button style={{ backgroundColor: 'white', borderRadius: '16px', marginRight: '10px' }} disabled={decreaseLevel <= 0.6} onClick={handleDecreaseNodes}> <Remove /></button>
-            <button style={{ backgroundColor: 'white', borderRadius: '16px' }} disabled={decreaseLevel >= 2} onClick={handleIncreaseNodes}> <Add /> </button>
+            <button style={{ backgroundColor: 'white', borderRadius: '16px' }} disabled={decreaseLevel >= 1.5} onClick={handleIncreaseNodes}> <Add /> </button>
           </div>
         </div>
 
