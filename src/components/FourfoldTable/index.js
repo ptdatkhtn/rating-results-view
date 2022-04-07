@@ -204,11 +204,8 @@ const App = ({
     }
   ]
 
-  const maxTextWidth = React.useMemo(() => {
-    return 120 + 120 * decreaseLevel /2
-  }, [decreaseLevel])
+  const maxTextWidth = 120
 
-  console.log('decreaseLeveldecreaseLevel', decreaseLevel)
   const rectNodes = React.useMemo(() => {
     return [
       {
