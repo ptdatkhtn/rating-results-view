@@ -5,6 +5,7 @@ export const RateTabWrapper = styled.div`
     background-color: #e8ebeb;
     width: 100%;
     height: 100%;
+    position: relative;
 `
 
 export const RateTabFooter = styled.div`
@@ -12,7 +13,6 @@ export const RateTabFooter = styled.div`
   font-size: 13px;
   border-top: 1px solid #c4c4c4;
   padding-top: 20px;
-  position: relative;
 `
 
 export const ClearRatingsBtn = styled.a`
