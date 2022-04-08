@@ -200,33 +200,45 @@ const closeRatingInformationModalHandle = () => {
           <InformationModal 
               radar={radar}
               InfoModalHeader={(radar?.radarLanguage === "en" ? 'Rating results' : 'Arvioinnin tulokset') || requestTranslation('RatingTool')}
-              InfoModalNote={(radar?.radarLanguage === "en" ? `The Rating results view consists of two main sections: the fourfold table that shows the results in 2-by-2 matrix, and a list for both axes. You can review the content cards by clicking the dots / titles.
-              ` : 'Arvioinnin tulosnäkymä koostuu kahdesta osiosta: nelikentästä ja kumpaakin arviointiakselia edustavasta listasta.') || requestTranslation('InfoModalRatingNote')}
-              InfoModalNote2={(radar?.radarLanguage === "en" ? `In the fourfold table you can select how to visualise the results:
-              ` : 'Nelikentässä voit säätää tulosten esitystapaa:') || requestTranslation('InfoModalRatingNote2')}
-              InfoModalNote3={(radar?.radarLanguage === "en" ? `In the list the content is sorted by the average / median values:
-              ` : 'Listat esitetään yhteenlasketun keskiarvon / mediaanin mukaisessa järjestyksessä:') || requestTranslation('InfoModalRatingNote2')}
-              InfoModalNote4={(radar?.radarLanguage === "en" ? `At the bottom of the view, for the facilitators, there is the list of hidden items and a possibility to clear all results.
+              InfoModalNote={(radar?.radarLanguage === "en" ? `The Rating results view consists of two main sections: the fourfold table that shows the results in 2-by-2 matrix, and two lists for both axes. You can review the content cards by clicking the dots / titles.
+              ` : 'Arvioinnin tulosnäkymä koostuu kahdesta osiosta: nelikentästä ja kumpaakin arviointiakselia vastaavasta listasta.') || requestTranslation('InfoModalRatingNote')}
+              InfoModalNote2={(radar?.radarLanguage === "en" ? `The fourfold table:
+              ` : 'Nelikenttä:') || requestTranslation('InfoModalRatingNote2')}
+              InfoModalNote3={(radar?.radarLanguage === "en" ? `The lists:
+              ` : 'Listat:') || requestTranslation('InfoModalRatingNote2')}
+              InfoModalNote4={(radar?.radarLanguage === "en" ? `Näkymän alaosassa on fasilitaattoreille näkyvissä lista piilotetuista ilmiöistä sekä mahdollisuus tyhjentää arvioinnin tulokset.
               ` : 'Näkymän alaosassa on fasilitaattoreille näkyvissä lista piilotetuista ilmiöistä sekä mahdollisuus tyhjentää arvioinnin tulokset.') || requestTranslation('InfoModalRatingNote2')}
               InfoModalNote4b={(radar?.radarLanguage === "en" ? `Note:
               ` : ' Huom: ') || requestTranslation('InfoModalRatingNote2')}
-              InfoModalNote4c={(radar?.radarLanguage === "en" ? `Clearing the results can’t be undone, so please make sure you have exported the results (as PPT Summary for example) before clearing the rating score.
-              ` : 'Arvioiden tyhjentäminen poistaa kaikki tehdyt arvioinnit, minkä jälkeen niitä ei voi palauttaa. Varmistathan, että olet sitä ennen tallentanut työn tulokset esimerkiksi PPT yhteenvedoksi.') || requestTranslation('InfoModalRatingNote2')}
+              InfoModalNote4c={(radar?.radarLanguage === "en" ? `Clearing the results can’t be undone, so please make sure you have exported the results as PPT Summary before clearing the rating score.
+              ` : 'Arvioiden tyhjentäminen poistaa kaikki tehdyt arvioinnit, minkä jälkeen niitä ei voi palauttaa. Varmistathan, että olet sitä ennen tallentanut työn tulokset esimerkiksi PPT-yhteenvedoksi.') || requestTranslation('InfoModalRatingNote2')}
               InfoModalOpen={openRatingInformationModal}
               InfoModalClose={closeRatingInformationModalHandle}
               LearnMoreBtn={requestTranslation('LearnMoreRatingBtn')}
               GuideBtn={requestTranslation('GuideRatingBtn')}
               LearnMoreLink='https://info.futuresplatform.com/hub/how-to-rate'
               GuideLink='https://info.futuresplatform.com/hub/most-commonly-used-axis-for-rating'
-              InfoModalDescription={(radar?.radarLanguage === "en" ? 'Average / median values' : 'Keskiarvoon / mediaaniin (keskilukuun) perustuvat sijainnit') || requestTranslation('InfoModalRatingContent')}
-              InfoModalDescription2={(radar?.radarLanguage === "en" ? 'Absolute / dispersed positions: if the dots are placed on top of each other, the dispersed mode moves them slightly apart from each other' : 'Tarkka / hajautettu sijoittelu: jälkimmäisessä päällekkäin sijaitsevia sisältöjä siirretään hieman, jotta kaikki sisällöt tulevat näkyviin') || requestTranslation('InfoModalRatingContent2')}
-              InfoModalDescription3={(radar?.radarLanguage === "en" ? 'Hide title shows the matrix without Content titles' : 'Voit tarvittaessa piilottaa otsikot') || requestTranslation('InfoModalRatingContent3')}
-              InfoModalDescription4={(radar?.radarLanguage === "en" ? 'Resize -/+ changes the size of the titles and dots' : 'Tekstin koko -/+ vaikuttaa nimen lisäksi myös pallon kokoon') || requestTranslation('InfoModalRatingContent4')}
-              InfoModalDescription5={(radar?.radarLanguage === "en" ? 'A summary of ratings can be exported from the results view' : 'Voit avata näkymän esitystilaan painamalla koko näyttö -painiketta (full screen), ja palataksesi takaisin paina joko oikean yläkulman X-painiketta tai näppäimistön ESC-painiketta') || requestTranslation('InfoModalRatingContent5')}
-              InfoModalDescriptionb={(radar?.radarLanguage === "en" ? 'Large dots show the average / median value' : 'Isot pallot kuvaavat yhteenlaskettua keskiarvoa / mediaania') || requestTranslation('InfoModalRatingContent6')}
-              InfoModalDescriptionb2={(radar?.radarLanguage === "en" ? 'Small dots are showing individual assessments' : 'Pienet pallot ovat yksittäisten käyttäjien arvioita') || requestTranslation('InfoModalRatingContent6')}
-              InfoModalDescriptionb3={(radar?.radarLanguage === "en" ? 'Small blue dot represents your personal assessment' : 'Pieni sininen pallo näyttää oman arviosi') || requestTranslation('InfoModalRatingContent6')}
-              InfoModalDescriptionb4={(radar?.radarLanguage === "en" ? 'Single content items can be hidden from the list by clicking the eye icon' : 'Sisältökortteja voidaan piilottaa listalta klikkaamalla silmä-ikonia') || requestTranslation('InfoModalRatingContent6')}
+              InfoModalDescription={(radar?.radarLanguage === "en" ? 'Zooming is possible like in the radar screen (scroll with two fingers or with mouse)' 
+                : 'Näkymää voi zoomata kuten karttaa (hiirellä tai kahdella sormella rullaamalla)') || requestTranslation('InfoModalRatingContent')}
+              InfoModalDescription2={(radar?.radarLanguage === "en" ? 'Dots are placed based on the average/median values' 
+                : 'Pallojen sijainti määräytyy keskiarvon/ mediaanin mukaisesti') || requestTranslation('InfoModalRatingContent2')}
+              InfoModalDescription3={(radar?.radarLanguage === "en" ? 'Absolute / dispersed mode: if the dots are placed on top of each other, the dispersed mode moves them slightly apart from each other' 
+                : 'Tarkka / hajautettu sijoittelu: jälkimmäisessä päällekkäin sijaitsevia sisältöjä siirretään hieman, jotta kaikki sisällöt tulevat näkyviin') || requestTranslation('InfoModalRatingContent3')}
+              InfoModalDescription4={(radar?.radarLanguage === "en" ? 'Hide title shows the matrix without Content titles' 
+                : 'Halutessasi voit piilottaa otsikot') || requestTranslation('InfoModalRatingContent4')}
+              InfoModalDescription5={(radar?.radarLanguage === "en" ? 'Resize -/+ changes the size of the titles and dots' 
+                : 'Tekstin koko -/+ vaikuttaa nimen lisäksi myös pallon kokoon') || requestTranslation('InfoModalRatingContent5')}
+              InfoModalDescription6={(radar?.radarLanguage === "en" ? 'Fullscreen button opens the matrix in presentation mode; to return to the normal view press the X button or ESC key' 
+                : 'Voit avata näkymän koko ruudulle painamalla koko näyttö -painiketta (full screen). Paluu tapahtuu joko näkymän oikeasta yläkulmasta X:ää tai näppäimistöltä ESC-painiketta.') || requestTranslation('InfoModalRatingContent5')}
+
+              InfoModalDescriptionb={(radar?.radarLanguage === "en" ? 'Sorted by average/median value (large dots)' 
+                : 'Yhteenlasketun keskiarvon/mediaanin mukainen järjestys (isot pallot)') || requestTranslation('InfoModalRatingContent6')}
+              InfoModalDescriptionb2={(radar?.radarLanguage === "en" ? 'Small dots are showing individual assessments' 
+                : 'Pienet pallot ovat yksittäisten käyttäjien arvioita') || requestTranslation('InfoModalRatingContent6')}
+              InfoModalDescriptionb3={(radar?.radarLanguage === "en" ? 'Small blue dot represents your personal assessment' 
+                : 'Pieni sininen pallo näyttää oman arviosi') || requestTranslation('InfoModalRatingContent6')}
+              InfoModalDescriptionb4={(radar?.radarLanguage === "en" ? 'Single content items can be hidden from the list by clicking the eye icon' 
+                : 'Sisältökortteja voidaan piilottaa listalta klikkaamalla silmä-ikonia') || requestTranslation('InfoModalRatingContent6')}
           />
         </div>
         <ShareBtn className="btn btn-outline-secondary btn-sm" onClick={() => window.print()}><span className="af-custom-share" />{(radar?.radarLanguage === "en" ? 'SHARE' : 'JAA')}</ShareBtn>

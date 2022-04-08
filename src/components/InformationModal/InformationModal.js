@@ -12,6 +12,7 @@ const InformationModal = ({
   InfoModalDescription3,
   InfoModalDescription4,
   InfoModalDescription5,
+  InfoModalDescription6,
   InfoModalDescriptionb,
   InfoModalDescriptionb2,
   InfoModalDescriptionb3,
@@ -74,7 +75,7 @@ const InformationModal = ({
               {InfoModalDescription3 && <InformationLi>{InfoModalDescription3}</InformationLi>}
               {InfoModalDescription4 && <InformationLi>{InfoModalDescription4}</InformationLi>}
               {InfoModalDescription5 && <InformationLi>{InfoModalDescription5}</InformationLi>}
-
+              {InfoModalDescription6 && <InformationLi>{InfoModalDescription6}</InformationLi>}
             </InformationUl>
 
             {
