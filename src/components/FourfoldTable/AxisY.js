@@ -37,7 +37,7 @@ const AxisY = ({
             <Tooltip 
                     placement="right"
                     title={axisLabel2}>
-                    <div style={{ width: 30, paddingLeft: '12px', writingMode: 'vertical-lr', transform: 'rotate(180deg)', 
+                    <div style={{ width: 30, writingMode: 'vertical-lr', transform: 'rotate(180deg)', 
                       // overflow: 'hidden', 
                       textOverflow: 'ellipsis', maxHeight: originalHeight, height: 'fit-content',textAlign: 'center' }}>{axisLabel2}</div>
                   </Tooltip>
