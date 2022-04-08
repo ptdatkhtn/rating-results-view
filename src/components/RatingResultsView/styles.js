@@ -12,6 +12,7 @@ export const RateTabFooter = styled.div`
   font-size: 13px;
   border-top: 1px solid #c4c4c4;
   padding-top: 20px;
+  position: relative;
 `
 
 export const ClearRatingsBtn = styled.a`

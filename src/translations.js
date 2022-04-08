@@ -11,15 +11,15 @@ const localTranslations = {
       fi:`Voit vaihtaa ilmiön näkyvyyttä muille käyttäjille painamalla silmäkuvaketta.`
     },
     HideTitles_RatingResults: {
-      en: 'Hide titles ',
+      en: 'Hide titles',
       fi: 'Piilota otsikot'
     },    
     ShowResultsAs_RatingResults: {
-      en: 'Show as: ',
-      fi: 'Näytä tulokset muodossa: '
+      en: 'Mode:',
+      fi: 'Sijoittelu:'
     },
     Average_RatingResults: {
-      en: 'Average ',
+      en: 'Average',
       fi: 'Keskiarvo'
     },
     Median_RatingResults: {
