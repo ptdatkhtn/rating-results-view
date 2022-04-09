@@ -2066,7 +2066,7 @@ const App = ({
                                           // eslint-disable-next-line no-restricted-globals
                                           margin: 'auto', width: screen?.width * 80 / 100 +'px'
                                         }}>
-        <div style={{position: 'absolute', display: 'flex', top: '0px', right: '180px', visibility: !!openFullScreenMode ? 'hidden': 'visible'}}>
+        <div style={{position: 'absolute', display: 'flex', top: '0px', right: '124px', visibility: !!openFullScreenMode ? 'hidden': 'visible'}}>
           <p style={{ fontSize: "13px", margin: 0, fontWeight: 400, paddingTop: '10px', marginRight: '20px' }}>{(radar?.radarLanguage === "en" ? 'Show results as:' : 'Näytä tulokset:') || requestTranslation('ShowResultsAs_RatingResults')} </p>
           {/* <div className="custom-control custom-radio custom-control-inline" style={{marginLeft: '16px', width: '120px'}}>
             <input 
