@@ -4,6 +4,7 @@ import { Modal, paddingModalStyles } from "@sangre-fp/ui";
 import { InfoCircle } from "@styled-icons/boxicons-regular";
 import styled from "styled-components";
 import EmbedLinkModal from "../EmbedLinkModal";
+import './InformationModal.css'
 
 const InformationModal = ({
   InfoModalHeader,

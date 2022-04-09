@@ -6,12 +6,16 @@ import './scss/global-styles.scss';
 import './translations'
 import { startSession } from '@sangre-fp/connectors/session'
 import './index.css'
+import { GlobalStyles } from '@sangre-fp/ui'
+import { RatingResultsStyles } from './styles'
 //http://localhost:3010/?node=194688
 const renderApp = (nid) => {
     return (
         <React.StrictMode>
             <DataProvider node={nid}>
-            <RatingResultsView/>
+                <GlobalStyles />
+                <RatingResultsStyles />
+                <RatingResultsView/>
             </DataProvider>
         </React.StrictMode>
     )
