@@ -1,7 +1,8 @@
 import React from "react";
 import { requestTranslation } from "@sangre-fp/i18n";
-import Modal from "react-modal";
-import { modalStyles, Btn, BtnGroup, ModalContent } from "./styles";
+// import Modal from "react-modal";
+import { Btn, BtnGroup, ModalContent } from "./styles";
+import { Modal, paddingModalStyles } from "@sangre-fp/ui";
 
 const ConfirmationModal = ({
   clearRatings,
@@ -9,8 +10,8 @@ const ConfirmationModal = ({
   confirmationModalClose,
 }) => {
   return (
-    <Modal onRequestClose={confirmationModalClose} isOpen={confirmationModal} style={modalStyles} ariaHideApp={false}>
-      <div>
+    <Modal onRequestClose={confirmationModalClose} isOpen={confirmationModal} style={paddingModalStyles} ariaHideApp={false}>
+      <div className="confirmation-modal-content pt-4 pb-4">
         <ModalContent>{requestTranslation("deleteAllRatesNote")}</ModalContent>
         <BtnGroup>
           <Btn
