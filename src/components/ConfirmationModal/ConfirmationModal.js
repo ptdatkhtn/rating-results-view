@@ -9,7 +9,7 @@ const ConfirmationModal = ({
   confirmationModalClose,
 }) => {
   return (
-    <Modal isOpen={confirmationModal} style={modalStyles} ariaHideApp={false}>
+    <Modal onRequestClose={confirmationModalClose} isOpen={confirmationModal} style={modalStyles} ariaHideApp={false}>
       <div>
         <ModalContent>{requestTranslation("deleteAllRatesNote")}</ModalContent>
         <BtnGroup>
