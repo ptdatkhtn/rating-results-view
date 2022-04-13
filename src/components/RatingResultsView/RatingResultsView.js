@@ -206,7 +206,7 @@ const closeRatingInformationModalHandle = () => {
               ` : 'Nelikenttä:') || requestTranslation('InfoModalRatingNote2')}
               InfoModalNote3={(radar?.radarLanguage === "en" ? `The lists:
               ` : 'Listat:') || requestTranslation('InfoModalRatingNote2')}
-              InfoModalNote4={(radar?.radarLanguage === "en" ? `Näkymän alaosassa on fasilitaattoreille näkyvissä lista piilotetuista ilmiöistä sekä mahdollisuus tyhjentää arvioinnin tulokset.
+              InfoModalNote4={(radar?.radarLanguage === "en" ? `At the bottom of the view, for the facilitators, there is the list of hidden items and a possibility to clear all results.
               ` : 'Näkymän alaosassa on fasilitaattoreille näkyvissä lista piilotetuista ilmiöistä sekä mahdollisuus tyhjentää arvioinnin tulokset.') || requestTranslation('InfoModalRatingNote2')}
               InfoModalNote4b={(radar?.radarLanguage === "en" ? `Note:
               ` : ' Huom: ') || requestTranslation('InfoModalRatingNote2')}
