@@ -6,6 +6,7 @@ export const RateTabWrapper = styled.div`
     width: 100%;
     height: 100%;
     position: relative;
+    padding-top: 20px;
 `
 
 export const RateTabFooter = styled.div`
