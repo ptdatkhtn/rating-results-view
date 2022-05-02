@@ -2106,52 +2106,7 @@ const App = ({
                                           // eslint-disable-next-line no-restricted-globals
                                           margin: 'auto', width: screen?.width * 80 / 100 +'px'
                                         }}>
-        <div style={{position: 'absolute', display: 'flex', top: '20px', right: '124px', visibility: !!openFullScreenMode ? 'hidden': 'visible'}}>
-          <p style={{ fontSize: "13px", margin: 0, fontWeight: 400, paddingTop: '10px', marginRight: '20px' }}>{(radar?.radarLanguage === "en" ? 'Show results as:' : 'Näytä tulokset:') || requestTranslation('ShowResultsAs_RatingResults')} </p>
-          {/* <div className="custom-control custom-radio custom-control-inline" style={{marginLeft: '16px', width: '120px'}}>
-            <input 
-              type="radio" 
-              id="customRadioInline_AsAbsoluteMode" 
-              name="customRadioInline_AsAbsoluteMode" 
-              className="custom-control-input" 
-              checked={!isRelative} 
-              onChange={onToggleIsAbsoluteMode} 
-            />
-              <label className="custom-control-label" for="customRadioInline_AsAbsoluteMode" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Absolute Mode' : 'Absolute Mode') || requestTranslation('Average_RatingResults')}</label>
-          </div>
-          <div class="custom-control custom-radio custom-control-inline" style={{ width: '120px'}}>
-            <input 
-              type="radio" 
-              id="customRadioInline_AsRelativeMode" 
-              name="customRadioInline_AsRelativeMode" 
-              className="custom-control-input" 
-              checked={!!isRelative} 
-              onChange={onToggleIsRelativeMode} 
-            />
-              <label className="custom-control-label" for="customRadioInline_AsRelativeMode" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Relative Mode' : 'Relative Mode') || requestTranslation('Median_RatingResults')}</label>
-          </div> */}
-        <CustomDropdown
-            name='AvgMedian'
-            options={[
-              {
-                labelEn: radar?.radarLanguage === "en" ? 'Average' : 'Keskiarvo',
-                labelFin: "Keskiarvo",
-                value: 1,
-              },
-              {
-                labelEn: radar?.radarLanguage === "en" ? 'Median' : 'Mediaani',
-                labelFin: "Mediaani",
-                value: 2,
-              },
-            ]}
-            openDropdownHandle={openMenuHandle}
-            dropdownIsOpen={menuIsOpen}
-            closeDropdownHandle={() => setMenuIsOpen(false)}
-            defaultOptionsProps={1}
-            selectedOptionsProps={keyAvgMedian}
-            lang={radar?.radarLanguage}
-          />
-        </div>
+        
         <div style={{ display: 'flex', alignItems: 'center' }}>
 
           <p style={{ fontSize: "13px", margin: 0, fontWeight: 400, paddingTop: '10px', paddingRight: '20px' }}>{(radar?.radarLanguage === "en" ? 'Mode:' : 'Sijoittelu:') || requestTranslation('ShowResultsAs_RatingResults')} </p>
@@ -2197,6 +2152,52 @@ const App = ({
             <button style={{ backgroundColor: 'white', borderRadius: '16px', marginRight: '10px' }} disabled={decreaseLevel <= 0.6} onClick={handleDecreaseNodes}> <Remove /></button>
             <button style={{ backgroundColor: 'white', borderRadius: '16px' }} disabled={decreaseLevel >= 1.5} onClick={handleIncreaseNodes}> <Add /> </button>
           </div>
+        </div>
+        <div style={{position: !openFullScreenMode ? 'absolute' : '', marginLeft: !openFullScreenMode ? '' : '-20%', display: 'flex', top: '20px', right: '124px', visibility: 'visible'}}>
+          <p style={{ fontSize: "13px", margin: 0, fontWeight: 400, paddingTop: '10px', marginRight: '20px' }}>{(radar?.radarLanguage === "en" ? 'Show results as:' : 'Näytä tulokset:') || requestTranslation('ShowResultsAs_RatingResults')} </p>
+          {/* <div className="custom-control custom-radio custom-control-inline" style={{marginLeft: '16px', width: '120px'}}>
+            <input 
+              type="radio" 
+              id="customRadioInline_AsAbsoluteMode" 
+              name="customRadioInline_AsAbsoluteMode" 
+              className="custom-control-input" 
+              checked={!isRelative} 
+              onChange={onToggleIsAbsoluteMode} 
+            />
+              <label className="custom-control-label" for="customRadioInline_AsAbsoluteMode" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Absolute Mode' : 'Absolute Mode') || requestTranslation('Average_RatingResults')}</label>
+          </div>
+          <div class="custom-control custom-radio custom-control-inline" style={{ width: '120px'}}>
+            <input 
+              type="radio" 
+              id="customRadioInline_AsRelativeMode" 
+              name="customRadioInline_AsRelativeMode" 
+              className="custom-control-input" 
+              checked={!!isRelative} 
+              onChange={onToggleIsRelativeMode} 
+            />
+              <label className="custom-control-label" for="customRadioInline_AsRelativeMode" style={{fontWeight: 400, fontSize: '13px'}}>{ (radar?.radarLanguage === "en" ? 'Relative Mode' : 'Relative Mode') || requestTranslation('Median_RatingResults')}</label>
+          </div> */}
+        <CustomDropdown
+            name='AvgMedian'
+            options={[
+              {
+                labelEn: radar?.radarLanguage === "en" ? 'Average' : 'Keskiarvo',
+                labelFin: "Keskiarvo",
+                value: 1,
+              },
+              {
+                labelEn: radar?.radarLanguage === "en" ? 'Median' : 'Mediaani',
+                labelFin: "Mediaani",
+                value: 2,
+              },
+            ]}
+            openDropdownHandle={openMenuHandle}
+            dropdownIsOpen={menuIsOpen}
+            closeDropdownHandle={() => setMenuIsOpen(false)}
+            defaultOptionsProps={1}
+            selectedOptionsProps={keyAvgMedian}
+            lang={radar?.radarLanguage}
+          />
         </div>
         <div style={{ display: 'flex', marginRight: !!openFullScreenMode ? '-8px' : 'unset' }}>
           {!openFullScreenMode ?
